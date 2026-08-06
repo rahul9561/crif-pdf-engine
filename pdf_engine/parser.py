@@ -932,21 +932,23 @@ class CrifParser:
         """
         Parses one raw inquiry record.
 
-        Note: no populated sample of ``inquiry_history.history`` was
-        available in the reference payload used to build this parser (the
-        list is empty there), so field-name resolution below uses a
-        best-effort set of key aliases inferred from the printed report's
-        column headings (Credit Grantor, Type, Date of Inquiry, Account
-        Type, Amount, Remark). Revisit this method's key aliases once a
-        populated sample is available.
+        A populated ``inquiry_history.history`` sample confirmed CRIF
+        reports this section as ``member_name`` / ``purpose`` /
+        ``inquiry_date`` / ``amount`` / ``remark`` -- those are checked
+        first. The original best-effort aliases (inferred from the printed
+        report's column headings before a populated sample was available)
+        are kept as fallbacks in case a differently-shaped payload is ever
+        encountered.
         """
         return InquiryRecord(
             credit_grantor=_to_str(
-                _first_present(raw, "credit_grantor", "credit_guarantor", "grantor")
+                _first_present(raw, "member_name", "credit_grantor", "credit_guarantor", "grantor")
             ),
-            inquiry_type=_to_str(_first_present(raw, "type", "inquiry_type", "credit_grantor_type")),
+            inquiry_type=_to_str(
+                _first_present(raw, "purpose", "type", "inquiry_type", "credit_grantor_type")
+            ),
             date_of_inquiry=_parse_date(
-                _first_present(raw, "date_of_inquiry", "inquiry_date", "date")
+                _first_present(raw, "inquiry_date", "date_of_inquiry", "date")
             ),
             account_type=_to_str(_first_present(raw, "account_type", "acct_type")),
             amount=_to_decimal(_first_present(raw, "amount", "inquiry_amount")),
