@@ -13,13 +13,13 @@ wheels/
 .installed.cfg
 pip-wheel-metadata/
 
-# --- Virtual environments -----------------------------------------------
+# --- Virtual Environments ---------------------------------------------
 .venv/
 venv/
 env/
 ENV/
 
-# --- Test / coverage / tooling caches ------------------------------------
+# --- Test / Coverage ---------------------------------------------------
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
@@ -29,19 +29,19 @@ ENV/
 htmlcov/
 coverage.xml
 
-# --- IDE / editor ---------------------------------------------------------
+# --- IDE ---------------------------------------------------------------
 .vscode/
 .idea/
 *.swp
 
-# --- pdf_engine generated output ------------------------------------------
-# Rendered PDFs are build output, not source -- this applies both to the
-# top-level output/ directory used by the local test entrypoint and to any
-# PDFs a Django deployment writes under MEDIA_ROOT/crif_reports/.
-output/*.pdf
+# --- Claude ------------------------------------------------------------
+.claude/
+
+# --- Generated PDFs ----------------------------------------------------
+output/
 *.pdf
 !docs/sample_report.pdf
 
-# --- OS ---------------------------------------------------------------
+# --- OS ----------------------------------------------------------------
 .DS_Store
 Thumbs.db

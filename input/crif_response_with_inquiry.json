@@ -1,0 +1,283 @@
+{
+    "status": {
+        "code": 200,
+        "type": "success",
+        "message": "success"
+    },
+    "message": "success",
+    "data": {
+        "result_json": {
+            "credit_report": {
+                "customer_identity": {
+                    "name": "AKHTAR KHAN",
+                    "dob": "15-12-1965",
+                    "pan": "BRSPK1843F",
+                    "uid": "",
+                    "email": "na@na.na",
+                    "address": "SON OF MUKHTAR KHAN VILL.TORPA PO.TORPA DIST.KHUNTI KHUNT-JH 835227 JH JH JH Jharkhand 835227",
+                    "phone": "9534216504"
+                },
+                "personal_info_variation": {
+                    "name_variations": {
+                        "variation": [
+                            {
+                                "value": "AKHTAR KHAN",
+                                "reported_date": "31-07-2026"
+                            }
+                        ]
+                    },
+                    "address_variations": {
+                        "variation": [
+                            {
+                                "value": "TORPA KHUNTI TORPA RANCHI 835227 835227 JH",
+                                "reported_date": "04-11-2017"
+                            },
+                            {
+                                "value": "835227",
+                                "reported_date": "30-06-2026"
+                            },
+                            {
+                                "value": "SON OF MUKHTAR KHAN VILL.TORPA PO.TORPA DIST.KHUNTI KHUNT-JH 835227 JH",
+                                "reported_date": "31-07-2026"
+                            }
+                        ]
+                    },
+                    "pan_variations": {
+                        "variation": [
+                            {
+                                "value": "BRSPK1843F",
+                                "reported_date": "15-03-2025"
+                            }
+                        ]
+                    },
+                    "uid_variations": {
+                        "variation": []
+                    },
+                    "other_id_variations": {
+                        "variation": []
+                    },
+                    "driving_license_variations": {
+                        "variation": []
+                    },
+                    "date_of_birth_variations": {
+                        "variation": [
+                            {
+                                "value": "01-01-1968",
+                                "reported_date": "04-03-2019"
+                            },
+                            {
+                                "value": "15-12-1965",
+                                "reported_date": "22-01-2025"
+                            }
+                        ]
+                    },
+                    "voter_id_variations": {
+                        "variation": [
+                            {
+                                "value": "BR52302174093",
+                                "reported_date": "15-03-2025"
+                            }
+                        ]
+                    },
+                    "passport_variations": {
+                        "variation": []
+                    },
+                    "phone_number_variations": {
+                        "variation": [
+                            {
+                                "value": "919534216504",
+                                "reported_date": "31-07-2026"
+                            },
+                            {
+                                "value": "+919534216504",
+                                "reported_date": "31-03-2023"
+                            },
+                            {
+                                "value": "7857079125",
+                                "reported_date": "04-03-2019"
+                            }
+                        ]
+                    },
+                    "ration_card_variations": {
+                        "variation": []
+                    },
+                    "email_variations": {
+                        "variation": [
+                            {
+                                "value": "na@na.na",
+                                "reported_date": "31-03-2023"
+                            }
+                        ]
+                    }
+                },
+                "secondary_matches": "",
+                "account_summary": {
+                    "derived_attributes": {
+                        "inquiries_in_last_six_months": "2",
+                        "length_of_credit_history_year": "15",
+                        "length_of_credit_history_month": "4",
+                        "average_account_age_year": "8",
+                        "average_account_age_month": "4",
+                        "new_accounts_in_last_six_months": "0",
+                        "new_delinq_account_in_last_six_months": "0"
+                    },
+                    "primary_accounts_summary": {
+                        "primary_number_of_accounts": "2",
+                        "primary_active_number_of_accounts": "1",
+                        "primary_overdue_number_of_accounts": "1",
+                        "primary_secured_number_of_accounts": "1",
+                        "primary_unsecured_number_of_accounts": "1",
+                        "primary_untagged_number_of_accounts": "0",
+                        "primary_current_balance": "0",
+                        "primary_sanctioned_amount": "0",
+                        "primary_disbursed_amount": "0"
+                    },
+                    "secondary_accounts_summary": {
+                        "secondary_number_of_accounts": "0",
+                        "secondary_active_number_of_accounts": "0",
+                        "secondary_overdue_number_of_accounts": "0",
+                        "secondary_secured_number_of_accounts": "0.0",
+                        "secondary_unsecured_number_of_accounts": "0",
+                        "secondary_untagged_number_of_accounts": "0",
+                        "secondary_current_balance": "0",
+                        "secondary_sanctioned_amount": "0",
+                        "secondary_disbursed_amount": "0"
+                    }
+                },
+                "employment_details": {
+                    "acct_type": "Two-Wheeler Loan",
+                    "date_reported": "06-02-2019",
+                    "occupation": "OTHERS"
+                },
+                "response": [
+                    {
+                        "acct_number": "494920110000007",
+                        "credit_guarantor": "BANK OF INDIA",
+                        "credit_grantor_group": "Category C",
+                        "credit_grantor_type": "NAB",
+                        "acct_type": "Temporary Overdraft",
+                        "date_reported": "31-07-2026",
+                        "ownership_ind": "Individual",
+                        "account_status": "Active",
+                        "disbursed_amt": "0",
+                        "disbursed_dt": "11-03-2011",
+                        "last_payment_date": "23-10-2013",
+                        "closed_date": "",
+                        "installment_amt": "",
+                        "overdue_amt": "0",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "1138",
+                        "combined_payment_history": "Jul:2026,000/LOS|Jun:2026,000/LOS|May:2026,000/LOS|Apr:2026,000/LOS|Mar:2026,000/LOS|Feb:2026,000/LOS|Jan:2026,000/LOS|Dec:2025,000/LOS|Nov:2025,000/LOS|Oct:2025,000/LOS|Sep:2025,000/LOS|Aug:2025,000/LOS|Jul:2025,000/LOS|Jun:2025,000/LOS|May:2025,000/LOS|Apr:2025,000/LOS|Mar:2025,000/LOS|Feb:2025,000/LOS|Jan:2025,000/LOS|Dec:2024,000/LOS|Nov:2024,000/LOS|Oct:2024,000/LOS|Sep:2024,000/LOS|Aug:2024,000/LOS|Jul:2024,000/LOS|Jun:2024,000/LOS|May:2024,000/LOS|Apr:2024,000/LOS|Mar:2024,000/LOS|Feb:2024,000/LOS|Jan:2024,XXX/XXX|Dec:2023,XXX/XXX|Nov:2023,XXX/XXX|Oct:2023,XXX/XXX|Sep:2023,XXX/XXX|Aug:2023,XXX/XXX|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": "",
+                        "security_status": "Un-Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "No Suit filed",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "",
+                        "obligation": "",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "",
+                        "repayment_tenure": "0",
+                        "interest_rate": "18.75",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Self Employed ",
+                        "income_frequency": "Annual",
+                        "income_amount": ""
+                    },
+                    {
+                        "acct_number": "RCHTWL00100001853075",
+                        "credit_guarantor": "HERO FINCORP LIMITED",
+                        "credit_grantor_group": "Category D",
+                        "credit_grantor_type": "NBF",
+                        "acct_type": "Two-Wheeler Loan",
+                        "date_reported": "04-03-2019",
+                        "ownership_ind": "Individual",
+                        "account_status": "Closed",
+                        "disbursed_amt": "39500",
+                        "disbursed_dt": "14-10-2017",
+                        "last_payment_date": "28-01-2019",
+                        "closed_date": "07-02-2019",
+                        "installment_amt": "3712/Monthly/Monthly",
+                        "overdue_amt": "",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "0",
+                        "combined_payment_history": "Feb:2019,000/STD|Jan:2019,117/STD|Dec:2018,085/STD|Nov:2018,086/STD|Oct:2018,030/STD|Sep:2018,057/STD|Aug:2018,026/STD|Jul:2018,025/STD|Jun:2018,000/STD|May:2018,000/STD|Apr:2018,026/STD|Mar:2018,007/STD|Feb:2018,000/STD|Jan:2018,000/STD|Dec:2017,000/STD|Nov:2017,000/STD|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": "",
+                        "security_status": "Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "No Suit filed",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "49524",
+                        "obligation": "",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "49524",
+                        "repayment_tenure": "12",
+                        "interest_rate": "23.49",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Others",
+                        "income_frequency": "Monthly",
+                        "income_amount": "20000"
+                    }
+                ],
+                "inquiry_history": {
+                    "history": [
+                        {
+                            "member_name": "INDIAN OVERSEAS BANK",
+                            "purpose": "Other",
+                            "amount": "1",
+                            "remark": "",
+                            "inquiry_date": "13-07-2026"
+                        },
+                        {
+                            "member_name": "STATE BANK OF INDIA",
+                            "purpose": "OTHER",
+                            "amount": "0",
+                            "remark": "",
+                            "inquiry_date": "03-06-2026"
+                        }
+                    ]
+                },
+                "trends": {
+                    "name": "SCORE-HISTORY",
+                    "dates": "31-03-2026|31-12-2025|30-09-2025|30-06-2025|31-03-2025|31-12-2024|30-09-2024|30-06-2024|31-03-2024|31-12-2023|30-09-2023|30-06-2023",
+                    "values": "641|641|641|641|641|641|641|641|641|640|640|640",
+                    "reserved1": "PERFORM CONSUMER V2.2",
+                    "reserved2": "",
+                    "reserved3": "",
+                    "description": "|||||||||||"
+                },
+                "scores": {
+                    "score_type": "PERFORM CONSUMER 2.2",
+                    "score_value": "641",
+                    "score_factors": "SF04|"
+                },
+                "verification_score_list": [],
+                "printable_report": {
+                    "type": "",
+                    "file_name": "",
+                    "content": ""
+                },
+                "enhance_pro_ccir_flag": false,
+                "ccir_flag": false
+            }
+        }
+    }
+}
