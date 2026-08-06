@@ -142,32 +142,31 @@ no Django dependency, so non-Django callers should install only
 
 ## Asset directory
 
-`pdf_engine` does not bundle its own copy of fonts or the logo. By
-default it reads from this repository's top-level `assets/` directory (a
-sibling of the `pdf_engine` package directory):
+Fonts and the logo are bundled inside the package itself, at
+`pdf_engine/assets/`:
 
 ```
-assets/
-    criflogo.png
-    Montserrat/...
-    Poppins/...
-    Roboto/...
+pdf_engine/
+    assets/
+        criflogo.png
+        Montserrat/...
+        Poppins/...
+        Roboto/...
 ```
 
-That sibling-directory layout only holds while `pdf_engine/` stays in
-this exact position relative to `assets/`. If you install `pdf_engine`
-as a package into a different project (e.g. via `pip install .` from
-this repo, as described above) and copy `assets/` somewhere else, point
-the engine at it with the `PDF_ENGINE_ASSETS_DIR` environment variable:
+`pdf_engine/constants.py` resolves `ASSETS_DIR` relative to its own
+on-disk location (`Path(__file__).resolve().parent / "assets"`), not
+relative to any sibling or externally-configured directory -- so this
+works identically in a source checkout and in a `pip install`ed copy
+under `site-packages/pdf_engine/assets/`, with no environment-specific
+configuration required. `pyproject.toml`'s
+`[tool.setuptools.package-data]` entry is what makes `pip install`
+(editable or regular) carry `pdf_engine/assets/` along into the
+installed package.
 
-```bash
-export PDF_ENGINE_ASSETS_DIR=/path/to/assets
-```
-
-Read once at import time (`pdf_engine/constants.py`). A missing or
-unreadable font falls back to a built-in Helvetica variant, and a
-missing logo is simply omitted -- both are logged as warnings, neither
-is fatal.
+A missing or unreadable font falls back to a built-in Helvetica variant,
+and a missing logo is simply omitted -- both are logged as warnings,
+neither is fatal.
 
 ## Output directory
 

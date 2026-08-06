@@ -15,14 +15,13 @@ imported from anywhere in the package without risk of a circular import.
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 
 __all__ = [
-    "PROJECT_ROOT",
+    "PACKAGE_DIR",
     "ASSETS_DIR",
     "FONT_DIRS",
     "LOGO_PATH",
@@ -69,35 +68,24 @@ __all__ = [
 # ---------------------------------------------------------------------------
 # Asset locations
 #
-# The package deliberately does NOT bundle its own copy of fonts/logo
-# under pdf_engine/assets/. By default it reads from this project's
-# existing top-level `assets/` directory (a sibling of the `pdf_engine`
-# package directory), so there is exactly one copy of each asset on disk.
-#
-# That sibling-directory assumption only holds as long as `pdf_engine/`
-# keeps this exact position relative to `assets/`. Once this package is
-# copied into a Django project, that relative layout may not be
-# reproduced -- so the PDF_ENGINE_ASSETS_DIR environment variable, read
-# once here at import time, lets a deployment point at wherever the
-# assets actually ended up without needing any code change. Unset (the
-# default), behavior is unchanged from before this variable existed:
-# fonts/logo are still discovered relative to this package's location,
-# and are still resolved through theme.py's own per-file, non-crashing
-# fallback (missing assets degrade to Helvetica / no logo, not an error).
+# Fonts and the logo are bundled inside the package itself, at
+# pdf_engine/assets/ (declared as package data in pyproject.toml's
+# [tool.setuptools.package-data], so `pip install` -- editable or
+# regular -- carries them along). ASSETS_DIR is therefore always resolved
+# relative to this package's own on-disk location (PACKAGE_DIR), never
+# relative to a sibling directory or an external, deployment-specific
+# path: that is what makes it resolve correctly both when running from
+# a source checkout and when installed into site-packages, with no
+# environment-specific configuration required.
 # ---------------------------------------------------------------------------
 
-#: Root of the repository this package currently lives in (the parent of
-#: the ``pdf_engine`` package directory).
-PROJECT_ROOT: Path = Path(__file__).resolve().parent.parent
+#: This package's own directory on disk (the directory ``constants.py``
+#: lives in), independent of whether it's a source checkout or an
+#: installed site-packages copy.
+PACKAGE_DIR: Path = Path(__file__).resolve().parent
 
-#: The shared assets directory: ``PDF_ENGINE_ASSETS_DIR`` if set, else the
-#: existing sibling-of-``pdf_engine`` default. Not bundled inside the
-#: package either way.
-ASSETS_DIR: Path = (
-    Path(os.environ["PDF_ENGINE_ASSETS_DIR"])
-    if os.environ.get("PDF_ENGINE_ASSETS_DIR")
-    else PROJECT_ROOT / "assets"
-)
+#: The bundled assets directory, always ``<pdf_engine package dir>/assets``.
+ASSETS_DIR: Path = PACKAGE_DIR / "assets"
 
 #: Font family root directories, keyed by family name. Each family's
 #: actual weight files may live directly under this directory or under a
