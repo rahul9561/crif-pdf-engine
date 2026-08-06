@@ -1,0 +1,13 @@
+# Runtime dependencies for pdf_engine.
+#
+# pdf_engine itself only needs reportlab -- it has no other third-party
+# imports (see pdf_engine/theme.py, styles.py, constants.py, helpers.py,
+# parser.py, generator.py, and every module under pdf_engine/sections/).
+reportlab==5.0.0
+
+# --- Optional: Django integration -----------------------------------------
+# services/crif_pdf_service.py wraps pdf_engine for use from a Django
+# project (it imports django.conf.settings and
+# django.core.exceptions.ImproperlyConfigured). Only required if you use
+# that module; pdf_engine itself does not depend on Django.
+# Django==5.2.16

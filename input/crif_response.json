@@ -1,0 +1,705 @@
+{
+    "status": {
+        "code": 200,
+        "type": "success",
+        "message": "success"
+    },
+    "message": "success",
+    "data": {
+        "result_json": {
+            "credit_report": {
+                "customer_identity": {
+                    "name": "ANAND GOYAL",
+                    "dob": "04-10-1995",
+                    "pan": "CAZPG3241C",
+                    "uid": "",
+                    "email": "ANANDVARDHAN001@GMAIL.COM",
+                    "address": "SCF NO 10 ANAJ MANDI DIRBA SANGRUR 148035 PB PB PB Punjab 148035",
+                    "phone": "9217010023"
+                },
+                "personal_info_variation": {
+                    "name_variations": {
+                        "variation": [
+                            {
+                                "value": "ANAND VARDHAN GOYAL",
+                                "reported_date": "31-07-2026"
+                            }
+                        ]
+                    },
+                    "address_variations": {
+                        "variation": [
+                            {
+                                "value": "DIRBA, WARD NUMBER 07 DIRBHA, PUNJAB, SANGR SANGRUR 148035 PB",
+                                "reported_date": "15-04-2026"
+                            },
+                            {
+                                "value": "SCF NO 10 ANAJ MANDI DIRBA SANGRUR 148035 PB",
+                                "reported_date": "09-07-2026"
+                            },
+                            {
+                                "value": "WARD NUMBER 07, DIRBA DIRBHA, SANGRUR 148035 PB",
+                                "reported_date": "15-04-2026"
+                            },
+                            {
+                                "value": "WARD NO 07 DIRBA DISTT SANGRUR SANGR IN 148035 148035 99",
+                                "reported_date": "08-06-2025"
+                            },
+                            {
+                                "value": "WARD NO 07 DIRBA DISTT SANGRUR SANGRUR SANGRUR SANGRUR (M CL) 148035 PB",
+                                "reported_date": "31-07-2026"
+                            }
+                        ]
+                    },
+                    "pan_variations": {
+                        "variation": [
+                            {
+                                "value": "CAZPG3241C",
+                                "reported_date": "31-07-2026"
+                            }
+                        ]
+                    },
+                    "uid_variations": {
+                        "variation": []
+                    },
+                    "other_id_variations": {
+                        "variation": []
+                    },
+                    "driving_license_variations": {
+                        "variation": []
+                    },
+                    "date_of_birth_variations": {
+                        "variation": [
+                            {
+                                "value": "04-10-1995",
+                                "reported_date": "15-04-2026"
+                            }
+                        ]
+                    },
+                    "voter_id_variations": {
+                        "variation": []
+                    },
+                    "passport_variations": {
+                        "variation": []
+                    },
+                    "phone_number_variations": {
+                        "variation": [
+                            {
+                                "value": "919217010023",
+                                "reported_date": "15-04-2026"
+                            },
+                            {
+                                "value": "9217010023",
+                                "reported_date": "31-07-2026"
+                            }
+                        ]
+                    },
+                    "ration_card_variations": {
+                        "variation": []
+                    },
+                    "email_variations": {
+                        "variation": [
+                            {
+                                "value": "ANANDVARDHAN001@GMAIL.COM",
+                                "reported_date": "31-07-2026"
+                            }
+                        ]
+                    }
+                },
+                "secondary_matches": "",
+                "account_summary": {
+                    "derived_attributes": {
+                        "inquiries_in_last_six_months": "0",
+                        "length_of_credit_history_year": "3",
+                        "length_of_credit_history_month": "6",
+                        "average_account_age_year": "0",
+                        "average_account_age_month": "8",
+                        "new_accounts_in_last_six_months": "8",
+                        "new_delinq_account_in_last_six_months": "0"
+                    },
+                    "primary_accounts_summary": {
+                        "primary_number_of_accounts": "10",
+                        "primary_active_number_of_accounts": "1",
+                        "primary_overdue_number_of_accounts": "0",
+                        "primary_secured_number_of_accounts": "10",
+                        "primary_unsecured_number_of_accounts": "0",
+                        "primary_untagged_number_of_accounts": "0",
+                        "primary_current_balance": "0",
+                        "primary_sanctioned_amount": "0",
+                        "primary_disbursed_amount": "0"
+                    },
+                    "secondary_accounts_summary": {
+                        "secondary_number_of_accounts": "0",
+                        "secondary_active_number_of_accounts": "0",
+                        "secondary_overdue_number_of_accounts": "0",
+                        "secondary_secured_number_of_accounts": "0.0",
+                        "secondary_unsecured_number_of_accounts": "0",
+                        "secondary_untagged_number_of_accounts": "0",
+                        "secondary_current_balance": "0",
+                        "secondary_sanctioned_amount": "0",
+                        "secondary_disbursed_amount": "0"
+                    }
+                },
+                "employment_details": {
+                    "acct_type": "Loan Against Bank Deposits",
+                    "date_reported": "31-03-2026",
+                    "occupation": "SELF EMPLOYED PROFESSIONAL"
+                },
+                "response": [
+                    {
+                        "acct_number": "356305002364",
+                        "credit_guarantor": "ICICI BANK LTD",
+                        "credit_grantor_group": "Category A",
+                        "credit_grantor_type": "PRB",
+                        "acct_type": "Loan Against Bank Deposits",
+                        "date_reported": "15-04-2026",
+                        "ownership_ind": "Individual",
+                        "account_status": "Closed",
+                        "disbursed_amt": "111600",
+                        "disbursed_dt": "12-03-2026",
+                        "last_payment_date": "08-04-2026",
+                        "closed_date": "08-04-2026",
+                        "installment_amt": "",
+                        "overdue_amt": "0",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "0",
+                        "combined_payment_history": "Apr:2026,000/XXX|Mar:2026,000/XXX|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": {
+                            "SECURITY-DETAIL": {
+                                "SECURITY-TYPE": "Fixed Deposits",
+                                "OWNER-NAME": "",
+                                "SECURITY-VALUE": "125283",
+                                "DATE-OF-VALUE": "",
+                                "SECURITY-CHARGE": "",
+                                "PROPERTY-ADDRESS": "",
+                                "AUTOMOBILE-TYPE": "",
+                                "YEAR-OF-MANUFACTURE": "",
+                                "REGISTRATION-NUMBER": "",
+                                "ENGINE-NUMBER": "",
+                                "CHASSIS-NUMBER": ""
+                            }
+                        },
+                        "security_status": "Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "",
+                        "obligation": "",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "",
+                        "repayment_tenure": "0",
+                        "interest_rate": "0.0",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Self Employed Professional",
+                        "income_frequency": "",
+                        "income_amount": ""
+                    },
+                    {
+                        "acct_number": "356305002363",
+                        "credit_guarantor": "ICICI BANK LTD",
+                        "credit_grantor_group": "Category A",
+                        "credit_grantor_type": "PRB",
+                        "acct_type": "Loan Against Bank Deposits",
+                        "date_reported": "31-03-2026",
+                        "ownership_ind": "Individual",
+                        "account_status": "Closed",
+                        "disbursed_amt": "99300",
+                        "disbursed_dt": "12-03-2026",
+                        "last_payment_date": "18-03-2026",
+                        "closed_date": "18-03-2026",
+                        "installment_amt": "",
+                        "overdue_amt": "0",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "0",
+                        "combined_payment_history": "Mar:2026,000/XXX|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": "",
+                        "security_status": "Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "",
+                        "obligation": "",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "",
+                        "repayment_tenure": "0",
+                        "interest_rate": "0.0",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Self Employed Professional",
+                        "income_frequency": "",
+                        "income_amount": ""
+                    },
+                    {
+                        "acct_number": "LAPAT00048210367",
+                        "credit_guarantor": "ICICI BANK LTD",
+                        "credit_grantor_group": "Category A",
+                        "credit_grantor_type": "PRB",
+                        "acct_type": "Auto Loan (Personal)",
+                        "date_reported": "31-07-2026",
+                        "ownership_ind": "Individual",
+                        "account_status": "Closed",
+                        "disbursed_amt": "1500000",
+                        "disbursed_dt": "23-06-2023",
+                        "last_payment_date": "01-07-2026",
+                        "closed_date": "01-07-2026",
+                        "installment_amt": "31314/Monthly/Monthly",
+                        "overdue_amt": "0",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "0",
+                        "combined_payment_history": "Jul:2026,000/XXX|Jun:2026,000/XXX|May:2026,000/XXX|Apr:2026,000/XXX|Mar:2026,000/XXX|Feb:2026,000/XXX|Jan:2026,000/XXX|Dec:2025,000/XXX|Nov:2025,000/XXX|Oct:2025,000/XXX|Sep:2025,000/XXX|Aug:2025,000/XXX|Jul:2025,000/XXX|Jun:2025,000/XXX|May:2025,000/XXX|Apr:2025,000/XXX|Mar:2025,000/XXX|Feb:2025,000/XXX|Jan:2025,000/XXX|Dec:2024,000/XXX|Nov:2024,000/XXX|Oct:2024,000/XXX|Sep:2024,000/XXX|Aug:2024,000/XXX|Jul:2024,000/XXX|Jun:2024,000/XXX|May:2024,000/XXX|Apr:2024,000/XXX|Mar:2024,000/XXX|Feb:2024,000/XXX|Jan:2024,000/XXX|Dec:2023,000/XXX|Nov:2023,000/XXX|Oct:2023,000/XXX|Sep:2023,000/XXX|Aug:2023,000/XXX|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": {
+                            "SECURITY-DETAIL": {
+                                "SECURITY-TYPE": "No Collateral",
+                                "OWNER-NAME": "",
+                                "SECURITY-VALUE": "0",
+                                "DATE-OF-VALUE": "",
+                                "SECURITY-CHARGE": "",
+                                "PROPERTY-ADDRESS": "",
+                                "AUTOMOBILE-TYPE": "",
+                                "YEAR-OF-MANUFACTURE": "",
+                                "REGISTRATION-NUMBER": "",
+                                "ENGINE-NUMBER": "",
+                                "CHASSIS-NUMBER": ""
+                            }
+                        },
+                        "security_status": "Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "No Suit filed",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "",
+                        "obligation": "",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "",
+                        "repayment_tenure": "60",
+                        "interest_rate": "0.0",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Self Employed Professional",
+                        "income_frequency": "Annual",
+                        "income_amount": ""
+                    },
+                    {
+                        "acct_number": "356305002365",
+                        "credit_guarantor": "ICICI BANK LTD",
+                        "credit_grantor_group": "Category A",
+                        "credit_grantor_type": "PRB",
+                        "acct_type": "Loan Against Bank Deposits",
+                        "date_reported": "15-04-2026",
+                        "ownership_ind": "Individual",
+                        "account_status": "Closed",
+                        "disbursed_amt": "200000",
+                        "disbursed_dt": "12-03-2026",
+                        "last_payment_date": "08-04-2026",
+                        "closed_date": "08-04-2026",
+                        "installment_amt": "",
+                        "overdue_amt": "0",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "0",
+                        "combined_payment_history": "Apr:2026,000/XXX|Mar:2026,000/XXX|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": {
+                            "SECURITY-DETAIL": {
+                                "SECURITY-TYPE": "Fixed Deposits",
+                                "OWNER-NAME": "",
+                                "SECURITY-VALUE": "272481",
+                                "DATE-OF-VALUE": "",
+                                "SECURITY-CHARGE": "",
+                                "PROPERTY-ADDRESS": "",
+                                "AUTOMOBILE-TYPE": "",
+                                "YEAR-OF-MANUFACTURE": "",
+                                "REGISTRATION-NUMBER": "",
+                                "ENGINE-NUMBER": "",
+                                "CHASSIS-NUMBER": ""
+                            }
+                        },
+                        "security_status": "Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "",
+                        "obligation": "",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "",
+                        "repayment_tenure": "0",
+                        "interest_rate": "0.0",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Self Employed Professional",
+                        "income_frequency": "",
+                        "income_amount": ""
+                    },
+                    {
+                        "acct_number": "356305002362",
+                        "credit_guarantor": "ICICI BANK LTD",
+                        "credit_grantor_group": "Category A",
+                        "credit_grantor_type": "PRB",
+                        "acct_type": "Loan Against Bank Deposits",
+                        "date_reported": "15-04-2026",
+                        "ownership_ind": "Individual",
+                        "account_status": "Closed",
+                        "disbursed_amt": "196500",
+                        "disbursed_dt": "12-03-2026",
+                        "last_payment_date": "08-04-2026",
+                        "closed_date": "08-04-2026",
+                        "installment_amt": "",
+                        "overdue_amt": "0",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "0",
+                        "combined_payment_history": "Apr:2026,000/XXX|Mar:2026,000/XXX|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": {
+                            "SECURITY-DETAIL": {
+                                "SECURITY-TYPE": "Fixed Deposits",
+                                "OWNER-NAME": "",
+                                "SECURITY-VALUE": "220499",
+                                "DATE-OF-VALUE": "",
+                                "SECURITY-CHARGE": "",
+                                "PROPERTY-ADDRESS": "",
+                                "AUTOMOBILE-TYPE": "",
+                                "YEAR-OF-MANUFACTURE": "",
+                                "REGISTRATION-NUMBER": "",
+                                "ENGINE-NUMBER": "",
+                                "CHASSIS-NUMBER": ""
+                            }
+                        },
+                        "security_status": "Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "",
+                        "obligation": "",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "",
+                        "repayment_tenure": "0",
+                        "interest_rate": "0.0",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Self Employed Professional",
+                        "income_frequency": "",
+                        "income_amount": ""
+                    },
+                    {
+                        "acct_number": "356305002359",
+                        "credit_guarantor": "ICICI BANK LTD",
+                        "credit_grantor_group": "Category A",
+                        "credit_grantor_type": "PRB",
+                        "acct_type": "Loan Against Bank Deposits",
+                        "date_reported": "15-04-2026",
+                        "ownership_ind": "Individual",
+                        "account_status": "Closed",
+                        "disbursed_amt": "110700",
+                        "disbursed_dt": "12-03-2026",
+                        "last_payment_date": "08-04-2026",
+                        "closed_date": "08-04-2026",
+                        "installment_amt": "",
+                        "overdue_amt": "0",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "0",
+                        "combined_payment_history": "Apr:2026,000/XXX|Mar:2026,000/XXX|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": {
+                            "SECURITY-DETAIL": {
+                                "SECURITY-TYPE": "Fixed Deposits",
+                                "OWNER-NAME": "",
+                                "SECURITY-VALUE": "126281",
+                                "DATE-OF-VALUE": "",
+                                "SECURITY-CHARGE": "",
+                                "PROPERTY-ADDRESS": "",
+                                "AUTOMOBILE-TYPE": "",
+                                "YEAR-OF-MANUFACTURE": "",
+                                "REGISTRATION-NUMBER": "",
+                                "ENGINE-NUMBER": "",
+                                "CHASSIS-NUMBER": ""
+                            }
+                        },
+                        "security_status": "Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "",
+                        "obligation": "",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "",
+                        "repayment_tenure": "0",
+                        "interest_rate": "0.0",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Self Employed Professional",
+                        "income_frequency": "",
+                        "income_amount": ""
+                    },
+                    {
+                        "acct_number": "356305002361",
+                        "credit_guarantor": "ICICI BANK LTD",
+                        "credit_grantor_group": "Category A",
+                        "credit_grantor_type": "PRB",
+                        "acct_type": "Loan Against Bank Deposits",
+                        "date_reported": "15-04-2026",
+                        "ownership_ind": "Individual",
+                        "account_status": "Closed",
+                        "disbursed_amt": "540000",
+                        "disbursed_dt": "12-03-2026",
+                        "last_payment_date": "08-04-2026",
+                        "closed_date": "08-04-2026",
+                        "installment_amt": "",
+                        "overdue_amt": "0",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "0",
+                        "combined_payment_history": "Apr:2026,000/XXX|Mar:2026,000/XXX|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": {
+                            "SECURITY-DETAIL": {
+                                "SECURITY-TYPE": "Fixed Deposits",
+                                "OWNER-NAME": "",
+                                "SECURITY-VALUE": "600000",
+                                "DATE-OF-VALUE": "",
+                                "SECURITY-CHARGE": "",
+                                "PROPERTY-ADDRESS": "",
+                                "AUTOMOBILE-TYPE": "",
+                                "YEAR-OF-MANUFACTURE": "",
+                                "REGISTRATION-NUMBER": "",
+                                "ENGINE-NUMBER": "",
+                                "CHASSIS-NUMBER": ""
+                            }
+                        },
+                        "security_status": "Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "",
+                        "obligation": "",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "",
+                        "repayment_tenure": "0",
+                        "interest_rate": "0.0",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Self Employed Professional",
+                        "income_frequency": "",
+                        "income_amount": ""
+                    },
+                    {
+                        "acct_number": "356305002366",
+                        "credit_guarantor": "ICICI BANK LTD",
+                        "credit_grantor_group": "Category A",
+                        "credit_grantor_type": "PRB",
+                        "acct_type": "Loan Against Bank Deposits",
+                        "date_reported": "31-03-2026",
+                        "ownership_ind": "Individual",
+                        "account_status": "Closed",
+                        "disbursed_amt": "90000",
+                        "disbursed_dt": "12-03-2026",
+                        "last_payment_date": "",
+                        "closed_date": "18-03-2026",
+                        "installment_amt": "",
+                        "overdue_amt": "0",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "0",
+                        "combined_payment_history": "Mar:2026,000/XXX|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": "",
+                        "security_status": "Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "",
+                        "obligation": "",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "",
+                        "repayment_tenure": "0",
+                        "interest_rate": "0.0",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Self Employed Professional",
+                        "income_frequency": "",
+                        "income_amount": ""
+                    },
+                    {
+                        "acct_number": "356305002360",
+                        "credit_guarantor": "ICICI BANK LTD",
+                        "credit_grantor_group": "Category A",
+                        "credit_grantor_type": "PRB",
+                        "acct_type": "Loan Against Bank Deposits",
+                        "date_reported": "15-04-2026",
+                        "ownership_ind": "Individual",
+                        "account_status": "Closed",
+                        "disbursed_amt": "1350000",
+                        "disbursed_dt": "12-03-2026",
+                        "last_payment_date": "08-04-2026",
+                        "closed_date": "08-04-2026",
+                        "installment_amt": "",
+                        "overdue_amt": "0",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "0",
+                        "combined_payment_history": "Apr:2026,000/XXX|Mar:2026,000/XXX|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": {
+                            "SECURITY-DETAIL": {
+                                "SECURITY-TYPE": "Fixed Deposits",
+                                "OWNER-NAME": "",
+                                "SECURITY-VALUE": "1500000",
+                                "DATE-OF-VALUE": "",
+                                "SECURITY-CHARGE": "",
+                                "PROPERTY-ADDRESS": "",
+                                "AUTOMOBILE-TYPE": "",
+                                "YEAR-OF-MANUFACTURE": "",
+                                "REGISTRATION-NUMBER": "",
+                                "ENGINE-NUMBER": "",
+                                "CHASSIS-NUMBER": ""
+                            }
+                        },
+                        "security_status": "Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "",
+                        "obligation": "",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "",
+                        "repayment_tenure": "0",
+                        "interest_rate": "0.0",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Self Employed Professional",
+                        "income_frequency": "",
+                        "income_amount": ""
+                    },
+                    {
+                        "acct_number": "041900NC00002081",
+                        "credit_guarantor": "PUNJAB NATIONAL BANK",
+                        "credit_grantor_group": "Category D",
+                        "credit_grantor_type": "NAB",
+                        "acct_type": "Housing Loan",
+                        "date_reported": "31-07-2026",
+                        "ownership_ind": "Joint",
+                        "account_status": "Active",
+                        "disbursed_amt": "4000000",
+                        "disbursed_dt": "02-01-2023",
+                        "last_payment_date": "30-07-2026",
+                        "closed_date": "",
+                        "installment_amt": "43945/Monthly/Monthly",
+                        "overdue_amt": "0",
+                        "write_off_amt": "0",
+                        "principal_write_off_amt": "",
+                        "settlement_amt": "",
+                        "current_bal": "2597451",
+                        "combined_payment_history": "Jul:2026,000/STD|Jun:2026,000/STD|May:2026,000/STD|Apr:2026,000/STD|Mar:2026,000/STD|Feb:2026,000/STD|Jan:2026,000/STD|Dec:2025,000/STD|Nov:2025,000/STD|Oct:2025,000/STD|Sep:2025,000/STD|Aug:2025,000/STD|Jul:2025,000/STD|Jun:2025,000/STD|May:2025,000/STD|Apr:2025,000/STD|Mar:2025,000/STD|Feb:2025,000/STD|Jan:2025,000/STD|Dec:2024,000/STD|Nov:2024,000/STD|Oct:2024,000/STD|Sep:2024,000/STD|Aug:2024,000/STD|Jul:2024,000/STD|Jun:2024,000/STD|May:2024,000/STD|Apr:2024,000/STD|Mar:2024,000/STD|Feb:2024,000/STD|Jan:2024,000/STD|Dec:2023,000/STD|Nov:2023,000/STD|Oct:2023,000/STD|Sep:2023,000/STD|Aug:2023,000/STD|",
+                        "matched_type": "PRIMARY",
+                        "linked_accounts": "",
+                        "security_details": "",
+                        "security_status": "Secured",
+                        "account_remarks": "",
+                        "acct_in_dispute": "",
+                        "suit_filed_wilful_default_status": "No Suit filed",
+                        "written_off_settled_status": "",
+                        "write_off_dt": "",
+                        "suit_filed_dt": "",
+                        "last_paid_amount": "43000",
+                        "obligation": "27912.34137596068",
+                        "original_term": "0",
+                        "term_to_maturity": "0",
+                        "actual_payment": "43000",
+                        "repayment_tenure": "140",
+                        "interest_rate": "7.85",
+                        "credit_limit": "",
+                        "cash_limit": "",
+                        "occupation": "Self Employed ",
+                        "income_frequency": "",
+                        "income_amount": ""
+                    }
+                ],
+                "inquiry_history": {
+                    "history": []
+                },
+                "trends": {
+                    "name": "SCORE-HISTORY",
+                    "dates": "31-03-2026|31-12-2025|30-09-2025|30-06-2025|31-03-2025|31-12-2024|30-09-2024|30-06-2024|31-03-2024|31-12-2023|30-09-2023|30-06-2023",
+                    "values": "774|800|796|796|796|796|796|796|796|796|796|770",
+                    "reserved1": "PERFORM CONSUMER V2.2",
+                    "reserved2": "",
+                    "reserved3": "",
+                    "description": "|||||||||||"
+                },
+                "scores": {
+                    "score_type": "PERFORM CONSUMER 2.2",
+                    "score_value": "800",
+                    "score_factors": "SF03|SF11|"
+                },
+                "verification_score_list": [],
+                "printable_report": {
+                    "type": "",
+                    "file_name": "",
+                    "content": ""
+                },
+                "enhance_pro_ccir_flag": false,
+                "ccir_flag": false
+            }
+        }
+    }
+}

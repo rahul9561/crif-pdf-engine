@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ' *)",
+      "Bash(python -c \"import reportlab; print\\(reportlab.Version\\)\")",
+      "Bash(python -c \"import django; print\\('Django version:', django.get_version\\(\\)\\)\")",
+      "Bash(python \"C:/Users/HP/AppData/Local/Temp/claude/D--creditreportpdf/53a89419-f91e-42fc-98e2-d3425fba5096/scratchpad/check_payment_history_fit.py\")",
+      "Bash(PYTHONPATH=\"D:/creditreportpdf\" python \"C:/Users/HP/AppData/Local/Temp/claude/D--creditreportpdf/53a89419-f91e-42fc-98e2-d3425fba5096/scratchpad/check_payment_history_fit.py\")",
+      "Bash(python \"C:/Users/HP/AppData/Local/Temp/claude/D--creditreportpdf/53a89419-f91e-42fc-98e2-d3425fba5096/scratchpad/final_qa.py\")",
+      "Bash(PYTHONPATH=\"D:/creditreportpdf\" python \"C:/Users/HP/AppData/Local/Temp/claude/D--creditreportpdf/53a89419-f91e-42fc-98e2-d3425fba5096/scratchpad/final_qa.py\")",
+      "Bash(PYTHONPATH=D:/creditreportpdf python -c ' *)",
+      "Bash(PDF_ENGINE_ASSETS_DIR=D:/nonexistent/path PYTHONPATH=D:/creditreportpdf python -c ' *)",
+      "Bash(PYTHONPATH=\"D:/creditreportpdf\" python \"C:/Users/HP/AppData/Local/Temp/claude/D--creditreportpdf/53a89419-f91e-42fc-98e2-d3425fba5096/scratchpad/stress_1000_accounts.py\")",
+      "Bash(PYTHONPATH=\"D:/creditreportpdf\" python \"C:/Users/HP/AppData/Local/Temp/claude/D--creditreportpdf/53a89419-f91e-42fc-98e2-d3425fba5096/scratchpad/scaling_check.py\")",
+      "Bash(PYTHONPATH=\"D:/creditreportpdf\" python \"C:/Users/HP/AppData/Local/Temp/claude/D--creditreportpdf/53a89419-f91e-42fc-98e2-d3425fba5096/scratchpad/concurrency_check.py\")",
+      "Bash(pip show *)",
+      "Bash(PYTHONPATH=\"D:/creditreportpdf\" python \"C:/Users/HP/AppData/Local/Temp/claude/D--creditreportpdf/53a89419-f91e-42fc-98e2-d3425fba5096/scratchpad/concurrency_check2.py\")",
+      "Bash(pip install *)",
+      "Bash(python -c \"import pypdf; print\\('pypdf', pypdf.__version__, 'available'\\)\")",
+      "Bash(python -c \"print\\('py ok'\\)\")",
+      "Bash(python test_pdf.py)",
+      "Bash(python *)"
+    ]
+  }
+}

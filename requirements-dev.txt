@@ -1,0 +1,5 @@
+# Development/test-only dependencies. Not required to use pdf_engine at
+# runtime -- install these to run the test suite under tests/.
+-r requirements.txt
+pytest==9.1.1
+pypdf==6.14.2
