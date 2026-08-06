@@ -11,16 +11,25 @@ line, an 18-field ownership/amount detail grid, and -- only when present
 
 Payment history is rendered separately, per account, by
 ``pdf_engine.sections.payment_history`` -- it is not part of this module.
+``render_account`` (this module's per-account entry point) and
+``pdf_engine.sections.payment_history.render_payment_history`` share the
+same ``(story, account)`` signature specifically so
+``pdf_engine.generator.build_story`` can call them back-to-back for each
+account in turn, producing one account's "Account Information" block
+immediately followed by that same account's payment history -- matching
+``docs/sample_report.pdf``'s per-account layout. This module has no
+dependency on ``payment_history`` (or vice versa) to do that; the
+generator is the only place the two are sequenced together.
 
 Each account is rendered by an independent, self-contained call
-(``_render_single_account``): nothing about one account's flowables
-depends on any other account, so ten accounts render exactly as reliably
-as one, and a page break landing in the middle of one account's content
-never affects another's. No account block is force-kept-together as a
-whole (the reference report itself lets a long account split across a
-page boundary mid-table); only each account's short title bar and
-sub-header are kept together, so a section heading never gets orphaned
-alone at the bottom of a page.
+(``render_account``): nothing about one account's flowables depends on
+any other account, so ten accounts render exactly as reliably as one,
+and a page break landing in the middle of one account's content never
+affects another's. No account block is force-kept-together as a whole
+(the reference report itself lets a long account split across a page
+boundary mid-table); only each account's short title bar and sub-header
+are kept together, so a section heading never gets orphaned alone at the
+bottom of a page.
 """
 
 from __future__ import annotations
@@ -34,7 +43,7 @@ from .. import styles as s
 from .. import theme
 from ..parser import CreditReport, LoanAccount, SecurityDetail
 
-__all__ = ["render"]
+__all__ = ["render", "render_account"]
 
 _SECURITY_HEADERS = ["Security Type", "Type of Charge", "Security Value", "Date Of Value"]
 
@@ -156,13 +165,21 @@ def _build_security_table(details: list[SecurityDetail]) -> Table:
     return h.create_data_table(_SECURITY_HEADERS, rows, zebra=len(rows) > 1)
 
 
-def _render_single_account(story: list, account: LoanAccount) -> None:
+def render_account(story: list, account: LoanAccount) -> None:
     """
     Appends one account's "Account Information" block to ``story``.
 
     Self-contained: depends only on ``account``, so accounts render one
     at a time with no shared state and no dependency on how many other
-    accounts came before or after.
+    accounts came before or after. This is the per-account building
+    block both ``render`` (below, for standalone/backward-compatible use
+    of this module alone) and ``pdf_engine.generator.build_story`` (to
+    interleave each account with its own payment history) are built on.
+
+    Args:
+        story: The in-progress list of ReportLab flowables being built up
+            for the final document; flowables are appended in place.
+        account: The single account to render.
     """
     story.append(
         KeepTogether([h.create_section_header("Account Information"), _build_sub_header(account)])
@@ -192,9 +209,18 @@ def _render_single_account(story: list, account: LoanAccount) -> None:
 def render(story: list, report: CreditReport) -> None:
     """
     Appends one "Account Information" block per account in the report to
-    ``story``. Supports an unbounded number of accounts -- there is no
-    fixed limit or pre-computed layout, each account simply extends the
-    story and ReportLab paginates automatically.
+    ``story``, one after another. Supports an unbounded number of
+    accounts -- there is no fixed limit or pre-computed layout, each
+    account simply extends the story and ReportLab paginates
+    automatically.
+
+    Kept for standalone use of this module (e.g. a caller that wants
+    account details without payment history) and backward compatibility.
+    ``pdf_engine.generator.build_story`` does not call this function --
+    it calls :func:`render_account` once per account itself, interleaved
+    with ``payment_history.render_payment_history``, so that each
+    account's payment history immediately follows that same account's
+    information in the final document.
 
     Args:
         story: The in-progress list of ReportLab flowables being built up
@@ -202,4 +228,4 @@ def render(story: list, report: CreditReport) -> None:
         report: The normalized credit report to render.
     """
     for account in report.accounts:
-        _render_single_account(story, account)
+        render_account(story, account)

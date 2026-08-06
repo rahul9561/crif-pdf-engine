@@ -25,11 +25,20 @@ ReportLab; combined with a font size chosen (once, at import time, via
 :func:`helpers.fit_font_size`) to guarantee the widest realistic code
 fits the column at all, every code is guaranteed single-line.
 
-Each account is rendered independently (``_render_single_account``): an
+Each account is rendered independently (``render_payment_history``): an
 account with no payment history is skipped without affecting any other
 account, and one account's table is free to split across as many pages
 as it needs -- ``repeatRows=1`` keeps the Jan-Dec header attached to
 every continuation page of a long table.
+
+``render_payment_history`` takes the same ``(story, account)`` shape as
+``pdf_engine.sections.account.render_account`` specifically so
+``pdf_engine.generator.build_story`` can call the two back-to-back per
+account, producing each account's payment history immediately beneath
+that same account's "Account Information" block, matching
+``docs/sample_report.pdf``. This module has no dependency on
+``pdf_engine.sections.account`` to do that; the generator is the only
+place the two are sequenced together.
 """
 
 from __future__ import annotations
@@ -42,7 +51,7 @@ from .. import styles as s
 from .. import theme
 from ..parser import CreditReport, LoanAccount, PaymentHistoryEntry
 
-__all__ = ["render"]
+__all__ = ["render", "render_payment_history"]
 
 _MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
@@ -167,13 +176,23 @@ def _account_identifier_line(account: LoanAccount) -> Paragraph:
     return Paragraph(" | ".join(parts) if parts else "-", s.STYLES["Small"])
 
 
-def _render_single_account(story: list, account: LoanAccount) -> None:
+def render_payment_history(story: list, account: LoanAccount) -> None:
     """
     Appends one account's Payment History block to ``story``.
 
     Self-contained: depends only on ``account``, and does nothing when
     that account has no payment history -- skipping it never affects any
-    other account's block.
+    other account's block. This is the per-account building block both
+    ``render`` (below, for standalone/backward-compatible use of this
+    module alone) and ``pdf_engine.generator.build_story`` (to interleave
+    each account's payment history directly beneath that account's own
+    "Account Information" block) are built on.
+
+    Args:
+        story: The in-progress list of ReportLab flowables being built up
+            for the final document; flowables are appended in place.
+        account: The single account whose payment history should be
+            rendered. If it has none, this function appends nothing.
     """
     if not account.payment_history:
         return
@@ -194,8 +213,17 @@ def _render_single_account(story: list, account: LoanAccount) -> None:
 def render(story: list, report: CreditReport) -> None:
     """
     Appends the Payment History/Asset Classification table for every
-    account in the report to ``story``. Supports an unbounded number of
-    accounts, each with an unbounded amount of payment history.
+    account in the report to ``story``, one after another. Supports an
+    unbounded number of accounts, each with an unbounded amount of
+    payment history.
+
+    Kept for standalone use of this module (e.g. a caller that wants
+    payment history without account details) and backward compatibility.
+    ``pdf_engine.generator.build_story`` does not call this function --
+    it calls :func:`render_payment_history` once per account itself,
+    interleaved with ``account.render_account``, so that each account's
+    payment history immediately follows that same account's information
+    in the final document.
 
     Args:
         story: The in-progress list of ReportLab flowables being built up
@@ -203,4 +231,4 @@ def render(story: list, report: CreditReport) -> None:
         report: The normalized credit report to render.
     """
     for account in report.accounts:
-        _render_single_account(story, account)
+        render_payment_history(story, account)
