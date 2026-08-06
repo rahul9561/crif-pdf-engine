@@ -19,7 +19,8 @@
       "Bash(python -c \"import pypdf; print\\('pypdf', pypdf.__version__, 'available'\\)\")",
       "Bash(python -c \"print\\('py ok'\\)\")",
       "Bash(python test_pdf.py)",
-      "Bash(python *)"
+      "Bash(python *)",
+      "Bash(pip cache *)"
     ]
   }
 }
