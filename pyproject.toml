@@ -4,10 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "crif-pdf-engine"
-version = "0.1.0"
+version = "0.1.1"
 description = "CRIF Highmark credit report PDF generation engine built on ReportLab"
 readme = "README.md"
 requires-python = ">=3.10"
+
 dependencies = [
     "reportlab==5.0.0",
 ]
@@ -18,5 +19,13 @@ dev = [
     "pypdf==6.14.2",
 ]
 
+[tool.setuptools]
+include-package-data = true
+
 [tool.setuptools.packages.find]
 include = ["pdf_engine", "pdf_engine.*"]
+
+[tool.setuptools.package-data]
+pdf_engine = [
+    "assets/**/*",
+]
