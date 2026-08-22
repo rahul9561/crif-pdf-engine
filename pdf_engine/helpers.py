@@ -17,9 +17,8 @@ consistently.
 """
 
 from __future__ import annotations
-
 import logging
-from datetime import date
+from datetime import date ,datetime
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from xml.sax.saxutils import escape as _xml_escape
@@ -474,31 +473,36 @@ def load_logo(*, width: float | None = None, height: float | None = None) -> Ima
 
 def create_page_number(canvas, doc) -> None:
     """
-    Draws the current page number in the footer margin.
-
-    Intended for use as a page-drawing callback wired up in
-    ``generator.render_pdf`` (e.g. ``onFirstPage`` / ``onLaterPages`` of a
-    ``BaseDocTemplate``/``SimpleDocTemplate``). Follows the standard
-    ReportLab canvas-callback pattern: draw directly on the low-level
-    canvas, since Platypus flowables are not aware of page numbers at
-    layout time, bracketed by ``saveState``/``restoreState`` so the
-    callback cannot leak canvas state into whatever renders next.
-
-    Note:
-        This draws the page number alone (``"Page N"``), not a total
-        page count -- producing "Page N of M" requires a two-pass canvas
-        (e.g. a ``NumberedCanvas`` subclass), which is out of scope for
-        this foundation layer.
-
-    Args:
-        canvas: The ReportLab canvas being drawn to (injected by
-            Platypus).
-        doc: The document template being built (injected by Platypus);
-            ``doc.page`` gives the current 1-based page number.
+    Draws generated date/time and page number vertically
+    along the right side of every page.
     """
     canvas.saveState()
+
     canvas.setFont(theme.FONTS["Roboto-Regular"], c.FONT_SIZE_CAPTION)
     canvas.setFillColor(theme.GRAY_500)
-    text = c.PAGE_NUMBER_TEXT.format(page=doc.page)
-    canvas.drawRightString(c.PAGE_WIDTH - c.MARGIN_RIGHT, c.MARGIN_BOTTOM / 2, text)
+
+    # Generated date/time
+    generated_text = datetime.now().strftime(
+        "Generated: %d-%m-%Y %I:%M %p"
+    )
+
+    # Page number
+    page_text = c.PAGE_NUMBER_TEXT.format(page=doc.page)
+
+    # Right-side position
+    canvas.translate(
+        c.PAGE_WIDTH - 10,
+        c.PAGE_HEIGHT / 2,
+    )
+
+    # Rotate text vertically
+    canvas.rotate(90)
+
+    # Generated date
+    canvas.drawCentredString(0, 8, generated_text)
+
+    # Page number
+    canvas.drawCentredString(0, -8, page_text)
+
     canvas.restoreState()
+
