@@ -116,12 +116,13 @@ class TestGenerateReport:
         # Title includes the applicant's name when present in the payload.
         assert "ANAND GOYAL" in (reader.metadata.title or "")
 
-    def test_handles_empty_payload_without_raising(self, tmp_path: Path):
+    def test_empty_payload_raises_instead_of_producing_blank_pdf(self, tmp_path: Path):
+        # A payload with no locatable credit report must fail loudly
+        # rather than silently succeed with a blank PDF.
         output_path = tmp_path / "empty.pdf"
-        result_path = generate_report({}, output_path)
-
-        assert result_path.is_file()
-        assert result_path.stat().st_size > 0
+        with pytest.raises(ValueError):
+            generate_report({}, output_path)
+        assert not output_path.exists()
 
     def test_accepts_str_output_path(self, raw_crif_response: dict[str, Any], tmp_path: Path):
         output_path = str(tmp_path / "str_path.pdf")
@@ -130,7 +131,8 @@ class TestGenerateReport:
 
 
 @pytest.mark.parametrize("bad_payload", [None, "not a dict", [], 42])
-def test_generate_report_never_raises_for_malformed_payload(bad_payload, tmp_path: Path):
+def test_generate_report_raises_for_malformed_payload(bad_payload, tmp_path: Path):
     output_path = tmp_path / "malformed.pdf"
-    result_path = generate_report(bad_payload, output_path)
-    assert result_path.is_file()
+    with pytest.raises(ValueError):
+        generate_report(bad_payload, output_path)
+    assert not output_path.exists()

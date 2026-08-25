@@ -16,11 +16,27 @@ inconsistency so that every downstream consumer (section builders,
 renderer, generator) can rely on a clean, predictable, always-present
 shape.
 
-Nothing in this module raises for malformed or missing input. Every
-extraction method degrades to a safe default (``None``, ``""``, or an
-empty list) and logs a warning/debug message describing what was missing
-or unexpected, so callers can render a best-effort report rather than
-crash on a single bad field.
+Every per-field extraction method degrades to a safe default (``None``,
+``""``, or an empty list) and logs a warning/debug message describing
+what was missing or unexpected, so callers can render a best-effort
+report rather than crash on a single bad field. The one exception is
+locating the report root itself: :meth:`CrifParser.parse` raises
+``ValueError`` when neither of the supported payload shapes (see
+:func:`CrifParser._extract_credit_report_node`) can be found, rather than
+silently returning an empty report that would render as a blank PDF.
+
+Two raw payload shapes are supported, both rooted at ``data.result_json``:
+
+* The current CRIF Highmark B2C API response --
+  ``data.result_json.parsed_data.B2C-REPORT`` -- a deeply nested,
+  ``UPPER-HYPHEN-CASE``-keyed structure. :meth:`CrifParser._adapt_b2c_report`
+  and its helpers translate this into the flat shape below; no other
+  method in this module needs to know this shape exists.
+* A legacy flat shape -- ``data.result_json.credit_report`` -- using
+  lowercase ``snake_case`` keys matching this module's internal field
+  names directly (``customer_identity``, ``scores``, ``account_summary``,
+  ``response``, ...). Every ``_parse_*`` method below is written against
+  this shape.
 
 Typical usage::
 
@@ -34,6 +50,7 @@ Typical usage::
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
@@ -279,6 +296,8 @@ class DerivedAttributes:
     average_account_age_month: int | None = None
     new_accounts_in_last_six_months: int | None = None
     new_delinq_account_in_last_six_months: int | None = None
+    total_secured_outstanding: Decimal | None = None
+    total_unsecured_outstanding: Decimal | None = None
 
 
 @dataclass(frozen=True)
@@ -297,6 +316,7 @@ class AccountsSummary:
     current_balance: Decimal | None = None
     sanctioned_amount: Decimal | None = None
     disbursed_amount: Decimal | None = None
+    total_amt_overdue: Decimal | None = None
 
 
 @dataclass(frozen=True)
@@ -476,30 +496,35 @@ class CrifParser:
 
         Args:
             raw_json: The full decoded JSON response body, e.g. the object
-                produced by ``json.loads(response.text)``. May be ``None``
-                or malformed; this method never raises for that reason
-                alone.
+                produced by ``json.loads(response.text)``.
 
         Returns:
             A :class:`CreditReport` populated from whatever could be
-            recovered from ``raw_json``. Every field degrades to a safe
-            default rather than being omitted, so callers never need to
-            guard against missing attributes.
+            recovered from ``raw_json``. Every *field* on it degrades to a
+            safe default rather than being omitted, so callers never need
+            to guard against missing attributes.
+
+        Raises:
+            ValueError: If ``raw_json`` is not a JSON object, or if the
+                credit report root cannot be located under any supported
+                payload shape (see the module docstring). Raised rather
+                than silently returning an empty report, since an empty
+                report renders as a blank PDF with no indication anything
+                went wrong.
         """
         if not isinstance(raw_json, dict):
-            logger.error(
-                "CRIF payload is not a JSON object (got %s); returning an empty report",
-                type(raw_json).__name__,
+            raise ValueError(
+                f"CRIF payload must be a JSON object, got {type(raw_json).__name__}"
             )
-            return CreditReport()
 
         credit_report = self._extract_credit_report_node(raw_json)
         if credit_report is None:
-            logger.error(
-                "Could not locate 'data.result_json.credit_report' in payload; "
-                "returning an empty report"
+            raise ValueError(
+                "Unable to locate a CRIF credit report in the payload. Supported "
+                "paths: 'data.result_json.parsed_data.B2C-REPORT' (current CRIF "
+                "B2C Highmark format) or 'data.result_json.credit_report' "
+                "(legacy flat format). Neither was found as a dict in this payload."
             )
-            return CreditReport()
 
         return CreditReport(
             customer_identity=self._parse_customer_identity(
@@ -525,24 +550,558 @@ class CrifParser:
     @staticmethod
     def _extract_credit_report_node(raw_json: RawMapping) -> RawMapping | None:
         """
-        Safely descends ``data -> result_json -> credit_report``.
+        Locates the credit report root and returns it in the flat,
+        ``snake_case`` shape every ``_parse_*`` method below expects.
 
-        Returns ``None`` (rather than raising ``KeyError``/``TypeError``)
-        if any level is missing or is not a dict, logging what went wrong
-        so the cause is diagnosable from logs alone.
+        Two payload shapes are tried, both rooted at ``data.result_json``
+        (see the module docstring for why each exists):
+
+        1. ``data.result_json.parsed_data.B2C-REPORT`` -- the current CRIF
+           Highmark B2C API response. When found, it is translated via
+           :meth:`_adapt_b2c_report` before being returned, so every
+           downstream ``_parse_*`` method stays unaware this shape exists.
+        2. ``data.result_json.credit_report`` -- the legacy flat shape,
+           returned as-is.
+
+        Returns ``None`` (rather than raising) if ``data``/``result_json``
+        themselves are missing or malformed, or if neither shape above
+        yields a dict -- :meth:`parse` is responsible for turning that
+        into a loud, user-facing error; this method only concerns itself
+        with locating and normalizing the node, logging what it tried
+        along the way so the cause is diagnosable from logs alone.
         """
-        node: Any = raw_json
-        for key in ("data", "result_json", "credit_report"):
-            if not isinstance(node, dict):
-                logger.warning(
-                    "Expected a dict while descending to '%s', got %s", key, type(node).__name__
-                )
-                return None
-            node = node.get(key)
-        if not isinstance(node, dict):
-            logger.warning("'credit_report' node is not a dict: %s", type(node).__name__)
+        data = raw_json.get("data")
+        if not isinstance(data, dict):
+            logger.warning("Expected a dict at 'data', got %s", type(data).__name__)
             return None
-        return node
+
+        result_json = data.get("result_json")
+        if not isinstance(result_json, dict):
+            logger.warning(
+                "Expected a dict at 'data.result_json', got %s", type(result_json).__name__
+            )
+            return None
+
+        parsed_data = result_json.get("parsed_data")
+        if isinstance(parsed_data, dict):
+            b2c_report = parsed_data.get("B2C-REPORT")
+            if isinstance(b2c_report, dict):
+                return CrifParser._adapt_b2c_report(b2c_report)
+            if b2c_report is not None:
+                logger.warning(
+                    "'B2C-REPORT' node is not a dict: %s", type(b2c_report).__name__
+                )
+
+        legacy_report = result_json.get("credit_report")
+        if isinstance(legacy_report, dict):
+            logger.info("CRIF report root found via legacy 'data.result_json.credit_report'")
+            return legacy_report
+        if legacy_report is not None:
+            logger.warning("'credit_report' node is not a dict: %s", type(legacy_report).__name__)
+
+        return None
+
+    # -- B2C-REPORT structural adapter --------------------------------------
+    #
+    # The methods below translate the current CRIF B2C API response shape
+    # (deeply nested, UPPER-HYPHEN-CASE keys) into the flat, snake_case
+    # shape every _parse_* method above already expects and is tested
+    # against. This is a pure structural relabeling -- renaming keys,
+    # unwrapping single-element lists, merging parallel pipe-delimited
+    # arrays back into the combined tokens the rest of the parser already
+    # knows how to read -- and performs no type coercion, validation, or
+    # defaulting of its own. Every value coercion (dates, decimals, ints)
+    # still happens exactly once, in the _parse_* methods above, so this
+    # adapter cannot silently diverge from their behavior.
+
+    #: CRIF ID-document TYPE codes are not documented consistently across
+    #: payloads, but PAN and Aadhaar (UID) values have fixed, unambiguous
+    #: formats -- classifying by value shape is more robust than trusting
+    #: an undocumented type code, and works the same for any future payload.
+    _PAN_PATTERN = re.compile(r"^[A-Z]{5}[0-9]{4}[A-Z]$")
+    _UID_PATTERN = re.compile(r"^[0-9]{12}$")
+
+    @staticmethod
+    def _classify_id_value(value: str) -> str | None:
+        """Classifies a raw ID-document value as ``"pan"``, ``"uid"``, or ``None``."""
+        text = value.strip().upper()
+        if CrifParser._PAN_PATTERN.match(text):
+            return "pan"
+        if CrifParser._UID_PATTERN.match(text):
+            return "uid"
+        return None
+
+    @staticmethod
+    def _adapt_applicant_identity(applicant: RawMapping) -> RawMapping:
+        """Builds a flat ``customer_identity`` node from ``APPLICANT-SEGMENT``."""
+        name = " ".join(
+            part
+            for part in (
+                _to_str(applicant.get("FIRST-NAME")),
+                _to_str(applicant.get("MIDDLE-NAME")),
+                _to_str(applicant.get("LAST-NAME")),
+            )
+            if part
+        )
+
+        dob_node = applicant.get("DOB")
+        dob = dob_node.get("DOB-DT") if isinstance(dob_node, dict) else None
+
+        pan = ""
+        uid = ""
+        ids = applicant.get("IDS")
+        if isinstance(ids, list):
+            for entry in ids:
+                if not isinstance(entry, dict):
+                    continue
+                value = _to_str(entry.get("VALUE"))
+                if not value:
+                    continue
+                kind = CrifParser._classify_id_value(value)
+                if kind == "pan" and not pan:
+                    pan = value
+                elif kind == "uid" and not uid:
+                    uid = value
+
+        emails = applicant.get("EMAILS")
+        email = None
+        if isinstance(emails, list) and emails and isinstance(emails[0], dict):
+            email = emails[0].get("EMAIL")
+
+        phones = applicant.get("PHONES")
+        phone = ""
+        if isinstance(phones, list):
+            phone = ", ".join(
+                _to_str(entry.get("VALUE"))
+                for entry in phones
+                if isinstance(entry, dict) and _to_str(entry.get("VALUE"))
+            )
+
+        addresses = applicant.get("ADDRESSES")
+        address = ""
+        if isinstance(addresses, list) and addresses and isinstance(addresses[0], dict):
+            first_address = addresses[0]
+            parts = [
+                _to_str(first_address.get(key))
+                for key in ("ADDRESSTEXT", "CITY", "STATE", "PIN", "COUNTRY")
+            ]
+            deduped: list[str] = []
+            for part in parts:
+                if part and (not deduped or deduped[-1].lower() != part.lower()):
+                    deduped.append(part)
+            address = ", ".join(deduped)
+
+        return {
+            "name": name,
+            "dob": dob,
+            "pan": pan,
+            "uid": uid,
+            "email": email,
+            "address": address,
+            "phone": phone,
+        }
+
+    @staticmethod
+    def _adapt_score(scores: Any) -> RawMapping:
+        """Builds a flat ``scores`` node from ``STANDARD-DATA.SCORE`` (a list; the first entry is used)."""
+        if not isinstance(scores, list) or not scores or not isinstance(scores[0], dict):
+            return {}
+        first_score = scores[0]
+        factors = first_score.get("FACTORS")
+        factor_types = []
+        if isinstance(factors, list):
+            factor_types = [
+                _to_str(factor.get("TYPE"))
+                for factor in factors
+                if isinstance(factor, dict) and _to_str(factor.get("TYPE"))
+            ]
+        return {
+            "score_type": first_score.get("NAME"),
+            "score_value": first_score.get("VALUE"),
+            "score_factors": "|".join(factor_types),
+        }
+
+    @staticmethod
+    def _adapt_trends(trends: Any) -> RawMapping:
+        """Builds a flat ``trends`` node from ``REPORT-DATA.TRENDS`` (already parallel pipe strings)."""
+        if not isinstance(trends, dict):
+            return {}
+        return {
+            "name": trends.get("NAME"),
+            "dates": trends.get("DATES"),
+            "values": trends.get("VALUES"),
+            "description": trends.get("DESCRIPTION"),
+        }
+
+    #: Target ``AccountsSummary`` field name -> source key within
+    #: ``PRIMARY-ACCOUNTS-SUMMARY`` / ``SECONDARY-ACCOUNTS-SUMMARY``.
+    _ACCOUNTS_SUMMARY_FIELD_MAP: dict[str, str] = {
+        "number_of_accounts": "NUMBER-OF-ACCOUNTS",
+        "active_number_of_accounts": "ACTIVE-ACCOUNTS",
+        "overdue_number_of_accounts": "OVERDUE-ACCOUNTS",
+        "secured_number_of_accounts": "SECURED-ACCOUNTS",
+        "unsecured_number_of_accounts": "UNSECURED-ACCOUNTS",
+        "untagged_number_of_accounts": "UNTAGGED-ACCOUNTS",
+        "current_balance": "TOTAL-CURRENT-BALANCE",
+        "sanctioned_amount": "TOTAL-SANCTIONED-AMT",
+        "disbursed_amount": "TOTAL-DISBURSED-AMT",
+        "total_amt_overdue": "TOTAL-AMT-OVERDUE",
+    }
+
+    #: Target ``DerivedAttributes`` field name -> source ``ATTR-NAME``
+    #: within the ``PERFORM-ATTRIBUTES`` list of ``{ATTR-NAME, ATTR-VALUE}``.
+    _DERIVED_ATTRIBUTES_FIELD_MAP: dict[str, str] = {
+        "inquiries_in_last_six_months": "INQUIRIES-IN-LAST-SIX-MONTHS",
+        "length_of_credit_history_year": "LENGTH-OF-CREDIT-HISTORY-YEAR",
+        "length_of_credit_history_month": "LENGTH-OF-CREDIT-HISTORY-MONTH",
+        "average_account_age_year": "AVERAGE-ACCOUNT-AGE-YEAR",
+        "average_account_age_month": "AVERAGE-ACCOUNT-AGE-MONTH",
+        "new_accounts_in_last_six_months": "NEW-ACCOUNTS-IN-LAST-SIX-MONTHS",
+        "new_delinq_account_in_last_six_months": "NEW-DELINQ-ACCOUNT-IN-LAST-SIX-MONTHS",
+        "total_secured_outstanding": "TOTAL-SECURED-OUTSTANDING",
+        "total_unsecured_outstanding": "TOTAL-UNSECURED-OUTSTANDING",
+    }
+
+    @staticmethod
+    def _adapt_accounts_summary_block(node: Any, prefix: str) -> RawMapping:
+        """Builds one ``primary_accounts_summary`` / ``secondary_accounts_summary`` block."""
+        if not isinstance(node, dict):
+            return {}
+        return {
+            f"{prefix}{target_suffix}": node.get(source_key)
+            for target_suffix, source_key in CrifParser._ACCOUNTS_SUMMARY_FIELD_MAP.items()
+        }
+
+    @staticmethod
+    def _adapt_perform_attributes(attributes: Any) -> RawMapping:
+        """Builds a flat ``derived_attributes`` node from the ``PERFORM-ATTRIBUTES`` list."""
+        if not isinstance(attributes, list):
+            return {}
+        by_name = {
+            _to_str(item.get("ATTR-NAME")).upper(): item.get("ATTR-VALUE")
+            for item in attributes
+            if isinstance(item, dict) and _to_str(item.get("ATTR-NAME"))
+        }
+        return {
+            target_key: by_name.get(source_key)
+            for target_key, source_key in CrifParser._DERIVED_ATTRIBUTES_FIELD_MAP.items()
+        }
+
+    @staticmethod
+    def _adapt_account_summary(accounts_summary: Any) -> RawMapping:
+        """Builds a flat ``account_summary`` node from ``REPORT-DATA.ACCOUNTS-SUMMARY``."""
+        if not isinstance(accounts_summary, dict):
+            return {}
+        return {
+            "primary_accounts_summary": CrifParser._adapt_accounts_summary_block(
+                accounts_summary.get("PRIMARY-ACCOUNTS-SUMMARY"), "primary_"
+            ),
+            "secondary_accounts_summary": CrifParser._adapt_accounts_summary_block(
+                accounts_summary.get("SECONDARY-ACCOUNTS-SUMMARY"), "secondary_"
+            ),
+            "derived_attributes": CrifParser._adapt_perform_attributes(
+                accounts_summary.get("PERFORM-ATTRIBUTES")
+            ),
+        }
+
+    #: DEMOGS.VARIATIONS entry ``TYPE`` -> flat personal_info_variation key.
+    #: Every category CRIF's documentation and this sample payload use is
+    #: mapped; an unrecognized type is logged and skipped rather than
+    #: raising, so a future bureau-added category degrades gracefully.
+    _VARIATION_TYPE_TO_FLAT_KEY: dict[str, str] = {
+        "NAME-VARIATIONS": "name_variations",
+        "ADDRESS-VARIATIONS": "address_variations",
+        "PHONE-VARIATIONS": "phone_number_variations",
+        "EMAIL-VARIATIONS": "email_variations",
+        "DOB-VARIATIONS": "date_of_birth_variations",
+        "PAN-VARIATIONS": "pan_variations",
+        "UID-VARIATIONS": "uid_variations",
+        "OTHERID-VARIATIONS": "other_id_variations",
+        "DRIVINGLICENSE-VARIATIONS": "driving_license_variations",
+        "VOTERID-VARIATIONS": "voter_id_variations",
+        "PASSPORT-VARIATIONS": "passport_variations",
+        "RATIONCARD-VARIATIONS": "ration_card_variations",
+    }
+
+    @staticmethod
+    def _adapt_variation_entries(entries: Any) -> RawMapping:
+        """Builds one ``{"variation": [{"value", "reported_date"}, ...]}`` block."""
+        if not isinstance(entries, list):
+            return {"variation": []}
+        return {
+            "variation": [
+                {"value": entry.get("VALUE"), "reported_date": entry.get("REPORTED-DT")}
+                for entry in entries
+                if isinstance(entry, dict)
+            ]
+        }
+
+    @staticmethod
+    def _adapt_personal_info_variation(demogs: Any) -> RawMapping:
+        """Builds a flat ``personal_info_variation`` node from ``STANDARD-DATA.DEMOGS``."""
+        if not isinstance(demogs, dict):
+            return {}
+        variation_groups = demogs.get("VARIATIONS")
+        if not isinstance(variation_groups, list):
+            return {}
+
+        flat: RawMapping = {}
+        for group in variation_groups:
+            if not isinstance(group, dict):
+                continue
+            group_type = _to_str(group.get("TYPE")).upper()
+            flat_key = CrifParser._VARIATION_TYPE_TO_FLAT_KEY.get(group_type)
+            if flat_key is None:
+                logger.debug("Unrecognized personal-info variation type: %r", group_type)
+                continue
+            flat[flat_key] = CrifParser._adapt_variation_entries(group.get("VARIATION"))
+        return flat
+
+    @staticmethod
+    def _adapt_employment_details(employment: Any) -> RawMapping:
+        """
+        Builds a flat ``employment_details`` node from
+        ``STANDARD-DATA.EMPLOYMENT-DETAILS`` (a list; often empty -- the
+        first entry is used when present).
+        """
+        if isinstance(employment, list):
+            employment = employment[0] if employment else {}
+        if not isinstance(employment, dict):
+            return {}
+        return {
+            "acct_type": _first_present(employment, "ACCT-TYPE", "ACCOUNT-TYPE"),
+            "date_reported": _first_present(employment, "DATE-REPORTED", "REPORTED-DT"),
+            "occupation": _first_present(employment, "OCCUPATION"),
+        }
+
+    #: Target ``SecurityDetail`` field name (as read by
+    #: ``_parse_single_security_detail``) -> source key within one
+    #: TRADELINE's ``SECURITY-DETAILS`` entry. Several fields are renamed
+    #: between the two shapes (e.g. ``SECURITY-VALUATION`` vs.
+    #: ``SECURITY-VALUE``), which is exactly what this map exists to
+    #: absorb.
+    _SECURITY_DETAIL_FIELD_MAP: dict[str, str] = {
+        "SECURITY-TYPE": "SECURITY-TYPE",
+        "OWNER-NAME": "OWNER-NAME",
+        "SECURITY-VALUE": "SECURITY-VALUATION",
+        "DATE-OF-VALUE": "DATE-OF-VALUATION",
+        "SECURITY-CHARGE": "SECURITY-CHARGE",
+        "PROPERTY-ADDRESS": "PROPERTY-ADDRESS",
+        "AUTOMOBILE-TYPE": "AUTOMOBILE-TYPE",
+        "YEAR-OF-MANUFACTURE": "YEAR-OF-MANUFACTURING",
+        "REGISTRATION-NUMBER": "REGISTRATION-NUMBER",
+        "ENGINE-NUMBER": "ENGINE-NUMBER",
+        "CHASSIS-NUMBER": "CHASSIE-NUMBER",
+    }
+
+    @staticmethod
+    def _adapt_security_details(raw_list: Any) -> list[RawMapping]:
+        """
+        Builds the ``security_details`` value for one flat account dict
+        from a TRADELINE's ``SECURITY-DETAILS`` list.
+
+        CRIF reports one (often entirely blank) security-details entry
+        per tradeline regardless of whether any collateral is actually
+        attached. Entries with no populated field are dropped here so the
+        "Collateral/Security Details" section (which renders whenever
+        ``account.security_details`` is non-empty) does not show an empty
+        table for every account that has no real collateral.
+        """
+        if not isinstance(raw_list, list):
+            return []
+        adapted: list[RawMapping] = []
+        for item in raw_list:
+            if not isinstance(item, dict):
+                continue
+            remapped = {
+                target_key: item.get(source_key)
+                for target_key, source_key in CrifParser._SECURITY_DETAIL_FIELD_MAP.items()
+            }
+            if any(_to_str(value) for value in remapped.values()):
+                adapted.append(remapped)
+        return adapted
+
+    @staticmethod
+    def _adapt_combined_payment_history(history: Any) -> str:
+        """
+        Rebuilds the single ``"Mon:YYYY,DPD/STATUS|..."`` token string
+        :meth:`_parse_payment_history` expects from a TRADELINE's
+        ``HISTORY`` list, which reports the same information as two
+        separate, positionally-aligned pipe strings (``DATES`` and
+        ``VALUES``) under the ``"COMBINED-PAYMENT-HISTORY"`` entry.
+        """
+        if not isinstance(history, list):
+            return ""
+        for entry in history:
+            if not isinstance(entry, dict):
+                continue
+            if _to_str(entry.get("NAME")).upper() != "COMBINED-PAYMENT-HISTORY":
+                continue
+            dates = _split_pipe_positional(entry.get("DATES"))
+            values = _split_pipe_positional(entry.get("VALUES"))
+            tokens = [
+                f"{date_token},{values[index] if index < len(values) else ''}"
+                for index, date_token in enumerate(dates)
+            ]
+            return "|".join(tokens)
+        return ""
+
+    #: Target flat account field name (as read by ``_parse_single_account``)
+    #: -> source key within one raw TRADELINE entry.
+    _ACCOUNT_FIELD_MAP: dict[str, str] = {
+        "acct_number": "ACCT-NUMBER",
+        "credit_guarantor": "CREDIT-GRANTOR",
+        "credit_grantor_group": "CREDIT-GRANTOR-GROUP",
+        "credit_grantor_type": "CREDIT-GRANTOR-TYPE",
+        "acct_type": "ACCT-TYPE",
+        "date_reported": "REPORTED-DT",
+        "ownership_ind": "OWNERSHIP-TYPE",
+        "account_status": "ACCOUNT-STATUS",
+        "disbursed_amt": "DISBURSED-AMT",
+        "disbursed_dt": "DISBURSED-DT",
+        "last_payment_date": "LAST-PAYMENT-DT",
+        "closed_date": "CLOSED-DT",
+        "installment_amt": "INSTALLMENT-AMT",
+        "overdue_amt": "OVERDUE-AMT",
+        "write_off_amt": "WRITE-OFF-AMT",
+        "principal_write_off_amt": "PRINCIPAL-WRITE-OFF-AMT",
+        "settlement_amt": "SETTLEMENT-AMT",
+        "current_bal": "CURRENT-BAL",
+        "security_status": "SECURITY-STATUS",
+        "account_remarks": "ACCOUNT-REMARKS",
+        "acct_in_dispute": "ACCT-IN-DISPUTE",
+        "suit_filed_wilful_default_status": "SUIT-FILED-WILFUL-DEFAULT-STATUS",
+        "written_off_settled_status": "WRITTEN-OFF-SETTLED-STATUS",
+        "write_off_dt": "WRITE-OFF-DT",
+        "suit_filed_dt": "SUIT-FILED-DT",
+        "last_paid_amount": "LAST-PAID-AMOUNT",
+        "obligation": "OBLIGATION",
+        "original_term": "ORIGINAL-TERM",
+        "term_to_maturity": "TERM-TO-MATURITY",
+        "actual_payment": "ACTUAL-PAYMENT",
+        "repayment_tenure": "REPAYMENT-TENURE",
+        "interest_rate": "INTEREST-RATE",
+        "credit_limit": "CREDIT-LIMIT",
+        "cash_limit": "CASH-LIMIT",
+        "occupation": "OCCUPATION",
+        "income_frequency": "INCOME-FREQUENCY",
+        "income_amount": "INCOME-AMOUNT",
+    }
+
+    @staticmethod
+    def _adapt_single_account(raw: RawMapping) -> RawMapping:
+        """Builds one flat account dict (as read by ``_parse_single_account``) from a raw TRADELINE."""
+        flat: RawMapping = {
+            target_key: raw.get(source_key)
+            for target_key, source_key in CrifParser._ACCOUNT_FIELD_MAP.items()
+        }
+
+        linked = raw.get("LINKED-ACCOUNTS")
+        if isinstance(linked, list):
+            flat["linked_accounts"] = ", ".join(
+                _to_str(item) for item in linked if _to_str(item)
+            )
+        else:
+            flat["linked_accounts"] = linked
+
+        flat["combined_payment_history"] = CrifParser._adapt_combined_payment_history(
+            raw.get("HISTORY")
+        )
+        flat["security_details"] = CrifParser._adapt_security_details(raw.get("SECURITY-DETAILS"))
+        return flat
+
+    @staticmethod
+    def _adapt_accounts(tradelines: Any) -> list[RawMapping]:
+        """Builds the flat ``response`` list from ``STANDARD-DATA.TRADELINES``."""
+        if not isinstance(tradelines, list):
+            return []
+        return [
+            CrifParser._adapt_single_account(item) for item in tradelines if isinstance(item, dict)
+        ]
+
+    #: Target flat inquiry field name (as read by ``_parse_single_inquiry``
+    #: via ``_first_present``) -> source key within one raw
+    #: ``INQUIRY-HISTORY`` entry.
+    _INQUIRY_FIELD_MAP: dict[str, str] = {
+        "member_name": "LENDER-NAME",
+        "purpose": "CREDIT-INQ-PURPS-TYPE",
+        "inquiry_date": "INQUIRY-DT",
+        "account_type": "LOAN-TYPE",
+        "amount": "AMOUNT",
+        "remark": "REMARK",
+    }
+
+    @staticmethod
+    def _adapt_inquiries(inquiry_history: Any) -> list[RawMapping]:
+        """Builds the flat ``inquiry_history`` list from ``STANDARD-DATA.INQUIRY-HISTORY``."""
+        if not isinstance(inquiry_history, list):
+            return []
+        return [
+            {
+                target_key: item.get(source_key)
+                for target_key, source_key in CrifParser._INQUIRY_FIELD_MAP.items()
+            }
+            for item in inquiry_history
+            if isinstance(item, dict)
+        ]
+
+    @staticmethod
+    def _adapt_b2c_report(b2c_report: RawMapping) -> RawMapping:
+        """
+        Translates a raw ``B2C-REPORT`` node into the flat ``credit_report``
+        shape every ``_parse_*`` method above expects (see the "B2C-REPORT
+        structural adapter" section docstring above for the general
+        approach).
+
+        Args:
+            b2c_report: The dict at
+                ``data.result_json.parsed_data.B2C-REPORT``.
+
+        Returns:
+            A flat dict with the same top-level keys
+            :meth:`CrifParser.parse` reads off a legacy-shaped
+            ``credit_report`` node (``customer_identity``, ``scores``,
+            ``trends``, ``account_summary``, ``personal_info_variation``,
+            ``employment_details``, ``response``, ``inquiry_history``).
+        """
+        request_data = b2c_report.get("REQUEST-DATA") or {}
+        applicant = request_data.get("APPLICANT-SEGMENT") or {}
+
+        report_data = b2c_report.get("REPORT-DATA") or {}
+        standard_data = report_data.get("STANDARD-DATA") or {}
+
+        accounts = CrifParser._adapt_accounts(standard_data.get("TRADELINES"))
+        inquiries = CrifParser._adapt_inquiries(standard_data.get("INQUIRY-HISTORY"))
+        raw_scores = standard_data.get("SCORE")
+        score_value = (
+            raw_scores[0].get("VALUE")
+            if isinstance(raw_scores, list) and raw_scores and isinstance(raw_scores[0], dict)
+            else None
+        )
+
+        logger.info(
+            "CRIF report root found: B2C-REPORT (tradelines=%d, inquiries=%d, score=%s)",
+            len(accounts),
+            len(inquiries),
+            score_value,
+        )
+
+        return {
+            "customer_identity": CrifParser._adapt_applicant_identity(applicant),
+            "scores": CrifParser._adapt_score(raw_scores),
+            "trends": CrifParser._adapt_trends(report_data.get("TRENDS")),
+            "account_summary": CrifParser._adapt_account_summary(
+                report_data.get("ACCOUNTS-SUMMARY")
+            ),
+            "personal_info_variation": CrifParser._adapt_personal_info_variation(
+                standard_data.get("DEMOGS")
+            ),
+            "employment_details": CrifParser._adapt_employment_details(
+                standard_data.get("EMPLOYMENT-DETAILS")
+            ),
+            "response": accounts,
+            "inquiry_history": inquiries,
+        }
 
     # -- 1. Customer Identity --------------------------------------------------
 
@@ -622,6 +1181,8 @@ class CrifParser:
             new_delinq_account_in_last_six_months=_to_int(
                 node.get("new_delinq_account_in_last_six_months")
             ),
+            total_secured_outstanding=_to_decimal(node.get("total_secured_outstanding")),
+            total_unsecured_outstanding=_to_decimal(node.get("total_unsecured_outstanding")),
         )
 
     @staticmethod
@@ -650,6 +1211,7 @@ class CrifParser:
             current_balance=_to_decimal(get("current_balance")),
             sanctioned_amount=_to_decimal(get("sanctioned_amount")),
             disbursed_amount=_to_decimal(get("disbursed_amount")),
+            total_amt_overdue=_to_decimal(get("total_amt_overdue")),
         )
 
     @staticmethod
@@ -999,5 +1561,8 @@ def parse_credit_report(raw_json: RawMapping | None) -> CreditReport:
 
     Returns:
         A normalized :class:`CreditReport`.
+
+    Raises:
+        ValueError: See :meth:`CrifParser.parse`.
     """
     return CrifParser().parse(raw_json)

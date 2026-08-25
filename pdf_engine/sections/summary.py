@@ -7,13 +7,14 @@ Primary Account Summary, Secondary Account Summary, and Perform
 Attributes -- all sourced from ``CreditReport.account_summary``.
 
 The reference PDF's Primary/Secondary Account Summary tables also include
-"Current Balance Secured", "Current Balance Unsecured" and "Total Amount
-Overdue" columns, and separate "Group Account Summary" / "Additional
-Summary" boxes. None of those are present on ``AccountsSummary`` -- CRIF's
-raw payload for this report does not report them -- so this module renders
-exactly the nine fields ``AccountsSummary`` actually carries, and omits
+"Current Balance Secured" and "Current Balance Unsecured" columns, and
+separate "Group Account Summary" / "Additional Summary" boxes. None of
+those are present on ``AccountsSummary`` -- CRIF's raw payload for this
+report does not report them broken out that way -- so this module omits
 the Group/Additional Summary boxes entirely rather than rendering an
-empty shell.
+empty shell, and renders the ten fields ``AccountsSummary`` actually
+carries (the original nine plus ``total_amt_overdue``, which CRIF does
+report per summary block).
 """
 
 from __future__ import annotations
@@ -45,6 +46,7 @@ _SUMMARY_HEADERS = [
     "Total Current Balance",
     "Total Sanctioned Amount",
     "Total Disbursed Amount",
+    "Total Amount Overdue",
 ]
 
 
@@ -60,6 +62,7 @@ def _summary_row(summary: AccountsSummary) -> list[str]:
         h.safe_decimal(summary.current_balance, default="0"),
         h.safe_decimal(summary.sanctioned_amount, default="0"),
         h.safe_decimal(summary.disbursed_amount, default="0"),
+        h.safe_decimal(summary.total_amt_overdue, default="0"),
     ]
 
 
@@ -117,6 +120,14 @@ def _render_perform_attributes(story: list, attributes: DerivedAttributes) -> No
             (
                 "New Delinquent Accounts In Last Six Months:",
                 h.safe_text(attributes.new_delinq_account_in_last_six_months, default="0"),
+            ),
+            (
+                "Total Secured Outstanding:",
+                h.safe_decimal(attributes.total_secured_outstanding, default="0"),
+            ),
+            (
+                "Total Unsecured Outstanding:",
+                h.safe_decimal(attributes.total_unsecured_outstanding, default="0"),
             ),
         ],
         columns=2,

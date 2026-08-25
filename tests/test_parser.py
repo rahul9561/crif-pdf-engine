@@ -171,28 +171,33 @@ class TestParseRealSample:
 
 
 # ---------------------------------------------------------------------------
-# Defensive handling of malformed/missing input -- never raises
+# Defensive handling of malformed/missing input
+#
+# The top-level report-root lookup (CrifParser.parse / parse_credit_report)
+# raises ValueError when it cannot locate a credit report under any
+# supported payload shape -- returning an empty CreditReport here would
+# silently render as a blank PDF with no indication anything went wrong.
+# Every *field*-level extraction below that point still never raises (see
+# TestParseAccountsDefensive etc.).
 # ---------------------------------------------------------------------------
 
 
 class TestParseMalformedInput:
-    def test_none_payload_returns_empty_report(self):
-        report = parse_credit_report(None)
-        assert isinstance(report, CreditReport)
-        assert report.accounts == []
-        assert report.customer_identity.name == ""
+    def test_none_payload_raises(self):
+        with pytest.raises(ValueError):
+            parse_credit_report(None)
 
-    def test_non_dict_payload_returns_empty_report(self):
-        report = parse_credit_report("not a dict")
-        assert isinstance(report, CreditReport)
+    def test_non_dict_payload_raises(self):
+        with pytest.raises(ValueError):
+            parse_credit_report("not a dict")
 
-    def test_empty_dict_returns_empty_report(self):
-        report = parse_credit_report({})
-        assert isinstance(report, CreditReport)
+    def test_empty_dict_raises(self):
+        with pytest.raises(ValueError):
+            parse_credit_report({})
 
-    def test_missing_credit_report_node_returns_empty_report(self):
-        report = parse_credit_report({"data": {"result_json": {}}})
-        assert isinstance(report, CreditReport)
+    def test_missing_credit_report_node_raises(self):
+        with pytest.raises(ValueError):
+            parse_credit_report({"data": {"result_json": {}}})
 
     def test_non_list_accounts_does_not_raise(self):
         parser = CrifParser()
@@ -274,3 +279,57 @@ def test_score_trend_length_mismatch_does_not_raise(bad_dates_node):
     parser = CrifParser()
     trend = parser._parse_score_trend(bad_dates_node)
     assert trend is not None
+
+
+# ---------------------------------------------------------------------------
+# Full parse against the real CRIF B2C-REPORT sample payload
+# (data.result_json.parsed_data.B2C-REPORT), the shape the live bureau
+# API actually returns.
+# ---------------------------------------------------------------------------
+
+
+class TestParseB2CReportSample:
+    def test_customer_identity_populated(self, parsed_b2c_report: CreditReport):
+        identity = parsed_b2c_report.customer_identity
+        assert identity.name == "SONIYA DEVI"
+        assert identity.dob == date(1969, 5, 30)
+
+    def test_score_populated(self, parsed_b2c_report: CreditReport):
+        score = parsed_b2c_report.score
+        assert score.score_type == "PERFORM CONSUMER 2.2"
+        assert score.score_value == 510
+
+    def test_accounts_parsed(self, parsed_b2c_report: CreditReport):
+        accounts = parsed_b2c_report.accounts
+        assert len(accounts) == 9
+        assert any(a.credit_guarantor == "MIDLAND MICROFIN LTD" for a in accounts)
+        for account in accounts:
+            assert isinstance(account, LoanAccount)
+
+    def test_account_payment_history_populated(self, parsed_b2c_report: CreditReport):
+        first_account = parsed_b2c_report.accounts[0]
+        assert first_account.payment_history
+        for entry in first_account.payment_history:
+            assert isinstance(entry, PaymentHistoryEntry)
+            assert 1 <= entry.month <= 12
+
+    def test_inquiries_parsed(self, parsed_b2c_report: CreditReport):
+        inquiries = parsed_b2c_report.inquiries
+        assert len(inquiries) == 3
+        for inquiry in inquiries:
+            assert isinstance(inquiry, InquiryRecord)
+        assert any(i.credit_grantor == "FUSION" for i in inquiries)
+
+    def test_account_summary_matches_source_payload(self, parsed_b2c_report: CreditReport):
+        primary = parsed_b2c_report.account_summary.primary
+        assert primary.number_of_accounts == 9
+        assert primary.active_number_of_accounts == 5
+        assert primary.overdue_number_of_accounts == 6
+        assert primary.total_amt_overdue == Decimal("95316")
+
+    def test_derived_attributes_matches_source_payload(self, parsed_b2c_report: CreditReport):
+        derived = parsed_b2c_report.account_summary.derived_attributes
+        assert derived.total_unsecured_outstanding == Decimal("89761")
+
+    def test_score_trend_populated(self, parsed_b2c_report: CreditReport):
+        assert len(parsed_b2c_report.score_trend.points) == 12
