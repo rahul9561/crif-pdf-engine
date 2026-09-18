@@ -3,18 +3,24 @@ pdf_engine.sections.summary
 ==============================
 
 Renders the account summary blocks from ``docs/sample_report.pdf``:
-Primary Account Summary, Secondary Account Summary, and Perform
-Attributes -- all sourced from ``CreditReport.account_summary``.
+Primary Account Summary, Secondary Account Summary, MFI/Group Account
+Summary, Additional Summary, and Perform Attributes -- all sourced from
+``CreditReport.account_summary``.
 
 The reference PDF's Primary/Secondary Account Summary tables also include
-"Current Balance Secured" and "Current Balance Unsecured" columns, and
-separate "Group Account Summary" / "Additional Summary" boxes. None of
-those are present on ``AccountsSummary`` -- CRIF's raw payload for this
-report does not report them broken out that way -- so this module omits
-the Group/Additional Summary boxes entirely rather than rendering an
-empty shell, and renders the ten fields ``AccountsSummary`` actually
-carries (the original nine plus ``total_amt_overdue``, which CRIF does
-report per summary block).
+"Current Balance Secured" and "Current Balance Unsecured" columns. Those
+are not present on ``AccountsSummary`` -- CRIF's raw payload for this
+report does not report them broken out that way -- so this module renders
+the ten fields ``AccountsSummary`` actually carries (the original nine
+plus ``total_amt_overdue``, which CRIF does report per summary block).
+
+MFI/Group Account Summary and Additional Summary use a different,
+less-standardized field set than Primary/Secondary (see
+``AccountSummary.mfi_group_summary`` / ``.additional_summary``), so they
+are rendered generically as label/value grids from whatever attributes
+the payload actually reported, rather than a fixed column layout -- and,
+like every other section in this report, each is skipped entirely when
+the payload reports nothing for it.
 """
 
 from __future__ import annotations
@@ -88,6 +94,25 @@ def _render_accounts_summary(story: list, title: str, summary: AccountsSummary) 
     story.append(Spacer(1, c.SPACE_MD))
 
 
+def _render_attribute_block(story: list, title: str, pairs: list[tuple[str, str]]) -> None:
+    """
+    Appends one generic label/value summary block (MFI/Group Account
+    Summary, Additional Summary) to ``story``, built from whatever
+    ``(label, value)`` pairs the payload actually reported.
+
+    Does nothing when ``pairs`` is empty, so a payload that carries no
+    data for this block never leaves a dangling, empty section title in
+    the output.
+    """
+    if not pairs:
+        return
+    grid = h.create_key_value_table([(f"{label}:", value) for label, value in pairs], columns=2)
+    # Small and fixed-size -- safe to keep the whole block together so
+    # the heading is never orphaned from its content.
+    story.append(KeepTogether([h.create_section_header(title), Spacer(1, c.SPACE_XS), grid]))
+    story.append(Spacer(1, c.SPACE_MD))
+
+
 def _render_perform_attributes(story: list, attributes: DerivedAttributes) -> None:
     """Appends the "Perform Attributes" key-value block to ``story``."""
     header = h.create_section_header("Perform Attributes")
@@ -151,4 +176,6 @@ def render(story: list, report: CreditReport) -> None:
     account_summary = report.account_summary
     _render_accounts_summary(story, "Primary Account Summary", account_summary.primary)
     _render_accounts_summary(story, "Secondary Account Summary", account_summary.secondary)
+    _render_attribute_block(story, "MFI/Group Account Summary", account_summary.mfi_group_summary)
+    _render_attribute_block(story, "Additional Summary", account_summary.additional_summary)
     _render_perform_attributes(story, account_summary.derived_attributes)

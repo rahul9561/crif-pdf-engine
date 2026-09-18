@@ -59,7 +59,6 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 __all__ = [
-    "ReportHeader",
     "CustomerIdentity",
     "Score",
     "ScoreTrendPoint",
@@ -69,10 +68,9 @@ __all__ = [
     "AccountSummary",
     "PersonalVariationEntry",
     "PersonalInfoVariations",
-    "EmploymentDetail",
+    "EmploymentDetails",
     "SecurityDetail",
     "PaymentHistoryEntry",
-    "HistoryPoint",
     "LoanAccount",
     "InquiryRecord",
     "CreditReport",
@@ -231,26 +229,6 @@ def _split_pipe_positional(value: Any) -> list[str]:
     return [token.strip() for token in tokens]
 
 
-def _split_pipe_exact(value: Any) -> list[str]:
-    """
-    Splits a pipe-delimited string into tokens, keeping every token
-    (including a trailing empty one) untouched.
-
-    Unlike :func:`_split_pipe_positional`, this never drops a trailing
-    empty token. CRIF sometimes reports a genuinely missing final sample
-    this way (e.g. a "No Hit" period with no score), and blindly
-    trimming it -- as :func:`_split_pipe_positional` does for the more
-    common "stray trailing delimiter" case -- would shift that array out
-    of alignment with a sibling array (such as ``dates``) that has no
-    trailing delimiter of its own. Callers that zip this against a
-    sibling array should trim a trailing empty token themselves only
-    when it is one token *longer* than that sibling.
-    """
-    if not value or not isinstance(value, str):
-        return []
-    return [token.strip() for token in value.split("|")]
-
-
 def _first_present(node: RawMapping, *keys: str) -> Any:
     """Returns the first non-empty value found in ``node`` among ``keys``, or ``None``."""
     for key in keys:
@@ -260,41 +238,9 @@ def _first_present(node: RawMapping, *keys: str) -> Any:
     return None
 
 
-def _humanize_key(key: str) -> str:
-    """
-    Turns a raw bureau key (``"NUM-GRANTORS"``, ``ATTR-NAME`` values like
-    ``"TOTAL-SECURED-OUTSTANDING"``) into a display label
-    (``"Num Grantors"``, ``"Total Secured Outstanding"``).
-
-    Used only for the generic "whatever attributes this payload happens
-    to report" blocks (MFI/Group summary, Additional summary,
-    Application info) that have no fixed, documented field set to map
-    field-by-field the way every other section in this module does.
-    """
-    return key.replace("-", " ").replace("_", " ").strip().title()
-
-
 # ---------------------------------------------------------------------------
 # Normalized data model
 # ---------------------------------------------------------------------------
-
-
-@dataclass(frozen=True)
-class ReportHeader:
-    """
-    Report-level metadata, from ``credit_report.header`` (CRIF's
-    ``HEADER-SEGMENT``): status, identifiers, product info, and the
-    issue/request dates shown in the report masthead.
-    """
-
-    status: str = ""
-    report_id: str = ""
-    batch_id: str = ""
-    product_type: str = ""
-    product_version: str = ""
-    date_of_issue: date | None = None
-    date_of_request: date | None = None
-    prepared_for_id: str = ""
 
 
 @dataclass(frozen=True)
@@ -308,7 +254,6 @@ class CustomerIdentity:
     email: str = ""
     address: str = ""
     phone: str = ""
-    gender: str = ""
 
 
 @dataclass(frozen=True)
@@ -317,12 +262,7 @@ class Score:
 
     score_type: str = ""
     score_value: int | None = None
-    # Human-readable factor descriptions when the bureau provides them
-    # (preferred -- see _adapt_score), falling back to short factor codes
-    # (e.g. "SF11") for payloads that only report those.
     score_factors: list[str] = field(default_factory=list)
-    # CRIF's score-band grade code (e.g. "B"), from SCORE[0].DESCRIPTION.
-    score_description: str = ""
 
 
 @dataclass(frozen=True)
@@ -386,13 +326,6 @@ class AccountSummary:
     derived_attributes: DerivedAttributes = field(default_factory=DerivedAttributes)
     primary: AccountsSummary = field(default_factory=AccountsSummary)
     secondary: AccountsSummary = field(default_factory=AccountsSummary)
-    # MFI/Group and Additional summary blocks don't share the primary/
-    # secondary shape (different, less standardized field sets), so they
-    # are carried as generic, already-labeled (label, value) pairs rather
-    # than a dedicated dataclass per block -- see _adapt_flat_dict /
-    # _adapt_attr_value_list / _parse_attribute_pairs.
-    mfi_group_summary: list[tuple[str, str]] = field(default_factory=list)
-    additional_summary: list[tuple[str, str]] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
@@ -429,19 +362,12 @@ class PersonalInfoVariations:
 
 
 @dataclass(frozen=True)
-class EmploymentDetail:
-    """
-    One reported employment record, from
-    ``credit_report.employment_details`` (a list -- CRIF reports one
-    entry per contributing institution/period, so an applicant commonly
-    has more than one).
-    """
+class EmploymentDetails:
+    """From ``credit_report.employment_details``."""
 
     acct_type: str = ""
+    date_reported: date | None = None
     occupation: str = ""
-    first_reported: date | None = None
-    last_reported: date | None = None
-    source_indicator: str = ""
 
 
 @dataclass(frozen=True)
@@ -472,22 +398,6 @@ class PaymentHistoryEntry:
     year: int
     days_past_due: str  # kept as text: the bureau uses non-numeric codes too
     asset_classification: str  # e.g. "STD", "XXX"
-
-
-@dataclass(frozen=True)
-class HistoryPoint:
-    """
-    One monthly sample from a numeric account history series (high
-    credit / current balance / amount paid), parsed out of an account's
-    ``high_credit_history`` / ``current_balance_history`` /
-    ``amt_paid_history`` strings -- the same ``"Mon:YYYY,<value>"``
-    micro-format as ``combined_payment_history``, but carrying a plain
-    monetary amount instead of a days-past-due/classification code.
-    """
-
-    month: int  # 1-12
-    year: int
-    value: Decimal | None  # None when the bureau reported no value for this month
 
 
 @dataclass(frozen=True)
@@ -534,9 +444,6 @@ class LoanAccount:
     income_frequency: str = ""
     income_amount: Decimal | None = None
     payment_history: list[PaymentHistoryEntry] = field(default_factory=list)
-    high_credit_history: list[HistoryPoint] = field(default_factory=list)
-    current_balance_history: list[HistoryPoint] = field(default_factory=list)
-    amt_paid_history: list[HistoryPoint] = field(default_factory=list)
     security_details: list[SecurityDetail] = field(default_factory=list)
 
 
@@ -556,65 +463,19 @@ class InquiryRecord:
 class CreditReport:
     """The complete normalized CRIF Highmark credit report."""
 
-    header: ReportHeader = field(default_factory=ReportHeader)
     customer_identity: CustomerIdentity = field(default_factory=CustomerIdentity)
     score: Score = field(default_factory=Score)
     score_trend: ScoreTrend = field(default_factory=ScoreTrend)
     account_summary: AccountSummary = field(default_factory=AccountSummary)
     personal_info_variations: PersonalInfoVariations = field(default_factory=PersonalInfoVariations)
-    employment_details: list[EmploymentDetail] = field(default_factory=list)
+    employment_details: EmploymentDetails = field(default_factory=EmploymentDetails)
     accounts: list[LoanAccount] = field(default_factory=list)
     inquiries: list[InquiryRecord] = field(default_factory=list)
-    # Loan-application metadata (CRIF's APPLICATION-SEGMENT), as generic
-    # (label, value) pairs -- see AccountSummary.additional_summary for
-    # why this shape is used instead of a dedicated dataclass.
-    application_info: list[tuple[str, str]] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
 # Parser
 # ---------------------------------------------------------------------------
-
-def get_dob_from_json(raw_json: dict) -> str | None:
-    """Extracts date of birth from CRIF raw response payload."""
-    try:
-        # B2C-REPORT path check
-        b2c_report = (
-            raw_json.get("data", {})
-            .get("result_json", {})
-            .get("parsed_data", {})
-            .get("B2C-REPORT", {})
-        )
-        if b2c_report:
-            per_info = (
-                b2c_report.get("REPORT-DATA", {})
-                .get("STANDARD-DATA", {})
-                .get("PER-INFO", {})
-            )
-            if isinstance(per_info, list) and len(per_info) > 0:
-                per_info = per_info[0]
-            
-            dob_node = per_info.get("DOB") if isinstance(per_info, dict) else None
-            if isinstance(dob_node, dict):
-                return dob_node.get("DOB-DT") or dob_node.get("AGE-AS-ON")
-            elif isinstance(dob_node, str):
-                return dob_node
-
-        # Legacy credit_report path check
-        legacy_dob = (
-            raw_json.get("data", {})
-            .get("result_json", {})
-            .get("credit_report", {})
-            .get("customer_identity", {})
-            .get("dob")
-        )
-        if legacy_dob:
-            return legacy_dob
-
-    except Exception:
-        pass
-        
-    return None
 
 
 class CrifParser:
@@ -628,7 +489,7 @@ class CrifParser:
     is the single public entrypoint.
     """
 
-    def parse(self, raw_json: RawMapping | None,manual_dob: str | None = None,) -> CreditReport:
+    def parse(self, raw_json: RawMapping | None) -> CreditReport:
         """
         Parses a raw CRIF Highmark API response into a normalized
         :class:`CreditReport`.
@@ -664,46 +525,11 @@ class CrifParser:
                 "B2C Highmark format) or 'data.result_json.credit_report' "
                 "(legacy flat format). Neither was found as a dict in this payload."
             )
-        # ---------------------------------------------------------
-        # CUSTOMER IDENTITY
-        # ---------------------------------------------------------
-        customer_identity = self._parse_customer_identity(
-            credit_report.get("customer_identity") or {}
-        )
-
-        # ---------------------------------------------------------
-        # MANUAL DOB OVERRIDE
-        # ---------------------------------------------------------
-        if manual_dob:
-            parsed_manual_dob = _parse_date(manual_dob)
-
-            if parsed_manual_dob:
-                logger.info(
-                    "Using manually supplied DOB instead of CRIF DOB: %s",
-                    parsed_manual_dob,
-                )
-
-                customer_identity = CustomerIdentity(
-                    name=customer_identity.name,
-                    dob=parsed_manual_dob,
-                    pan=customer_identity.pan,
-                    uid=customer_identity.uid,
-                    email=customer_identity.email,
-                    address=customer_identity.address,
-                    phone=customer_identity.phone,
-                    gender=customer_identity.gender,
-                )
-            else:
-                logger.warning(
-                    "Manual DOB %r could not be parsed using format %s; "
-                    "keeping DOB from CRIF report",
-                    manual_dob,
-                    DEFAULT_DATE_FORMAT,
-                )
 
         return CreditReport(
-            header=self._parse_report_header(credit_report.get("header") or {}),
-            customer_identity=customer_identity,
+            customer_identity=self._parse_customer_identity(
+                credit_report.get("customer_identity") or {}
+            ),
             score=self._parse_score(credit_report.get("scores") or {}),
             score_trend=self._parse_score_trend(credit_report.get("trends") or {}),
             account_summary=self._parse_account_summary(
@@ -713,13 +539,10 @@ class CrifParser:
                 credit_report.get("personal_info_variation") or {}
             ),
             employment_details=self._parse_employment_details(
-                credit_report.get("employment_details")
+                credit_report.get("employment_details") or {}
             ),
             accounts=self._parse_accounts(credit_report.get("response")),
             inquiries=self._parse_inquiries(credit_report.get("inquiry_history")),
-            application_info=self._parse_attribute_pairs(
-                credit_report.get("application_info") or {}
-            ),
         )
 
     # -- payload navigation --------------------------------------------------
@@ -876,7 +699,6 @@ class CrifParser:
             "email": email,
             "address": address,
             "phone": phone,
-            "gender": applicant.get("GENDER"),
         }
 
     @staticmethod
@@ -886,23 +708,17 @@ class CrifParser:
             return {}
         first_score = scores[0]
         factors = first_score.get("FACTORS")
-        # Prefer each factor's human-readable description (DESC) -- far
-        # more useful in a printed report than a bare bureau code -- and
-        # fall back to the short code (TYPE) only when no description was
-        # supplied, so a factor is never silently dropped either way.
-        factor_texts: list[str] = []
+        factor_types = []
         if isinstance(factors, list):
-            for factor in factors:
-                if not isinstance(factor, dict):
-                    continue
-                text = _first_present(factor, "DESC", "TYPE")
-                if text:
-                    factor_texts.append(_to_str(text))
+            factor_types = [
+                _to_str(factor.get("TYPE"))
+                for factor in factors
+                if isinstance(factor, dict) and _to_str(factor.get("TYPE"))
+            ]
         return {
             "score_type": first_score.get("NAME"),
             "score_value": first_score.get("VALUE"),
-            "score_factors": "|".join(factor_texts),
-            "score_description": first_score.get("DESCRIPTION"),
+            "score_factors": "|".join(factor_types),
         }
 
     @staticmethod
@@ -916,58 +732,6 @@ class CrifParser:
             "values": trends.get("VALUES"),
             "description": trends.get("DESCRIPTION"),
         }
-
-    @staticmethod
-    def _adapt_header_segment(header: Any) -> RawMapping:
-        """Builds a flat ``header`` node from ``B2C-REPORT.HEADER-SEGMENT``."""
-        if not isinstance(header, dict):
-            return {}
-        return {
-            "status": header.get("STATUS"),
-            "report_id": header.get("REPORT-ID"),
-            "batch_id": header.get("BATCH-ID"),
-            "product_type": header.get("PRODUCT-TYPE"),
-            "product_version": header.get("PRODUCT-VER"),
-            "date_of_issue": header.get("DATE-OF-ISSUE"),
-            "date_of_request": header.get("DATE-OF-REQUEST"),
-            "prepared_for_id": header.get("PREPARED-FOR-ID"),
-        }
-
-    @staticmethod
-    def _adapt_attr_value_list(items: Any) -> RawMapping:
-        """
-        Builds a generic ``{"attributes": [(label, value), ...]}`` block
-        from a bureau ``[{"ATTR-NAME": ..., "ATTR-VALUE": ...}, ...]``
-        list (e.g. ``ADDITIONAL-SUMMARY``), skipping entries with no name.
-        """
-        if not isinstance(items, list):
-            return {"attributes": []}
-        pairs: list[tuple[str, str]] = []
-        for item in items:
-            if not isinstance(item, dict):
-                continue
-            name = _to_str(item.get("ATTR-NAME"))
-            value = item.get("ATTR-VALUE")
-            if name and value not in (None, ""):
-                pairs.append((_humanize_key(name), _to_str(value)))
-        return {"attributes": pairs}
-
-    @staticmethod
-    def _adapt_flat_dict(node: Any) -> RawMapping:
-        """
-        Builds a generic ``{"attributes": [(label, value), ...]}`` block
-        from a plain flat ``{KEY: value, ...}`` dict (e.g.
-        ``MFI-GROUP-ACCOUNTS-SUMMARY``, ``APPLICATION-SEGMENT``), skipping
-        keys with no value. Zero-valued fields (``"0"``, ``"0.0"``) are
-        kept -- they are meaningful data (e.g. "no MFI accounts"), unlike
-        a genuinely blank/absent field.
-        """
-        if not isinstance(node, dict):
-            return {"attributes": []}
-        pairs = [
-            (_humanize_key(key), _to_str(value)) for key, value in node.items() if _to_str(value)
-        ]
-        return {"attributes": pairs}
 
     #: Target ``AccountsSummary`` field name -> source key within
     #: ``PRIMARY-ACCOUNTS-SUMMARY`` / ``SECONDARY-ACCOUNTS-SUMMARY``.
@@ -1038,18 +802,6 @@ class CrifParser:
             "derived_attributes": CrifParser._adapt_perform_attributes(
                 accounts_summary.get("PERFORM-ATTRIBUTES")
             ),
-            # MFI-GROUP-ACCOUNTS-SUMMARY is a plain flat dict (not the
-            # primary/secondary shape, and not an ATTR-NAME/ATTR-VALUE
-            # list either), while ADDITIONAL-SUMMARY is the ATTR-NAME/
-            # ATTR-VALUE shape -- each routed through the adapter that
-            # matches its actual shape, both funneling into the same
-            # generic "attributes" list AccountSummary carries.
-            "mfi_group_summary": CrifParser._adapt_flat_dict(
-                accounts_summary.get("MFI-GROUP-ACCOUNTS-SUMMARY")
-            ),
-            "additional_summary": CrifParser._adapt_attr_value_list(
-                accounts_summary.get("ADDITIONAL-SUMMARY")
-            ),
         }
 
     #: DEMOGS.VARIATIONS entry ``TYPE`` -> flat personal_info_variation key.
@@ -1106,42 +858,21 @@ class CrifParser:
         return flat
 
     @staticmethod
-    def _adapt_single_employment_detail(node: RawMapping) -> RawMapping:
+    def _adapt_employment_details(employment: Any) -> RawMapping:
         """
-        Builds one flat employment-detail dict from a raw
-        ``STANDARD-DATA.EMPLOYMENT-DETAILS`` list entry.
-
-        Each entry is wrapped one level deeper than the other TRADELINES-
-        adjacent lists in this payload -- ``{"EMPLOYMENT-DETAIL": {...}}``
-        rather than the fields sitting directly on the list entry -- so
-        that wrapper is unwrapped here before reading any field.
+        Builds a flat ``employment_details`` node from
+        ``STANDARD-DATA.EMPLOYMENT-DETAILS`` (a list; often empty -- the
+        first entry is used when present).
         """
-        inner = node.get("EMPLOYMENT-DETAIL")
-        if not isinstance(inner, dict):
-            inner = node
+        if isinstance(employment, list):
+            employment = employment[0] if employment else {}
+        if not isinstance(employment, dict):
+            return {}
         return {
-            "acct_type": _first_present(inner, "ACCT-TYPE", "ACCOUNT-TYPE"),
-            "occupation": _first_present(inner, "OCCUPATION"),
-            "first_reported": _first_present(inner, "FIRST-REPORTED-DT", "DATE-REPORTED"),
-            "last_reported": _first_present(inner, "LAST-REPORTED-DT", "REPORTED-DT"),
-            "source_indicator": _first_present(inner, "SOURCE-INDICATOR"),
+            "acct_type": _first_present(employment, "ACCT-TYPE", "ACCOUNT-TYPE"),
+            "date_reported": _first_present(employment, "DATE-REPORTED", "REPORTED-DT"),
+            "occupation": _first_present(employment, "OCCUPATION"),
         }
-
-    @staticmethod
-    def _adapt_employment_details(employment: Any) -> list[RawMapping]:
-        """
-        Builds the flat ``employment_details`` list from
-        ``STANDARD-DATA.EMPLOYMENT-DETAILS``. CRIF reports one entry per
-        contributing institution/period -- commonly more than one -- so
-        every entry is kept, not just the first.
-        """
-        if not isinstance(employment, list):
-            return []
-        return [
-            CrifParser._adapt_single_employment_detail(item)
-            for item in employment
-            if isinstance(item, dict)
-        ]
 
     #: Target ``SecurityDetail`` field name (as read by
     #: ``_parse_single_security_detail``) -> source key within one
@@ -1191,28 +922,20 @@ class CrifParser:
         return adapted
 
     @staticmethod
-    def _adapt_history_series(history: Any, name: str) -> str:
+    def _adapt_combined_payment_history(history: Any) -> str:
         """
-        Rebuilds a single ``"Mon:YYYY,<value>|..."`` token string from one
-        named entry of a TRADELINE's ``HISTORY`` list (e.g.
-        ``"COMBINED-PAYMENT-HISTORY"``, ``"HIGH-CREDIT-HISTORY"``,
-        ``"CURRENT-BALANCE-HISTORY"``, ``"AMT-PAID-HISTORY"``), each of
-        which reports its series as two separate, positionally-aligned
-        pipe strings (``DATES`` and ``VALUES``) rather than the combined
-        token format :meth:`_parse_payment_history` /
-        :meth:`_parse_numeric_history` expect.
-
-        Args:
-            history: A TRADELINE's raw ``HISTORY`` list.
-            name: The ``NAME`` of the history entry to extract (matched
-                case-insensitively), e.g. ``"HIGH-CREDIT-HISTORY"``.
+        Rebuilds the single ``"Mon:YYYY,DPD/STATUS|..."`` token string
+        :meth:`_parse_payment_history` expects from a TRADELINE's
+        ``HISTORY`` list, which reports the same information as two
+        separate, positionally-aligned pipe strings (``DATES`` and
+        ``VALUES``) under the ``"COMBINED-PAYMENT-HISTORY"`` entry.
         """
         if not isinstance(history, list):
             return ""
         for entry in history:
             if not isinstance(entry, dict):
                 continue
-            if _to_str(entry.get("NAME")).upper() != name:
+            if _to_str(entry.get("NAME")).upper() != "COMBINED-PAYMENT-HISTORY":
                 continue
             dates = _split_pipe_positional(entry.get("DATES"))
             values = _split_pipe_positional(entry.get("VALUES"))
@@ -1281,17 +1004,9 @@ class CrifParser:
         else:
             flat["linked_accounts"] = linked
 
-        history = raw.get("HISTORY")
-        flat["combined_payment_history"] = CrifParser._adapt_history_series(
-            history, "COMBINED-PAYMENT-HISTORY"
+        flat["combined_payment_history"] = CrifParser._adapt_combined_payment_history(
+            raw.get("HISTORY")
         )
-        flat["high_credit_history"] = CrifParser._adapt_history_series(
-            history, "HIGH-CREDIT-HISTORY"
-        )
-        flat["current_balance_history"] = CrifParser._adapt_history_series(
-            history, "CURRENT-BALANCE-HISTORY"
-        )
-        flat["amt_paid_history"] = CrifParser._adapt_history_series(history, "AMT-PAID-HISTORY")
         flat["security_details"] = CrifParser._adapt_security_details(raw.get("SECURITY-DETAILS"))
         return flat
 
@@ -1372,7 +1087,6 @@ class CrifParser:
         )
 
         return {
-            "header": CrifParser._adapt_header_segment(b2c_report.get("HEADER-SEGMENT")),
             "customer_identity": CrifParser._adapt_applicant_identity(applicant),
             "scores": CrifParser._adapt_score(raw_scores),
             "trends": CrifParser._adapt_trends(report_data.get("TRENDS")),
@@ -1387,11 +1101,7 @@ class CrifParser:
             ),
             "response": accounts,
             "inquiry_history": inquiries,
-            "application_info": CrifParser._adapt_flat_dict(
-                request_data.get("APPLICATION-SEGMENT")
-            ),
         }
-
 
     # -- 1. Customer Identity --------------------------------------------------
 
@@ -1406,23 +1116,6 @@ class CrifParser:
             email=_to_str(node.get("email")),
             address=_to_str(node.get("address")),
             phone=_to_str(node.get("phone")),
-            gender=_to_str(node.get("gender")),
-        )
-
-    # -- 1b. Report Header ----------------------------------------------------
-
-    @staticmethod
-    def _parse_report_header(node: RawMapping) -> ReportHeader:
-        """Parses ``credit_report.header``."""
-        return ReportHeader(
-            status=_to_str(node.get("status")),
-            report_id=_to_str(node.get("report_id")),
-            batch_id=_to_str(node.get("batch_id")),
-            product_type=_to_str(node.get("product_type")),
-            product_version=_to_str(node.get("product_version")),
-            date_of_issue=_parse_date(node.get("date_of_issue")),
-            date_of_request=_parse_date(node.get("date_of_request")),
-            prepared_for_id=_to_str(node.get("prepared_for_id")),
         )
 
     # -- 2. Score ---------------------------------------------------------------
@@ -1434,7 +1127,6 @@ class CrifParser:
             score_type=_to_str(node.get("score_type")),
             score_value=_to_int(node.get("score_value")),
             score_factors=_split_pipe(node.get("score_factors")),
-            score_description=_to_str(node.get("score_description")),
         )
 
     # -- 3. Score Trend -----------------------------------------------------
@@ -1446,25 +1138,12 @@ class CrifParser:
 
         ``dates``, ``values`` and ``description`` are parallel
         pipe-delimited strings that must stay index-aligned, so they are
-        split with :func:`_split_pipe_exact` and zipped by position
+        split with :func:`_split_pipe_positional` and zipped by position
         rather than independently filtered.
-
-        A lone trailing empty token in ``values``/``description`` is
-        only dropped when it makes that array exactly one token longer
-        than ``dates`` -- i.e. a plain stray delimiter. When lengths
-        already match ``dates``, the trailing empty token is kept: it
-        represents a real (if scoreless) sample, such as a "No Hit"
-        period with no score, and dropping it would desync `values` from
-        `dates` by one position instead of describing that final sample.
         """
-        dates = _split_pipe_exact(node.get("dates"))
-        values = _split_pipe_exact(node.get("values"))
-        descriptions = _split_pipe_exact(node.get("description"))
-
-        if len(values) == len(dates) + 1 and values[-1] == "":
-            values = values[:-1]
-        if len(descriptions) == len(dates) + 1 and descriptions[-1] == "":
-            descriptions = descriptions[:-1]
+        dates = _split_pipe_positional(node.get("dates"))
+        values = _split_pipe_positional(node.get("values"))
+        descriptions = _split_pipe_positional(node.get("description"))
 
         if len(dates) != len(values):
             logger.warning(
@@ -1536,26 +1215,6 @@ class CrifParser:
         )
 
     @staticmethod
-    def _parse_attribute_pairs(node: RawMapping) -> list[tuple[str, str]]:
-        """
-        Parses a generic ``{"attributes": [(label, value), ...]}`` block
-        (see ``_adapt_attr_value_list`` / ``_adapt_flat_dict``) into a
-        list of display-ready ``(label, value)`` pairs.
-        """
-        raw_list = node.get("attributes") if isinstance(node, dict) else None
-        if not isinstance(raw_list, list):
-            return []
-        pairs: list[tuple[str, str]] = []
-        for item in raw_list:
-            if not (isinstance(item, (list, tuple)) and len(item) == 2):
-                continue
-            label, value = item
-            label_text = _to_str(label)
-            if label_text:
-                pairs.append((label_text, _to_str(value)))
-        return pairs
-
-    @staticmethod
     def _parse_account_summary(node: RawMapping) -> AccountSummary:
         """Parses ``credit_report.account_summary``."""
         return AccountSummary(
@@ -1567,12 +1226,6 @@ class CrifParser:
             ),
             secondary=CrifParser._parse_accounts_summary_block(
                 node.get("secondary_accounts_summary") or {}, "secondary_"
-            ),
-            mfi_group_summary=CrifParser._parse_attribute_pairs(
-                node.get("mfi_group_summary") or {}
-            ),
-            additional_summary=CrifParser._parse_attribute_pairs(
-                node.get("additional_summary") or {}
             ),
         )
 
@@ -1637,47 +1290,13 @@ class CrifParser:
     # -- 6. Employment Details ------------------------------------------------
 
     @staticmethod
-    def _parse_single_employment_detail(node: RawMapping) -> EmploymentDetail:
-        """Parses one ``credit_report.employment_details`` list entry."""
-        return EmploymentDetail(
+    def _parse_employment_details(node: RawMapping) -> EmploymentDetails:
+        """Parses ``credit_report.employment_details``."""
+        return EmploymentDetails(
             acct_type=_to_str(node.get("acct_type")),
+            date_reported=_parse_date(node.get("date_reported")),
             occupation=_to_str(node.get("occupation")),
-            first_reported=_parse_date(_first_present(node, "first_reported", "date_reported")),
-            last_reported=_parse_date(_first_present(node, "last_reported", "date_reported")),
-            source_indicator=_to_str(node.get("source_indicator")),
         )
-
-    @staticmethod
-    def _parse_employment_details(raw: Any) -> list[EmploymentDetail]:
-        """
-        Parses ``credit_report.employment_details``.
-
-        Accepts either a list of records (the current B2C shape -- CRIF
-        reports one entry per contributing institution/period, commonly
-        more than one) or a single flat dict (the legacy flat shape,
-        which only ever reported one), for resilience against either
-        payload shape. A record with no populated field at all is
-        skipped rather than rendered as an empty row.
-        """
-        if isinstance(raw, dict):
-            raw = [raw]
-        if not isinstance(raw, list):
-            return []
-
-        records: list[EmploymentDetail] = []
-        for item in raw:
-            if not isinstance(item, dict):
-                continue
-            record = CrifParser._parse_single_employment_detail(item)
-            if (
-                record.acct_type
-                or record.occupation
-                or record.first_reported
-                or record.last_reported
-                or record.source_indicator
-            ):
-                records.append(record)
-        return records
 
     # -- 7. Loan Accounts (+ 8. Payment History, 9. Security Details) -------
 
@@ -1722,44 +1341,6 @@ class CrifParser:
                 )
             )
         return entries
-
-    @staticmethod
-    def _parse_numeric_history(raw: Any) -> list[HistoryPoint]:
-        """
-        Parses an account's ``high_credit_history`` /
-        ``current_balance_history`` / ``amt_paid_history`` micro-format
-        (the same ``"Mon:YYYY,<value>"`` token shape as
-        ``combined_payment_history``, but carrying a plain amount instead
-        of a DPD/classification code) into structured entries.
-
-        A token with a blank value (CRIF reports these when it has no
-        figure for that month, e.g. an entirely-unreported
-        ``amt_paid_history``) still yields a :class:`HistoryPoint`, with
-        ``value=None`` -- callers render that as an empty cell for the
-        month rather than dropping the month's position from the series.
-        """
-        if not raw or not isinstance(raw, str):
-            return []
-
-        points: list[HistoryPoint] = []
-        for token in _split_pipe(raw):
-            try:
-                period_part, value_part = token.split(",", 1)
-                month_abbr, year_str = period_part.split(":", 1)
-            except ValueError:
-                logger.warning("Skipping malformed numeric history token: %r", token)
-                continue
-
-            month_num = MONTH_ABBR_TO_NUM.get(month_abbr.strip().lower())
-            year = _to_int(year_str)
-            if month_num is None or year is None:
-                logger.warning(
-                    "Skipping numeric history token with unrecognized month/year: %r", token
-                )
-                continue
-
-            points.append(HistoryPoint(month=month_num, year=year, value=_to_decimal(value_part)))
-        return points
 
     @staticmethod
     def _parse_single_security_detail(node: RawMapping) -> SecurityDetail:
@@ -1865,11 +1446,6 @@ class CrifParser:
             income_frequency=_to_str(raw.get("income_frequency")),
             income_amount=_to_decimal(raw.get("income_amount")),
             payment_history=CrifParser._parse_payment_history(raw.get("combined_payment_history")),
-            high_credit_history=CrifParser._parse_numeric_history(raw.get("high_credit_history")),
-            current_balance_history=CrifParser._parse_numeric_history(
-                raw.get("current_balance_history")
-            ),
-            amt_paid_history=CrifParser._parse_numeric_history(raw.get("amt_paid_history")),
             security_details=CrifParser._parse_security_details(raw.get("security_details")),
         )
 
@@ -1972,7 +1548,7 @@ class CrifParser:
         return inquiries
 
 
-def parse_credit_report(raw_json: RawMapping | None,manual_dob: str | None = None,) -> CreditReport:
+def parse_credit_report(raw_json: RawMapping | None) -> CreditReport:
     """
     Convenience wrapper around ``CrifParser().parse(raw_json)``.
 
@@ -1989,4 +1565,4 @@ def parse_credit_report(raw_json: RawMapping | None,manual_dob: str | None = Non
     Raises:
         ValueError: See :meth:`CrifParser.parse`.
     """
-    return CrifParser().parse(raw_json,manual_dob=manual_dob)
+    return CrifParser().parse(raw_json)

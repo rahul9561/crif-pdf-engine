@@ -291,18 +291,26 @@ def test_score_trend_length_mismatch_does_not_raise(bad_dates_node):
 class TestParseB2CReportSample:
     def test_customer_identity_populated(self, parsed_b2c_report: CreditReport):
         identity = parsed_b2c_report.customer_identity
-        assert identity.name == "SONIYA DEVI"
-        assert identity.dob == date(1969, 5, 30)
+        assert identity.name == "JYOTI THAKUR"
+        assert identity.gender == "Male"
+
+    def test_header_populated(self, parsed_b2c_report: CreditReport):
+        header = parsed_b2c_report.header
+        assert header.status == "SUCCESS"
+        assert header.product_type == "BBC CONSUMER SCORE"
+        assert header.date_of_issue == date(2026, 9, 18)
 
     def test_score_populated(self, parsed_b2c_report: CreditReport):
         score = parsed_b2c_report.score
         assert score.score_type == "PERFORM CONSUMER 2.2"
-        assert score.score_value == 510
+        assert score.score_value == 794
+        assert score.score_description == "B"
+        assert score.score_factors
 
     def test_accounts_parsed(self, parsed_b2c_report: CreditReport):
         accounts = parsed_b2c_report.accounts
-        assert len(accounts) == 9
-        assert any(a.credit_guarantor == "MIDLAND MICROFIN LTD" for a in accounts)
+        assert len(accounts) == 2
+        assert all(a.credit_guarantor == "HDFC BANK LTD" for a in accounts)
         for account in accounts:
             assert isinstance(account, LoanAccount)
 
@@ -313,23 +321,41 @@ class TestParseB2CReportSample:
             assert isinstance(entry, PaymentHistoryEntry)
             assert 1 <= entry.month <= 12
 
+    def test_account_numeric_history_populated(self, parsed_b2c_report: CreditReport):
+        first_account = parsed_b2c_report.accounts[0]
+        assert first_account.high_credit_history
+        assert first_account.current_balance_history
+        assert any(point.value is not None for point in first_account.current_balance_history)
+
     def test_inquiries_parsed(self, parsed_b2c_report: CreditReport):
-        inquiries = parsed_b2c_report.inquiries
-        assert len(inquiries) == 3
-        for inquiry in inquiries:
-            assert isinstance(inquiry, InquiryRecord)
-        assert any(i.credit_grantor == "FUSION" for i in inquiries)
+        # The current sample's INQUIRY-HISTORY is empty.
+        assert parsed_b2c_report.inquiries == []
 
     def test_account_summary_matches_source_payload(self, parsed_b2c_report: CreditReport):
         primary = parsed_b2c_report.account_summary.primary
-        assert primary.number_of_accounts == 9
-        assert primary.active_number_of_accounts == 5
-        assert primary.overdue_number_of_accounts == 6
-        assert primary.total_amt_overdue == Decimal("95316")
+        assert primary.number_of_accounts == 2
+        assert primary.active_number_of_accounts == 1
+        assert primary.overdue_number_of_accounts == 0
 
     def test_derived_attributes_matches_source_payload(self, parsed_b2c_report: CreditReport):
         derived = parsed_b2c_report.account_summary.derived_attributes
-        assert derived.total_unsecured_outstanding == Decimal("89761")
+        assert derived.length_of_credit_history_year == 6
+
+    def test_mfi_group_and_additional_summary_populated(self, parsed_b2c_report: CreditReport):
+        summary = parsed_b2c_report.account_summary
+        assert summary.mfi_group_summary
+        assert summary.additional_summary
+        assert ("Num Grantors", "1") in summary.additional_summary
 
     def test_score_trend_populated(self, parsed_b2c_report: CreditReport):
-        assert len(parsed_b2c_report.score_trend.points) == 12
+        points = parsed_b2c_report.score_trend.points
+        assert len(points) == 12
+        assert points[0].value == 794
+        assert points[-1].value == 747
+
+    def test_employment_details_populated(self, parsed_b2c_report: CreditReport):
+        records = parsed_b2c_report.employment_details
+        assert len(records) == 2
+        assert all(record.occupation == "SALARIED" for record in records)
+        assert records[0].first_reported is not None
+        assert records[0].last_reported is not None

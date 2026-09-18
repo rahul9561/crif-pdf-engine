@@ -1,0 +1,1857 @@
+{
+     "status": { "code": 200, "type": "success", "message": "success" },
+  "message": "success",
+  "data": {
+    "result_json": {
+      "parsed_data": {
+        "B2C-REPORT": {
+          "REPORT-DATA": {
+            "ALERTS": [],
+            "TRENDS": {
+              "NAME": "SCORE-HISTORY",
+              "DATES": "31-03-2026|31-12-2025|30-09-2025|30-06-2025|31-03-2025|31-12-2024|30-09-2024|30-06-2024|31-03-2024|31-12-2023|30-09-2023|30-06-2023",
+              "VALUES": "608|510|538|593|698|713|719|719|745|745|15|",
+              "RESERVED1": "PERFORM CONSUMER V2.2",
+              "RESERVED2": "",
+              "RESERVED3": "",
+              "DESCRIPTION": "||||||||||Not Scored: Sufficient History Not Available|No Hit"
+            },
+            "STANDARD-DATA": {
+              "SCORE": [
+                {
+                  "NAME": "PERFORM CONSUMER 2.2",
+                  "VALUE": "510",
+                  "FACTORS": [
+                    {
+                      "DESC": "Very recent delinquency observed",
+                      "TYPE": "SF02"
+                    },
+                    {
+                      "DESC": "Delinquency observed in recent past",
+                      "TYPE": "SF04"
+                    },
+                    {
+                      "DESC": "Delinquency observed in the past",
+                      "TYPE": "SF06"
+                    }
+                  ],
+                  "VERSION": "",
+                  "DESCRIPTION": "M"
+                }
+              ],
+              "DEMOGS": {
+                "VARIATIONS": [
+                  {
+                    "TYPE": "ADDRESS-VARIATIONS",
+                    "VARIATION": [
+                      {
+                        "VALUE": "CO DRMENDR,  177,  NEAR HANUMAN MANDIR,  SAHARANPUR,  BEHAT ROAD,  247001 247001 UP ",
+                        "REPORTED-DT": "16-08-2026",
+                        "LOAN-TYPE-ASSOC": "MFI Loan",
+                        "SOURCE-INDICATOR": "MFI",
+                        "FIRST-REPORTED-DT": "15-07-2024"
+                      },
+                      {
+                        "VALUE": "H NO 177 HANUMAN NAGAR BEHAT ROAD NEAR MANDIR SAHARANPUR 247001 UP ",
+                        "REPORTED-DT": "15-08-2025",
+                        "LOAN-TYPE-ASSOC": "Business Loan General",
+                        "SOURCE-INDICATOR": "NBF",
+                        "FIRST-REPORTED-DT": "11-03-2025"
+                      },
+                      {
+                        "VALUE": "SAHARANPUR 19384MOHIT VIHAR 58SAHARANPUR0000000000 247001 UP ",
+                        "REPORTED-DT": "28-07-2026",
+                        "LOAN-TYPE-ASSOC": "MFI Loan",
+                        "SOURCE-INDICATOR": "MFI",
+                        "FIRST-REPORTED-DT": "16-12-2024"
+                      },
+                      {
+                        "VALUE": "HANUMAN NAGAR 247001 UP ",
+                        "REPORTED-DT": "31-05-2024",
+                        "LOAN-TYPE-ASSOC": "MFI Loan",
+                        "SOURCE-INDICATOR": "MFI",
+                        "FIRST-REPORTED-DT": "09-05-2024"
+                      },
+                      {
+                        "VALUE": "C/O AYUSH 177 BEHAT ROAD HANUMAN NAGAR NEAR HANUMAN MANDIR SAHARANPUR SAHARANPUR UTTAR PRADE NEAR HANUMAN MANDIR UTTAR PRADESH 247001 247001 UP ",
+                        "REPORTED-DT": "31-07-2026",
+                        "LOAN-TYPE-ASSOC": "Consumer Loan",
+                        "SOURCE-INDICATOR": "NBF",
+                        "FIRST-REPORTED-DT": "14-11-2024"
+                      },
+                      {
+                        "VALUE": "177,  NEAR HANUMAN MANDIR,  SAHARANPUR,  BEHAT ROAD,  247001 247001 UP ",
+                        "REPORTED-DT": "16-08-2026",
+                        "LOAN-TYPE-ASSOC": "MFI Loan",
+                        "SOURCE-INDICATOR": "MFI",
+                        "FIRST-REPORTED-DT": "15-07-2024"
+                      },
+                      {
+                        "VALUE": "177 BEHAT ROAD HANUMAN NAGAR SAHARANPUR SAHARANPUR UTTAR PRADESH 247001 247001 UP ",
+                        "REPORTED-DT": "16-08-2026",
+                        "LOAN-TYPE-ASSOC": "Personal Loan",
+                        "SOURCE-INDICATOR": "NBF",
+                        "FIRST-REPORTED-DT": "27-03-2025"
+                      },
+                      {
+                        "VALUE": "BEHAT ROAD, NEAR HANUMAN MANDIR,  SAHARANPUR 247001 UP ",
+                        "REPORTED-DT": "21-12-2025",
+                        "LOAN-TYPE-ASSOC": "MFI Loan",
+                        "SOURCE-INDICATOR": "MFI",
+                        "FIRST-REPORTED-DT": "10-07-2025"
+                      },
+                      {
+                        "VALUE": "SAHARANPUR 19384-MOHIT VIHAR 58-SAHARANPUR UP 247001 247001 UP ",
+                        "REPORTED-DT": "23-08-2026",
+                        "LOAN-TYPE-ASSOC": "MFI Loan",
+                        "SOURCE-INDICATOR": "MFI",
+                        "FIRST-REPORTED-DT": "30-07-2026"
+                      },
+                      {
+                        "VALUE": "H NO 177, HANUMAN NAGAR BEHAT ROAD, SAHARANPUR, NEAR HANUMAN MANDIR-247001 247001 UP ",
+                        "REPORTED-DT": "31-03-2026",
+                        "LOAN-TYPE-ASSOC": "Business Loan Priority Sector  Small Business",
+                        "SOURCE-INDICATOR": "NBF",
+                        "FIRST-REPORTED-DT": "28-05-2025"
+                      },
+                      {
+                        "VALUE": "HANUMAN NAGAR , HANUMAN NAGAR , PUNWARKA , SAHARANPUR 247001 UP ",
+                        "REPORTED-DT": "30-11-2025",
+                        "LOAN-TYPE-ASSOC": "MFI Loan",
+                        "SOURCE-INDICATOR": "MFI",
+                        "FIRST-REPORTED-DT": "29-07-2023"
+                      },
+                      {
+                        "VALUE": "177 BEHAT ROAD NEAR HANUMAN NAGAR SAHARANPUR, BEHAT ROAD HANUMAN NAGARSAHARANPUR SAHARANPUR,  247001 UP ",
+                        "REPORTED-DT": "22-08-2026",
+                        "LOAN-TYPE-ASSOC": "MFI Loan",
+                        "SOURCE-INDICATOR": "SFB",
+                        "FIRST-REPORTED-DT": "21-08-2024"
+                      },
+                      {
+                        "VALUE": "177 BEHAT ROAD NEAR HANUMAN MANDIR,  HANUMAN NAGAR SAHARANPUR SAHARANPUR,  ,  ,  SAHARANPUR 247001 UP ",
+                        "REPORTED-DT": "30-06-2025",
+                        "LOAN-TYPE-ASSOC": "MFI Loan",
+                        "SOURCE-INDICATOR": "PRB",
+                        "FIRST-REPORTED-DT": "18-06-2024"
+                      },
+                      {
+                        "VALUE": "SAHARANPUR MOHIT VIHAR SAHARANPUR 247001 UP ",
+                        "REPORTED-DT": "15-06-2026",
+                        "LOAN-TYPE-ASSOC": "MFI Loan",
+                        "SOURCE-INDICATOR": "MFI",
+                        "FIRST-REPORTED-DT": "07-11-2024"
+                      }
+                    ]
+                  },
+                  {
+                    "TYPE": "VOTERID-VARIATIONS",
+                    "VARIATION": [
+                      {
+                        "VALUE": "NTA3849676",
+                        "REPORTED-DT": "23-08-2026",
+                        "LOAN-TYPE-ASSOC": "MFI Loan,Business Loan General",
+                        "SOURCE-INDICATOR": "MFI,NBF",
+                        "FIRST-REPORTED-DT": "11-03-2025"
+                      }
+                    ]
+                  },
+                  {
+                    "TYPE": "NAME-VARIATIONS",
+                    "VARIATION": [
+                      {
+                        "VALUE": "AKANKSHA VERMA",
+                        "REPORTED-DT": "23-08-2026",
+                        "LOAN-TYPE-ASSOC": "MFI Loan,Personal Loan,Business Loan Priority Sector  Small Business,Consumer Loan",
+                        "SOURCE-INDICATOR": "MFI,NBF,NBF,NBF",
+                        "FIRST-REPORTED-DT": "19-06-2024"
+                      }
+                    ]
+                  },
+                  {
+                    "TYPE": "EMAIL-VARIATIONS",
+                    "VARIATION": [
+                      {
+                        "VALUE": "aayushverma2344@gmail.com",
+                        "REPORTED-DT": "16-08-2026",
+                        "LOAN-TYPE-ASSOC": "Personal Loan",
+                        "SOURCE-INDICATOR": "NBF",
+                        "FIRST-REPORTED-DT": "27-03-2025"
+                      }
+                    ]
+                  },
+                  {
+                    "TYPE": "PHONE-VARIATIONS",
+                    "VARIATION": [
+                      {
+                        "VALUE": "9027993115",
+                        "REPORTED-DT": "16-08-2026",
+                        "LOAN-TYPE-ASSOC": "Personal Loan",
+                        "SOURCE-INDICATOR": "NBF",
+                        "FIRST-REPORTED-DT": "27-03-2025"
+                      },
+                      {
+                        "VALUE": "9259723149",
+                        "REPORTED-DT": "31-03-2026",
+                        "LOAN-TYPE-ASSOC": "Business Loan Priority Sector  Small Business",
+                        "SOURCE-INDICATOR": "NBF",
+                        "FIRST-REPORTED-DT": "28-05-2025"
+                      },
+                      {
+                        "VALUE": "9313541935",
+                        "REPORTED-DT": "16-08-2026",
+                        "LOAN-TYPE-ASSOC": "MFI Loan",
+                        "SOURCE-INDICATOR": "MFI",
+                        "FIRST-REPORTED-DT": "15-07-2024"
+                      }
+                    ]
+                  },
+                  {
+                    "TYPE": "PAN-VARIATIONS",
+                    "VARIATION": [
+                      {
+                        "VALUE": "CUVPV9356F",
+                        "REPORTED-DT": "16-08-2026",
+                        "LOAN-TYPE-ASSOC": "Personal Loan",
+                        "SOURCE-INDICATOR": "NBF",
+                        "FIRST-REPORTED-DT": "27-03-2025"
+                      }
+                    ]
+                  },
+                  {
+                    "TYPE": "DOB-VARIATIONS",
+                    "VARIATION": [
+                      {
+                        "VALUE": "01-01-1999",
+                        "REPORTED-DT": "15-08-2025",
+                        "LOAN-TYPE-ASSOC": "Business Loan General",
+                        "SOURCE-INDICATOR": "NBF",
+                        "FIRST-REPORTED-DT": "11-03-2025"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "TRADELINES": [
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|Jan:2025|Dec:2024|Nov:2024|Oct:2024|Sep:2024|Aug:2024|Jul:2024|Jun:2024|",
+                      "VALUES": "321/XXX|305/XXX|274/XXX|244/XXX|213/XXX|183/XXX|152/XXX|124/XXX|093/XXX|062/XXX|032/XXX|001/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "|",
+                      "VALUES": "|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|",
+                      "VALUES": "23,909|23,909|23,909|23,909|23,909|23,909|23,909|23,909|23,909|24,587|24,587|24,587|"
+                    },
+                    { "NAME": "AMT-PAID-HISTORY", "DATES": "|", "VALUES": "|" }
+                  ],
+                  "ACCT-TYPE": "JLG Individual",
+                  "CLOSED-DT": "",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "1698UNSL008449~1",
+                  "CURRENT-BAL": "23,909",
+                  "OVERDUE-AMT": "26,345",
+                  "REPORTED-DT": "16-08-2026",
+                  "CREDIT-LIMIT": "50,000",
+                  "DISBURSED-DT": "12-06-2024",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "50,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Active",
+                  "ACTUAL-PAYMENT": "",
+                  "CREDIT-GRANTOR": "ASIRVAD MICROFINANCE LIMITED",
+                  "OWNERSHIP-TYPE": "Primary",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "2,510/Monthly",
+                  "LAST-PAYMENT-DT": "20-12-2025",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Tagged",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "",
+                  "REPAYMENT-TENURE": "26",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "MFI",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "F03",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|Jan:2025|Dec:2024|Nov:2024|Oct:2024|Sep:2024|Aug:2024|",
+                      "VALUES": "321/XXX|305/XXX|274/XXX|244/XXX|213/XXX|183/XXX|152/XXX|124/XXX|093/XXX|062/XXX|032/XXX|001/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "|",
+                      "VALUES": "|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|",
+                      "VALUES": "2,716|2,716|2,716|2,716|2,716|2,716|2,716|2,716|2,716|2,716|2,716|2,716|"
+                    },
+                    { "NAME": "AMT-PAID-HISTORY", "DATES": "|", "VALUES": "|" }
+                  ],
+                  "ACCT-TYPE": "JLG Individual",
+                  "CLOSED-DT": "",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "1698PDLM008679~1",
+                  "CURRENT-BAL": "2,716",
+                  "OVERDUE-AMT": "3,031",
+                  "REPORTED-DT": "16-08-2026",
+                  "CREDIT-LIMIT": "5,156",
+                  "DISBURSED-DT": "10-08-2024",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "5,156",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Active",
+                  "ACTUAL-PAYMENT": "",
+                  "CREDIT-GRANTOR": "ASIRVAD MICROFINANCE LIMITED",
+                  "OWNERSHIP-TYPE": "Primary",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "270/Monthly",
+                  "LAST-PAYMENT-DT": "10-09-2025",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Tagged",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "",
+                  "REPAYMENT-TENURE": "24",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "MFI",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "F03",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|",
+                      "VALUES": "490/XXX|475/XXX|444/XXX|414/XXX|383/XXX|353/XXX|322/XXX|294/XXX|263/XXX|232/XXX|201/XXX|170/XXX|141/XXX|110/XXX|079/XXX|049/XXX|018/XXX|000/XXX|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|",
+                      "VALUES": "4,000|4,000|4,000|4,000|4,000|4,000|4,000|4,000|4,000|4,000|4,000|4,000|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|",
+                      "VALUES": "4,000|4,000|4,000|4,000|4,000|4,000|4,000|8,402|8,181|7,911|7,562|7,222|"
+                    },
+                    {
+                      "NAME": "AMT-PAID-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|",
+                      "VALUES": "||||||||||||"
+                    }
+                  ],
+                  "ACCT-TYPE": "Short Term Personal Loan",
+                  "CLOSED-DT": "",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "MKV23356704ID175163604",
+                  "CURRENT-BAL": "4,000",
+                  "OVERDUE-AMT": "8,896",
+                  "REPORTED-DT": "16-08-2026",
+                  "CREDIT-LIMIT": "",
+                  "DISBURSED-DT": "17-03-2025",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "4,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "8,896",
+                  "ACCOUNT-STATUS": "Active",
+                  "ACTUAL-PAYMENT": "",
+                  "CREDIT-GRANTOR": "MPOKKET FINANCIAL SERVICES",
+                  "OWNERSHIP-TYPE": "Individual",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "",
+                  "LAST-PAYMENT-DT": "",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Secured",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "",
+                  "REPAYMENT-TENURE": "6",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "NBF",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "Monthly",
+                  "PRINCIPAL-WRITE-OFF-AMT": "4,000",
+                  "WRITTEN-OFF-SETTLED-STATUS": "Written-off",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Feb:2025|Jan:2025|",
+                      "VALUES": "000/XXX|XXX/STD|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "Feb:2025|Jan:2025|",
+                      "VALUES": "1,000|1,000|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Feb:2025|Jan:2025|",
+                      "VALUES": "0|1,112|"
+                    },
+                    {
+                      "NAME": "AMT-PAID-HISTORY",
+                      "DATES": "Feb:2025|Jan:2025|",
+                      "VALUES": "1,092||"
+                    }
+                  ],
+                  "ACCT-TYPE": "Short Term Personal Loan",
+                  "CLOSED-DT": "08-02-2025",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "MKVB1006790ID162763894",
+                  "CURRENT-BAL": "0",
+                  "OVERDUE-AMT": "0",
+                  "REPORTED-DT": "28-02-2025",
+                  "CREDIT-LIMIT": "",
+                  "DISBURSED-DT": "09-01-2025",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "1,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Closed",
+                  "ACTUAL-PAYMENT": "1,092",
+                  "CREDIT-GRANTOR": "MPOKKET FINANCIAL SERVICES",
+                  "OWNERSHIP-TYPE": "Individual",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "",
+                  "LAST-PAYMENT-DT": "08-02-2025",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Secured",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "1,092",
+                  "REPAYMENT-TENURE": "6",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "NBF",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "Monthly",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Feb:2025|Jan:2025|",
+                      "VALUES": "000/XXX|XXX/STD|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "Feb:2025|Jan:2025|",
+                      "VALUES": "1,000|1,000|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Feb:2025|Jan:2025|",
+                      "VALUES": "0|1,112|"
+                    },
+                    {
+                      "NAME": "AMT-PAID-HISTORY",
+                      "DATES": "Feb:2025|Jan:2025|",
+                      "VALUES": "1,092||"
+                    }
+                  ],
+                  "ACCT-TYPE": "Short Term Personal Loan",
+                  "CLOSED-DT": "08-02-2025",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "MKVF1496740ID162967615",
+                  "CURRENT-BAL": "0",
+                  "OVERDUE-AMT": "0",
+                  "REPORTED-DT": "28-02-2025",
+                  "CREDIT-LIMIT": "",
+                  "DISBURSED-DT": "10-01-2025",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "1,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Closed",
+                  "ACTUAL-PAYMENT": "1,092",
+                  "CREDIT-GRANTOR": "MPOKKET FINANCIAL SERVICES",
+                  "OWNERSHIP-TYPE": "Individual",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "",
+                  "LAST-PAYMENT-DT": "08-02-2025",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Secured",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "1,092",
+                  "REPAYMENT-TENURE": "6",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "NBF",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "Monthly",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|Jan:2025|Dec:2024|Nov:2024|Oct:2024|Sep:2024|Aug:2024|",
+                      "VALUES": "016/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "|",
+                      "VALUES": "|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|",
+                      "VALUES": "5,168|5,054|7,549|10,000|12,353|14,718|17,042|19,325|21,472|23,676|25,727|27,856|"
+                    },
+                    { "NAME": "AMT-PAID-HISTORY", "DATES": "|", "VALUES": "|" }
+                  ],
+                  "ACCT-TYPE": "JLG Individual",
+                  "CLOSED-DT": "",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "2234852000039951",
+                  "CURRENT-BAL": "5,168",
+                  "OVERDUE-AMT": "2,631",
+                  "REPORTED-DT": "22-08-2026",
+                  "CREDIT-LIMIT": "50,000",
+                  "DISBURSED-DT": "13-08-2024",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "50,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Active",
+                  "ACTUAL-PAYMENT": "",
+                  "CREDIT-GRANTOR": "UJJIVAN SMALL FINANCE BANK LTD",
+                  "OWNERSHIP-TYPE": "Primary",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "2,631/Monthly",
+                  "LAST-PAYMENT-DT": "30-07-2026",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Tagged",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "",
+                  "REPAYMENT-TENURE": "24",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "SFB",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "F03",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Mar:2025|Feb:2025|",
+                      "VALUES": "000/XXX|XXX/STD|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "Mar:2025|Feb:2025|",
+                      "VALUES": "2,000|2,000|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Mar:2025|Feb:2025|",
+                      "VALUES": "0|2,224|"
+                    },
+                    {
+                      "NAME": "AMT-PAID-HISTORY",
+                      "DATES": "Mar:2025|Feb:2025|",
+                      "VALUES": "2,362||"
+                    }
+                  ],
+                  "ACCT-TYPE": "Short Term Personal Loan",
+                  "CLOSED-DT": "15-03-2025",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "MKV5D4E67F4ID168126167",
+                  "CURRENT-BAL": "0",
+                  "OVERDUE-AMT": "0",
+                  "REPORTED-DT": "31-03-2025",
+                  "CREDIT-LIMIT": "",
+                  "DISBURSED-DT": "08-02-2025",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "2,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Closed",
+                  "ACTUAL-PAYMENT": "2,362",
+                  "CREDIT-GRANTOR": "MPOKKET FINANCIAL SERVICES",
+                  "OWNERSHIP-TYPE": "Individual",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "",
+                  "LAST-PAYMENT-DT": "15-03-2025",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Secured",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "2,362",
+                  "REPAYMENT-TENURE": "6",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "NBF",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "Monthly",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "May:2025|Apr:2025|Mar:2025|Feb:2025|Jan:2025|Dec:2024|Nov:2024|Oct:2024|Sep:2024|Aug:2024|Jul:2024|Jun:2024|May:2024|",
+                      "VALUES": "000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "May:2025|Apr:2025|",
+                      "VALUES": "||"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "May:2025|Apr:2025|Mar:2025|Feb:2025|Jan:2025|Dec:2024|Nov:2024|Oct:2024|Sep:2024|Aug:2024|Jul:2024|Jun:2024|",
+                      "VALUES": "0|932|4,342|6,986|8,961|12,143|14,051|16,557|18,937|21,358|23,737|25,967|"
+                    },
+                    {
+                      "NAME": "AMT-PAID-HISTORY",
+                      "DATES": "May:2025|Apr:2025|",
+                      "VALUES": "||"
+                    }
+                  ],
+                  "ACCT-TYPE": "JLG Individual",
+                  "CLOSED-DT": "14-05-2025",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "90001203180517",
+                  "CURRENT-BAL": "0",
+                  "OVERDUE-AMT": "0",
+                  "REPORTED-DT": "30-06-2025",
+                  "CREDIT-LIMIT": "30,000",
+                  "DISBURSED-DT": "10-05-2024",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "30,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Closed",
+                  "ACTUAL-PAYMENT": "",
+                  "CREDIT-GRANTOR": "BANDHAN BANK LIMITED",
+                  "OWNERSHIP-TYPE": "Primary",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "695/Other",
+                  "LAST-PAYMENT-DT": "08-05-2025",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Tagged",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "",
+                  "REPAYMENT-TENURE": "48",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "PRB",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "F10",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|",
+                      "VALUES": "000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|030/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|",
+                      "VALUES": "40,000|40,000|40,000|40,000|40,000|40,000|40,000|40,000|40,000|40,000|40,000|40,000|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|",
+                      "VALUES": "0|0|0|1,185|514|24,779|26,882|28,924|28,924|8,105|9,976|8,756|"
+                    },
+                    {
+                      "NAME": "AMT-PAID-HISTORY",
+                      "DATES": "Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|",
+                      "VALUES": "||||||||||||"
+                    }
+                  ],
+                  "ACCT-TYPE": "Business Loan Priority Sector  Small Business",
+                  "CLOSED-DT": "",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "073-ME-25-080880",
+                  "CURRENT-BAL": "0",
+                  "OVERDUE-AMT": "0",
+                  "REPORTED-DT": "31-03-2026",
+                  "CREDIT-LIMIT": "",
+                  "DISBURSED-DT": "19-02-2025",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "40,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Active",
+                  "ACTUAL-PAYMENT": "",
+                  "CREDIT-GRANTOR": "UP MONEY LIMITED",
+                  "OWNERSHIP-TYPE": "Individual",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "2,900/null",
+                  "LAST-PAYMENT-DT": "",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Secured",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "",
+                  "REPAYMENT-TENURE": "18",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "NBF",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|Jan:2025|Dec:2024|Nov:2024|Oct:2024|Sep:2024|Aug:2024|Jul:2024|",
+                      "VALUES": "000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "Jul:2025|Jun:2025|",
+                      "VALUES": "||"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|Jan:2025|Dec:2024|Nov:2024|Oct:2024|Sep:2024|Aug:2024|",
+                      "VALUES": "0|1,221|1,299|2,358|3,398|4,421|5,427|6,415|7,387|8,341|10,202|11,109|"
+                    },
+                    {
+                      "NAME": "AMT-PAID-HISTORY",
+                      "DATES": "Jul:2025|Jun:2025|",
+                      "VALUES": "||"
+                    }
+                  ],
+                  "ACCT-TYPE": "Individual",
+                  "CLOSED-DT": "10-07-2025",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "7994097549",
+                  "CURRENT-BAL": "0",
+                  "OVERDUE-AMT": "0",
+                  "REPORTED-DT": "30-09-2025",
+                  "CREDIT-LIMIT": "12,000",
+                  "DISBURSED-DT": "02-07-2024",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "12,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Closed",
+                  "ACTUAL-PAYMENT": "",
+                  "CREDIT-GRANTOR": "FUSION",
+                  "OWNERSHIP-TYPE": "Primary",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "1,100/Monthly",
+                  "LAST-PAYMENT-DT": "10-07-2025",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Tagged",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "",
+                  "REPAYMENT-TENURE": "13",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "MFI",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "F03",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|Jan:2025|Dec:2024|Nov:2024|Oct:2024|Sep:2024|Aug:2024|Jul:2024|Jun:2024|May:2024|Apr:2024|Mar:2024|Feb:2024|Jan:2024|Dec:2023|Nov:2023|Oct:2023|Sep:2023|Aug:2023|Jul:2023|",
+                      "VALUES": "000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "Sep:2025|Aug:2025|",
+                      "VALUES": "||"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|Jan:2025|Dec:2024|Nov:2024|Oct:2024|",
+                      "VALUES": "0|1,166|3,012|4,805|6,568|8,319|10,041|11,732|13,395|15,028|16,632|18,209|"
+                    },
+                    {
+                      "NAME": "AMT-PAID-HISTORY",
+                      "DATES": "Sep:2025|Aug:2025|",
+                      "VALUES": "||"
+                    }
+                  ],
+                  "ACCT-TYPE": "JLG Individual",
+                  "CLOSED-DT": "02-09-2025",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "8942075622",
+                  "CURRENT-BAL": "0",
+                  "OVERDUE-AMT": "0",
+                  "REPORTED-DT": "30-11-2025",
+                  "CREDIT-LIMIT": "40,000",
+                  "DISBURSED-DT": "26-07-2023",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "40,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Closed",
+                  "ACTUAL-PAYMENT": "",
+                  "CREDIT-GRANTOR": "FUSION",
+                  "OWNERSHIP-TYPE": "Primary",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "1,900/Monthly",
+                  "LAST-PAYMENT-DT": "02-09-2025",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Tagged",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "",
+                  "REPAYMENT-TENURE": "27",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "MFI",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "F03",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|Jan:2025|Dec:2024|Nov:2024|",
+                      "VALUES": "000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|",
+                      "VALUES": "31,999|31,999|31,999|31,999|31,999|31,999|31,999|31,999|31,999|31,999|40,000|40,000|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|",
+                      "VALUES": "0|0|0|0|0|0|0|0|0|2,662|5,329|7,996|"
+                    },
+                    {
+                      "NAME": "AMT-PAID-HISTORY",
+                      "DATES": "Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|",
+                      "VALUES": "2,662|2,662|2,662|2,662|2,662||||||||"
+                    }
+                  ],
+                  "ACCT-TYPE": "Consumer Loan",
+                  "CLOSED-DT": "",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "Self Employed ",
+                  "ACCT-NUMBER": "4E8SCEMD985985",
+                  "CURRENT-BAL": "0",
+                  "OVERDUE-AMT": "0",
+                  "REPORTED-DT": "31-07-2026",
+                  "CREDIT-LIMIT": "",
+                  "DISBURSED-DT": "07-11-2024",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "31,999",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Active",
+                  "ACTUAL-PAYMENT": "2,662",
+                  "CREDIT-GRANTOR": "BAJAJ FINANCE LIMITED",
+                  "OWNERSHIP-TYPE": "Individual",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "2,667/Monthly",
+                  "LAST-PAYMENT-DT": "29-11-2025",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Secured",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "2,662",
+                  "REPAYMENT-TENURE": "12",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "No Collateral",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "0",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "NBF",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "Monthly",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|Jan:2025|Dec:2024|Nov:2024|Oct:2024|",
+                      "VALUES": "111/XXX|088/XXX|087/XXX|089/XXX|058/XXX|028/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|000/XXX|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "|",
+                      "VALUES": "|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|",
+                      "VALUES": "14,324|5,859|16,190|17,430|17,430|17,430|18,013|19,795|21,537|23,240|24,904|26,530|"
+                    },
+                    { "NAME": "AMT-PAID-HISTORY", "DATES": "|", "VALUES": "|" }
+                  ],
+                  "ACCT-TYPE": "JLG Individual",
+                  "CLOSED-DT": "",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "22147357",
+                  "CURRENT-BAL": "14,324",
+                  "OVERDUE-AMT": "15,680",
+                  "REPORTED-DT": "23-08-2026",
+                  "CREDIT-LIMIT": "40,000",
+                  "DISBURSED-DT": "22-10-2024",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "40,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Active",
+                  "ACTUAL-PAYMENT": "",
+                  "CREDIT-GRANTOR": "NAMRA FINANCE LIMITED",
+                  "OWNERSHIP-TYPE": "Primary",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "2,240/Monthly",
+                  "LAST-PAYMENT-DT": "15-07-2026",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Tagged",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "",
+                  "REPAYMENT-TENURE": "24",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "MFI",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "F03",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|",
+                      "VALUES": "000/STD|000/STD|000/STD|000/STD|000/STD|000/STD|000/STD|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|",
+                      "VALUES": "32,000|32,000|32,000|32,000|32,000|32,000|32,000|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|",
+                      "VALUES": "24,728|24,728|26,269|29,218|29,218|30,629|32,000|"
+                    },
+                    {
+                      "NAME": "AMT-PAID-HISTORY",
+                      "DATES": "Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|Feb:2025|",
+                      "VALUES": "|||||||"
+                    }
+                  ],
+                  "ACCT-TYPE": "Business Loan General",
+                  "CLOSED-DT": "",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "956.8037828550291",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "7906944",
+                  "CURRENT-BAL": "24,728",
+                  "OVERDUE-AMT": "0",
+                  "REPORTED-DT": "15-08-2025",
+                  "CREDIT-LIMIT": "",
+                  "DISBURSED-DT": "19-02-2025",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "32,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "0",
+                  "ACCOUNT-STATUS": "Active",
+                  "ACTUAL-PAYMENT": "",
+                  "CREDIT-GRANTOR": "MAS FINANCIAL SERVICES LIMITED",
+                  "OWNERSHIP-TYPE": "Individual",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "1,978/Monthly",
+                  "LAST-PAYMENT-DT": "",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Secured",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "",
+                  "REPAYMENT-TENURE": "18",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "NBF",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "Monthly",
+                  "PRINCIPAL-WRITE-OFF-AMT": "",
+                  "WRITTEN-OFF-SETTLED-STATUS": "",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                },
+                {
+                  "HISTORY": [
+                    {
+                      "NAME": "COMBINED-PAYMENT-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|Aug:2025|Jul:2025|Jun:2025|May:2025|Apr:2025|Mar:2025|",
+                      "VALUES": "489/XXX|474/XXX|443/XXX|413/XXX|382/XXX|352/XXX|321/XXX|293/XXX|262/XXX|231/XXX|200/XXX|169/XXX|140/XXX|109/XXX|078/XXX|048/XXX|017/XXX|000/XXX|"
+                    },
+                    {
+                      "NAME": "HIGH-CREDIT-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|",
+                      "VALUES": "1,000|1,000|1,000|1,000|1,000|1,000|1,000|1,000|1,000|1,000|1,000|1,000|"
+                    },
+                    {
+                      "NAME": "CURRENT-BALANCE-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|",
+                      "VALUES": "1,000|1,000|1,000|1,000|1,000|1,000|1,000|2,154|2,118|2,069|1,998|1,900|"
+                    },
+                    {
+                      "NAME": "AMT-PAID-HISTORY",
+                      "DATES": "Aug:2026|Jul:2026|Jun:2026|May:2026|Apr:2026|Mar:2026|Feb:2026|Jan:2026|Dec:2025|Nov:2025|Oct:2025|Sep:2025|",
+                      "VALUES": "||||||||||||"
+                    }
+                  ],
+                  "ACCT-TYPE": "Short Term Personal Loan",
+                  "CLOSED-DT": "",
+                  "CASH-LIMIT": "",
+                  "OBLIGATION": "",
+                  "OCCUPATION": "",
+                  "ACCT-NUMBER": "MKVB9D06743ID175301050",
+                  "CURRENT-BAL": "1,000",
+                  "OVERDUE-AMT": "2,224",
+                  "REPORTED-DT": "16-08-2026",
+                  "CREDIT-LIMIT": "",
+                  "DISBURSED-DT": "18-03-2025",
+                  "WRITE-OFF-DT": "",
+                  "DISBURSED-AMT": "1,000",
+                  "INCOME-AMOUNT": "",
+                  "INTEREST-RATE": "0.0",
+                  "ORIGINAL-TERM": "",
+                  "SUIT-FILED-DT": "",
+                  "WRITE-OFF-AMT": "2,224",
+                  "ACCOUNT-STATUS": "Active",
+                  "ACTUAL-PAYMENT": "",
+                  "CREDIT-GRANTOR": "MPOKKET FINANCIAL SERVICES",
+                  "OWNERSHIP-TYPE": "Individual",
+                  "SETTLEMENT-AMT": "",
+                  "ACCOUNT-REMARKS": "",
+                  "ACCT-IN-DISPUTE": "",
+                  "INSTALLMENT-AMT": "",
+                  "LAST-PAYMENT-DT": "",
+                  "LINKED-ACCOUNTS": [],
+                  "SECURITY-STATUS": "Un-Secured",
+                  "INCOME-FREQUENCY": "",
+                  "LAST-PAID-AMOUNT": "",
+                  "REPAYMENT-TENURE": "6",
+                  "SECURITY-DETAILS": [
+                    {
+                      "OWNER-NAME": "",
+                      "ENGINE-NUMBER": "",
+                      "SECURITY-TYPE": "",
+                      "CHASSIE-NUMBER": "",
+                      "AUTOMOBILE-TYPE": "",
+                      "SECURITY-CHARGE": "",
+                      "PROPERTY-ADDRESS": "",
+                      "DATE-OF-VALUATION": "",
+                      "SECURITY-VALUATION": "",
+                      "REGISTRATION-NUMBER": "",
+                      "YEAR-OF-MANUFACTURING": ""
+                    }
+                  ],
+                  "TERM-TO-MATURITY": 0,
+                  "CREDIT-GRANTOR-TYPE": "NBF",
+                  "CREDIT-GRANTOR-GROUP": "Category D",
+                  "INSTALLMENT-FREQUENCY": "Monthly",
+                  "PRINCIPAL-WRITE-OFF-AMT": "1,000",
+                  "WRITTEN-OFF-SETTLED-STATUS": "Written-off",
+                  "SUIT-FILED-WILFUL-DEFAULT-STATUS": ""
+                }
+              ],
+              "INQUIRY-HISTORY": [
+                {
+                  "AMOUNT": "50,000",
+                  "REMARK": "",
+                  "LOAN-TYPE": "",
+                  "INQUIRY-DT": "10-05-2026",
+                  "LENDER-NAME": "SVATANTRA MICROFINANCE",
+                  "LENDER-TYPE": "",
+                  "OWNERSHIP-TYPE": "PRIMARY",
+                  "CREDIT-INQUIRY-STAGE": "",
+                  "CREDIT-INQ-PURPS-TYPE": "JLG Group"
+                },
+                {
+                  "AMOUNT": "50,000",
+                  "REMARK": "",
+                  "LOAN-TYPE": "",
+                  "INQUIRY-DT": "02-01-2026",
+                  "LENDER-NAME": "UJJIVAN SMALL FINANCE BANK LTD",
+                  "LENDER-TYPE": "",
+                  "OWNERSHIP-TYPE": "PRIMARY",
+                  "CREDIT-INQUIRY-STAGE": "",
+                  "CREDIT-INQ-PURPS-TYPE": "JLG Individual"
+                },
+                {
+                  "AMOUNT": "25,000",
+                  "REMARK": "",
+                  "LOAN-TYPE": "",
+                  "INQUIRY-DT": "07-10-2025",
+                  "LENDER-NAME": "BANDHAN BANK LIMITED",
+                  "LENDER-TYPE": "",
+                  "OWNERSHIP-TYPE": "PRIMARY",
+                  "CREDIT-INQUIRY-STAGE": "",
+                  "CREDIT-INQ-PURPS-TYPE": "OTHER"
+                },
+                {
+                  "AMOUNT": "0",
+                  "REMARK": "",
+                  "LOAN-TYPE": "",
+                  "INQUIRY-DT": "02-09-2025",
+                  "LENDER-NAME": "FUSION",
+                  "LENDER-TYPE": "",
+                  "OWNERSHIP-TYPE": "PRIMARY",
+                  "CREDIT-INQUIRY-STAGE": "",
+                  "CREDIT-INQ-PURPS-TYPE": "OTHER"
+                }
+              ],
+              "EMPLOYMENT-DETAILS": [
+                {
+                  "EMPLOYMENT-DETAIL": {
+                    "ACCT-TYPE": "Consumer Loan",
+                    "OCCUPATION": "SELF EMPLOYED",
+                    "LAST-REPORTED-DT": "31-07-2026",
+                    "SOURCE-INDICATOR": "NBF",
+                    "FIRST-REPORTED-DT": "30-11-2024"
+                  }
+                }
+              ]
+            },
+            "ACCOUNTS-SUMMARY": {
+              "ADDITIONAL-SUMMARY": [
+                { "ATTR-NAME": "NUM-GRANTORS", "ATTR-VALUE": "9" },
+                { "ATTR-NAME": "NUM-GRANTORS-ACTIVE", "ATTR-VALUE": "7" },
+                { "ATTR-NAME": "NUM-GRANTORS-DELINQ", "ATTR-VALUE": "4" },
+                { "ATTR-NAME": "NUM-GRANTORS-ONLY-PRIMARY", "ATTR-VALUE": "7" },
+                {
+                  "ATTR-NAME": "NUM-GRANTORS-ONLY-SECONDARY",
+                  "ATTR-VALUE": "0"
+                }
+              ],
+              "PERFORM-ATTRIBUTES": [
+                {
+                  "ATTR-NAME": "INQUIRIES-IN-LAST-SIX-MONTHS",
+                  "ATTR-VALUE": "1"
+                },
+                {
+                  "ATTR-NAME": "LENGTH-OF-CREDIT-HISTORY-YEAR",
+                  "ATTR-VALUE": "2"
+                },
+                {
+                  "ATTR-NAME": "LENGTH-OF-CREDIT-HISTORY-MONTH",
+                  "ATTR-VALUE": "2"
+                },
+                { "ATTR-NAME": "AVERAGE-ACCOUNT-AGE-YEAR", "ATTR-VALUE": "1" },
+                { "ATTR-NAME": "AVERAGE-ACCOUNT-AGE-MONTH", "ATTR-VALUE": "2" },
+                {
+                  "ATTR-NAME": "NEW-ACCOUNTS-IN-LAST-SIX-MONTHS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "NEW-DELINQ-ACCOUNT-IN-LAST-SIX-MONTHS",
+                  "ATTR-VALUE": "2"
+                },
+                {
+                  "ATTR-NAME": "MAX-DELINQ-INCREASE-12-MONTHS",
+                  "ATTR-VALUE": "12"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-DELINQ-INCREASE-12-MONTHS",
+                  "ATTR-VALUE": "50"
+                },
+                { "ATTR-NAME": "MAX-CC-BALANCE-BUILDUP", "ATTR-VALUE": "0" },
+                { "ATTR-NAME": "CD-TRADES WITHIN-6-MONTHS", "ATTR-VALUE": "0" },
+                { "ATTR-NAME": "MAX-TIME-OPEN-TRADE", "ATTR-VALUE": "804" },
+                {
+                  "ATTR-NAME": "TOTAL-TRADES-GOOD-IN-12-MONTHS",
+                  "ATTR-VALUE": "2"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-OVERDUE-BUILDUP-SECURED-ACTIVE",
+                  "ATTR-VALUE": "0"
+                },
+                { "ATTR-NAME": "SCORE-TRANCH-FLIP", "ATTR-VALUE": "0" },
+                { "ATTR-NAME": "TOTAL-SECURED-OUTSTANDING", "ATTR-VALUE": "0" },
+                {
+                  "ATTR-NAME": "TOTAL-UNSECURED-OUTSTANDING",
+                  "ATTR-VALUE": "75,845"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-LIVE-SECURED-ACCOUNTS",
+                  "ATTR-VALUE": "0"
+                },
+                { "ATTR-NAME": "TOTAL-OBLIGATIONS", "ATTR-VALUE": "75,845" },
+                {
+                  "ATTR-NAME": "TOTAL-SECURED-SANCTION-AMOUNT-OPEN-ACCOUNT",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-UNSECURED-SANCTION-AMOUNT-OPEN-ACCOUNT",
+                  "ATTR-VALUE": "2,54,155"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-CC-SANCTION-AMOUNT-OPEN-ACCOUNT",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-SECURED-SANCTION-AMOUNT-ALL-ACCOUNT",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-UNSECURED-SANCTION-AMOUNT-ALL-ACCOUNT",
+                  "ATTR-VALUE": "3,40,155"
+                },
+                { "ATTR-NAME": "TOTAL-CC-OUTSTANDING", "ATTR-VALUE": "0" },
+                {
+                  "ATTR-NAME": "TOTAL-SECURED-OVER-DUE-ACCOUNTS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-UNSECURED-OVER-DUE-ACCOUNTS",
+                  "ATTR-VALUE": "6"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-CC-OVER-DUE-ACCOUNTS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-SECURED-WORST-DPD-BUCKET-IN-LAST-2-YEARS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-UNSECURED-WORST-DPD-BUCKET-IN-LAST-2-YEARS",
+                  "ATTR-VALUE": "490"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-SECURED-WORST-DPD-BUCKET-IN-LAST-3-YEARS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-UNSECURED-WORST-DPD-BUCKET-IN-LAST-3-YEARS",
+                  "ATTR-VALUE": "490"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-SECURED-WORST-DPD-AMOUNT-IN-LAST-2-YEARS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-UNSECURED-WORST-DPD-AMOUNT-IN-LAST-2-YEARS",
+                  "ATTR-VALUE": "75,896"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-CC-WORST-DPD-AMOUNT-IN-LAST-2-YEARS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-SECURED-WORST-DPD-AMOUNT-IN-LAST-3-YEARS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-UNSECURED-WORST-DPD-AMOUNT-IN-LAST-3-YEARS",
+                  "ATTR-VALUE": "75,896"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-CC-WORST-DPD-AMOUNT-IN-LAST-3-YEARS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-SUM-OF-ACTIVE-EMI",
+                  "ATTR-VALUE": "12,296"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-SUM-OF-ACTIVE-SECURED-EMI",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-SUM-OF-ACTIVE-UNSECURED-EMI",
+                  "ATTR-VALUE": "12,296"
+                },
+                { "ATTR-NAME": "TOTAL-SUM-OF-EMI", "ATTR-VALUE": "15,296" },
+                { "ATTR-NAME": "TOTAL-SUM-OF-SECURED-EMI", "ATTR-VALUE": "0" },
+                {
+                  "ATTR-NAME": "TOTAL-SUM-OF-UNSECURED-EMI",
+                  "ATTR-VALUE": "15,296"
+                },
+                { "ATTR-NAME": "MAX-EMI-AMOUNT-ACTIVE", "ATTR-VALUE": "2,667" },
+                { "ATTR-NAME": " MAX-EMI-AMOUNT", "ATTR-VALUE": "2,667" },
+                { "ATTR-NAME": "MAX-SECURED-EMI-AMOUNT", "ATTR-VALUE": "0" },
+                {
+                  "ATTR-NAME": "MAX-UNSECURED-EMI-AMOUNT",
+                  "ATTR-VALUE": "2,667"
+                },
+                { "ATTR-NAME": "MAX-ACTIVE-ACCOUNT-AGE", "ATTR-VALUE": "795" },
+                { "ATTR-NAME": "MIN-ACTIVE-ACCOUNT-AGE", "ATTR-VALUE": "177" },
+                {
+                  "ATTR-NAME": "MAX-SECURED-ACTIVE-ACCOUNT-AGE",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "MIN-SECURED-ACTIVE-ACCOUNT-AGE",
+                  "ATTR-VALUE": ""
+                },
+                {
+                  "ATTR-NAME": "MAX-UNSECURED-ACTIVE-ACCOUNT-AGE",
+                  "ATTR-VALUE": "795"
+                },
+                {
+                  "ATTR-NAME": "MIN-UNSECURED-ACTIVE-ACCOUNT-AGE",
+                  "ATTR-VALUE": "177"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-NO-OF-SECURED-INQUIRY-IN-LAST-6-MONTHS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-NO-OF-UNSECURED-INQUIRY-IN-LAST-6-MONTHS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "NUMBER-OF-LOANS-DELINQUENT-IN-LAST-12-MONTHS",
+                  "ATTR-VALUE": "7"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-NO-OF-INQUIRY-IN-LAST-12-MONTHS",
+                  "ATTR-VALUE": "4"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-NO-OF-SECURED-INQUIRY-IN-LAST-12-MONTHS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-NO-OF-UNSECURED-INQUIRY-IN-LAST-12-MONTHS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "NUMBER-OF-LOANS-DELINQUENT-IN-LAST-24-MONTHS",
+                  "ATTR-VALUE": "7"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-NO-OF-INQUIRY-IN-LAST-24-MONTHS",
+                  "ATTR-VALUE": "4"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-NO-OF-SECURED-INQUIRY-IN-LAST-24-MONTHS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-NO-OF-UNSECURED-INQUIRY-IN-LAST-24-MONTHS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "MAX-OUTSTANDING-AMOUNT-IN-LAST-3-YEARS",
+                  "ATTR-VALUE": "50,000"
+                },
+                {
+                  "ATTR-NAME": "MAX-SECURED-OUTSTANDING-AMOUNT-IN-LAST-3-YEARS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "MAX-UNSECURED-OUTSTANDING-AMOUNT-IN-LAST-3-YEARS",
+                  "ATTR-VALUE": "50,000"
+                },
+                { "ATTR-NAME": "OLDEST-OPEN-CC-MON", "ATTR-VALUE": "0" },
+                { "ATTR-NAME": "YOUNGEST-OPEN-CC-MON", "ATTR-VALUE": "" },
+                {
+                  "ATTR-NAME": "TOTAL-CC-SANCTION-AMOUNT-ALL-ACCOUNT",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "NUM-INC-BAL-REVOLVING-TRADES-12M",
+                  "ATTR-VALUE": "0"
+                },
+                { "ATTR-NAME": "MAX-SPEND-CC-UTIL-6M", "ATTR-VALUE": "0" },
+                { "ATTR-NAME": "MAX-TIME-CC-ALL-TRADE", "ATTR-VALUE": "0" },
+                {
+                  "ATTR-NAME": "ALL-TYPES-TRADES-WRITTEN-OFF",
+                  "ATTR-VALUE": "2"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-CC-WORST-DPD-BUCKET-IN-LAST-2-YEARS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-CC-WORST-DPD-BUCKET-IN-LAST-3-YEARS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-P2P-LOAN-AMOUNT-ACTIVE",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "MAX-P2P-LOAN-AMOUNT-ACTIVE",
+                  "ATTR-VALUE": "0"
+                },
+                { "ATTR-NAME": "TOTAL-P2P-ACTIVE-ACCOUNTS", "ATTR-VALUE": "0" },
+                { "ATTR-NAME": "TOTAL-P2P-ACTIVE-GRANTORS", "ATTR-VALUE": "0" },
+                { "ATTR-NAME": "NUM-ACTIVE-P2P-AGE-GT-36M", "ATTR-VALUE": "0" },
+                {
+                  "ATTR-NAME": "WORST-P2P-DELINQ-IN-LAST-36-MONTHS",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-P2P-MONTHLY-EMI-AMOUNT",
+                  "ATTR-VALUE": "0"
+                },
+                { "ATTR-NAME": "TOTAL-P2P-BL-ACTIVE", "ATTR-VALUE": "0" },
+                {
+                  "ATTR-NAME": "MAX-SANCTION-AMOUNT-ALL-ACCOUNT",
+                  "ATTR-VALUE": "50,000"
+                },
+                {
+                  "ATTR-NAME": "TOTAL-SUM-OF-ASSETS-ACTIVE",
+                  "ATTR-VALUE": "0"
+                },
+                {
+                  "ATTR-NAME": "CREDIT-LIMIT-TREND-12-MONTHS",
+                  "ATTR-VALUE": "7,622"
+                },
+                { "ATTR-NAME": "OVERDUE-AMOUNT-TREND", "ATTR-VALUE": "2,085" },
+                {
+                  "ATTR-NAME": "AVG-PERCENTAGE-INCREASE-HIGH CREDIT",
+                  "ATTR-VALUE": "1"
+                },
+                {
+                  "ATTR-NAME": "AVG-PERCENTAGE-INCREASE-CB",
+                  "ATTR-VALUE": "39"
+                },
+                {
+                  "ATTR-NAME": "AVG-PERCENTAGE-INCREASE-DPD",
+                  "ATTR-VALUE": "22"
+                },
+                {
+                  "ATTR-NAME": "AVG-PERCENTAGE-INCREASE-AO",
+                  "ATTR-VALUE": "19"
+                }
+              ],
+              "PRIMARY-ACCOUNTS-SUMMARY": {
+                "ACTIVE-ACCOUNTS": "9",
+                "OVERDUE-ACCOUNTS": "6",
+                "SECURED-ACCOUNTS": "0",
+                "TOTAL-AMT-OVERDUE": "58,807",
+                "UNTAGGED-ACCOUNTS": "7",
+                "NUMBER-OF-ACCOUNTS": "15",
+                "UNSECURED-ACCOUNTS": "8",
+                "TOTAL-DISBURSED-AMT": "0.0",
+                "TOTAL-SANCTIONED-AMT": "0.0",
+                "TOTAL-CURRENT-BALANCE": "0.0",
+                "CURRENT-BALANCE-SECURED": "0.0",
+                "CURRENT-BALANCE-UNSECURED": "75845.0"
+              },
+              "MFI-GROUP-ACCOUNTS-SUMMARY": {
+                "NO-OF-OWN-MFIS": "0",
+                "ACTIVE-ACCOUNTS": "0",
+                "CLOSED-ACCOUNTS": "0",
+                "NO-OF-OTHER-MFIS": "0",
+                "OVERDUE-ACCOUNTS": "0",
+                "NUMBER-OF-ACCOUNTS": "0",
+                "MAX-WORST-DELINQUENCY": "0",
+                "TOTAL-OWN-OVERDUE-AMT": "0.0",
+                "TOTAL-OTHER-OVERDUE-AMT": "0.0",
+                "TOTAL-OWN-DISBURSED-AMT": "0.0",
+                "TOTAL-OTHER-DISBURSED-AMT": "0.0",
+                "TOTAL-OWN-CURRENT-BALANCE": "0.0",
+                "TOTAL-OWN-INSTALLMENT-AMT": "0",
+                "TOTAL-OTHER-CURRENT-BALANCE": "0.0",
+                "TOTAL-OTHER-INSTALLMENT-AMT": "0"
+              },
+              "SECONDARY-ACCOUNTS-SUMMARY": {
+                "ACTIVE-ACCOUNTS": "0",
+                "OVERDUE-ACCOUNTS": "0",
+                "SECURED-ACCOUNTS": "0.0",
+                "TOTAL-AMT-OVERDUE": "0",
+                "UNTAGGED-ACCOUNTS": "0",
+                "NUMBER-OF-ACCOUNTS": "0",
+                "UNSECURED-ACCOUNTS": "0",
+                "TOTAL-DISBURSED-AMT": "0.0",
+                "TOTAL-SANCTIONED-AMT": "0.0",
+                "TOTAL-CURRENT-BALANCE": "0.0"
+              }
+            },
+            "REQUESTED-SERVICES": []
+          },
+          "REQUEST-DATA": {
+            "APPLICANT-SEGMENT": {
+              "DOB": { "AGE": "", "DOB-DT": "30-05-1969", "AGE-AS-ON": "" },
+              "IDS": [{ "TYPE": "ID07", "VALUE": "BRSPB2789E" }],
+              "EMAILS": [{ "EMAIL": "ravioffice185@gmail.com" }],
+              "GENDER": "Male",
+              "PHONES": [{ "TYPE": "P01", "VALUE": "9027993115" }],
+              "ADDRESSES": [
+                {
+                  "PIN": "411038",
+                  "CITY": "Pune",
+                  "TYPE": "D08",
+                  "STATE": "MH",
+                  "COUNTRY": "India",
+                  "LOCALITY": "Pune",
+                  "ADDRESSTEXT": "T4,  112 Sunshine Residency Pune "
+                }
+              ],
+              "LAST-NAME": "VERMA",
+              "FIRST-NAME": "AKANKASHA",
+              "MIDDLE-NAME": "",
+              "APPLICANT-ID": "",
+              "ACCOUNT-NUMBER": ""
+            },
+            "APPLICATION-SEGMENT": {
+              "LTV": "",
+              "TERM": "",
+              "LOAN-AMT": "",
+              "BRANCH-ID": "",
+              "LOAN-TYPE": "",
+              "ACNT-OPEN-DT": "",
+              "CREDIT-RPT-ID": "",
+              "APPLICATION-ID": "",
+              "CREDIT-INQUIRY-STAGE": "",
+              "CREDIT-RPT-TRN-DT-TM": "",
+              "CLIENT-CONTRIBUTOR-ID": "",
+              "CREDIT-INQ-PURPS-TYPE": "",
+              "INQUIRY-UNIQUE-REF-NO": ""
+            }
+          },
+          "HEADER-SEGMENT": {
+            "STATUS": "SUCCESS",
+            "BATCH-ID": "4925860589260825",
+            "REPORT-ID": "CCR260825CR423511776",
+            "PRODUCT-VER": "2.0",
+            "PREPARED-FOR": "  ",
+            "PRODUCT-TYPE": "BBC CONSUMER SCORE",
+            "DATE-OF-ISSUE": "25-08-2026",
+            "DATE-OF-REQUEST": "25-08-2026",
+            "PREPARED-FOR-ID": "NBF0004149"
+          }
+        }
+      }
+    }
+  }
+ 
+}

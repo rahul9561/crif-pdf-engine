@@ -6,7 +6,7 @@ Renders one "Account Information" block per loan account in the report
 (``CreditReport.accounts``, unbounded), matching ``docs/sample_report.pdf``'s
 repeating account layout: a navy title bar, an identifying sub-header line
 (type / grantor / account number / as-on date), a colored account-status
-line, an 18-field ownership/amount detail grid, and -- only when present
+line, a 20-field ownership/amount detail grid, and -- only when present
 -- a Collateral/Security Details table.
 
 Payment history is rendered separately, per account, by
@@ -127,12 +127,14 @@ def _build_status_badge(account: LoanAccount) -> Paragraph:
 
 
 def _build_detail_grid(account: LoanAccount) -> Table:
-    """Builds the 3-column, 18-field ownership/amount detail grid."""
+    """Builds the 3-column, 20-field ownership/amount detail grid."""
     pairs = [
         ("Ownership:", h.safe_text(account.ownership_ind)),
+        ("Security Status:", h.safe_text(account.security_status)),
         ("Disbursed Date:", h.safe_date(account.disbursed_dt)),
         ("Disbd Amt/High Credit:", h.safe_decimal(account.disbursed_amt)),
         ("Credit Limit:", h.safe_decimal(account.credit_limit)),
+        ("Interest Rate (%):", h.safe_decimal(account.interest_rate, decimal_places=2)),
         ("Last Payment Date:", h.safe_date(account.last_payment_date)),
         ("Current Balance:", h.safe_decimal(account.current_bal)),
         ("Cash Limit:", h.safe_decimal(account.cash_limit)),

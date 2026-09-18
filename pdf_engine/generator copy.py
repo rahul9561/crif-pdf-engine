@@ -186,7 +186,7 @@ def render_pdf(story: list, output_path: str | Path, *, title: str = _DEFAULT_TI
     return resolved_path
 
 
-def generate_report(raw_json: RawMapping, output_path: str | Path, manual_dob: str | None = None,) -> Path:
+def generate_report(raw_json: RawMapping, output_path: str | Path) -> Path:
     """
     End-to-end pipeline: parses a raw CRIF Highmark API response, builds
     the report story, and saves the final PDF to ``output_path``.
@@ -205,7 +205,7 @@ def generate_report(raw_json: RawMapping, output_path: str | Path, manual_dob: s
     Returns:
         The resolved ``Path`` the PDF was written to.
     """
-    report = parse_credit_report(raw_json, manual_dob=manual_dob)
+    report = parse_credit_report(raw_json)
     story = build_story(report)
 
     name = report.customer_identity.name

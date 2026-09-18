@@ -2,8 +2,11 @@
 pdf_engine.sections.payment_history
 ======================================
 
-Renders the "Payment History/Asset Classification:" grid for every loan
-account in the report, sourced from ``LoanAccount.payment_history``.
+Renders the "Payment History/Asset Classification:" grid, and (when
+reported) the High Credit, Current Balance, and Amount Paid history
+grids, for every loan account in the report -- sourced from
+``LoanAccount.payment_history`` / ``.high_credit_history`` /
+``.current_balance_history`` / ``.amt_paid_history`` respectively.
 
 Each account's monthly payment-history entries are pivoted into a table
 with one row per calendar year and one column per month (Jan-Dec),
@@ -49,7 +52,7 @@ from .. import constants as c
 from .. import helpers as h
 from .. import styles as s
 from .. import theme
-from ..parser import CreditReport, LoanAccount, PaymentHistoryEntry
+from ..parser import CreditReport, HistoryPoint, LoanAccount, PaymentHistoryEntry
 
 __all__ = ["render", "render_payment_history"]
 
@@ -116,6 +119,47 @@ _TABLE_STYLE = TableStyle(
     ]
 )
 
+#: The widest realistically-occurring amount cell: a lakhs-range rupee
+#: figure with Indian digit grouping (e.g. "99,99,999"). Sized against
+#: this -- not the actual data -- for the same reason as
+#: _WORST_CASE_CODE_SAMPLE above: every account's numeric-history table
+#: then renders at the same, guaranteed-to-fit font size.
+_WORST_CASE_AMOUNT_SAMPLE = "99,99,999"
+
+_AMOUNT_FONT_SIZE = h.fit_font_size(
+    _WORST_CASE_AMOUNT_SAMPLE,
+    _MONTH_COLUMN_WIDTH - 2 * _CODE_CELL_PADDING_X,
+    font_name=theme.FONTS["Roboto-Regular"],
+    candidate_sizes=_CODE_FONT_CANDIDATE_SIZES,
+)
+
+_AMOUNT_TABLE_STYLE = TableStyle(
+    [
+        ("FONT", (0, 0), (-1, 0), theme.FONTS["Roboto-SemiBold"], c.FONT_SIZE_TABLE_HEADER),
+        ("TEXTCOLOR", (0, 0), (-1, 0), theme.PRIMARY_BLUE),
+        ("BACKGROUND", (0, 0), (-1, 0), theme.SECONDARY_BLUE_LIGHT),
+        ("FONT", (0, 1), (-1, -1), theme.FONTS["Roboto-Regular"], _AMOUNT_FONT_SIZE),
+        ("TEXTCOLOR", (0, 1), (-1, -1), theme.GRAY_900),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [theme.WHITE, theme.ZEBRA_STRIPE]),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("LEFTPADDING", (0, 0), (-1, -1), _CODE_CELL_PADDING_X),
+        ("RIGHTPADDING", (0, 0), (-1, -1), _CODE_CELL_PADDING_X),
+        ("TOPPADDING", (0, 0), (-1, -1), _CODE_CELL_PADDING_Y),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), _CODE_CELL_PADDING_Y),
+        ("GRID", (0, 0), (-1, -1), c.BORDER_WIDTH_HAIRLINE, theme.BORDER_LIGHT),
+    ]
+)
+
+#: (heading text, ``LoanAccount`` attribute name) for each numeric
+#: history series rendered beneath the DPD/classification grid, in
+#: display order.
+_NUMERIC_HISTORY_SECTIONS: tuple[tuple[str, str], ...] = (
+    ("High Credit / Sanctioned Amount History:", "high_credit_history"),
+    ("Current Balance History:", "current_balance_history"),
+    ("Amount Paid History:", "amt_paid_history"),
+)
+
 
 def _pivot_payment_history(entries: list[PaymentHistoryEntry]) -> list[list[str]]:
     """
@@ -153,6 +197,49 @@ def _build_payment_history_table(entries: list[PaymentHistoryEntry]) -> Table:
     return table
 
 
+def _pivot_numeric_history(points: list[HistoryPoint]) -> list[list[str]]:
+    """
+    Pivots a flat list of monthly numeric history samples (high credit,
+    current balance, amount paid) into one row per calendar year,
+    ascending, with one cell per month -- the same shape as
+    :func:`_pivot_payment_history`, but formatting each value as an
+    Indian-grouped rupee amount instead of a DPD/classification code.
+
+    A month with no reported value (``HistoryPoint.value is None``) is
+    left blank rather than shown as "0" -- CRIF distinguishes "reported
+    as zero" from "not reported for this month", and collapsing the two
+    would misrepresent months the bureau simply never reported.
+    """
+    by_year: dict[int, dict[int, str]] = {}
+    for point in points:
+        if point.value is None:
+            continue
+        by_year.setdefault(point.year, {})[point.month] = h.safe_decimal(point.value)
+
+    rows: list[list[str]] = []
+    for year in sorted(by_year):
+        months = by_year[year]
+        rows.append([str(year)] + [months.get(month, "") for month in range(1, 13)])
+    return rows
+
+
+def _build_numeric_history_table(points: list[HistoryPoint]) -> Table | None:
+    """
+    Builds the Year x Jan-Dec grid for one numeric history series.
+
+    Returns ``None`` when every sample in ``points`` has no value (e.g.
+    an entirely-unreported ``amt_paid_history``), so the caller can skip
+    the section rather than render an all-blank table.
+    """
+    rows = _pivot_numeric_history(points)
+    if not rows:
+        return None
+    table_data = [["Year", *_MONTH_LABELS], *rows]
+    table = Table(table_data, colWidths=_COL_WIDTHS, repeatRows=1)
+    table.setStyle(_AMOUNT_TABLE_STYLE)
+    return table
+
+
 def _account_identifier_line(account: LoanAccount) -> Paragraph:
     """
     Builds a small caption identifying which account the following table
@@ -178,36 +265,60 @@ def _account_identifier_line(account: LoanAccount) -> Paragraph:
 
 def render_payment_history(story: list, account: LoanAccount) -> None:
     """
-    Appends one account's Payment History block to ``story``.
+    Appends one account's Payment History block -- and, when reported,
+    its High Credit / Current Balance / Amount Paid history blocks -- to
+    ``story``.
 
     Self-contained: depends only on ``account``, and does nothing when
-    that account has no payment history -- skipping it never affects any
-    other account's block. This is the per-account building block both
-    ``render`` (below, for standalone/backward-compatible use of this
-    module alone) and ``pdf_engine.generator.build_story`` (to interleave
-    each account's payment history directly beneath that account's own
-    "Account Information" block) are built on.
+    that account has no history data of any kind -- skipping it never
+    affects any other account's block. Each of the four possible history
+    series is rendered independently and skipped on its own when empty
+    (e.g. an ``amt_paid_history`` the contributing institution never
+    populated renders no table at all, while the other three still do).
+    This is the per-account building block both ``render`` (below, for
+    standalone/backward-compatible use of this module alone) and
+    ``pdf_engine.generator.build_story`` (to interleave each account's
+    payment history directly beneath that account's own "Account
+    Information" block) are built on.
 
     Args:
         story: The in-progress list of ReportLab flowables being built up
             for the final document; flowables are appended in place.
-        account: The single account whose payment history should be
-            rendered. If it has none, this function appends nothing.
+        account: The single account whose history should be rendered. If
+            it has none at all, this function appends nothing.
     """
-    if not account.payment_history:
+    if not (
+        account.payment_history
+        or account.high_credit_history
+        or account.current_balance_history
+        or account.amt_paid_history
+    ):
         return
 
-    story.append(
-        KeepTogether(
-            [
-                h.create_heading("Payment History/Asset Classification:"),
-                _account_identifier_line(account),
-                Spacer(1, c.SPACE_XXS),
-            ]
+    if account.payment_history:
+        story.append(
+            KeepTogether(
+                [
+                    h.create_heading("Payment History/Asset Classification:"),
+                    _account_identifier_line(account),
+                    Spacer(1, c.SPACE_XXS),
+                ]
+            )
         )
-    )
-    story.append(_build_payment_history_table(account.payment_history))
-    story.append(Spacer(1, c.SPACE_LG))
+        story.append(_build_payment_history_table(account.payment_history))
+        story.append(Spacer(1, c.SPACE_LG))
+
+    for heading, attr_name in _NUMERIC_HISTORY_SECTIONS:
+        table = _build_numeric_history_table(getattr(account, attr_name))
+        if table is None:
+            continue
+        story.append(
+            KeepTogether(
+                [h.create_heading(heading), _account_identifier_line(account), Spacer(1, c.SPACE_XXS)]
+            )
+        )
+        story.append(table)
+        story.append(Spacer(1, c.SPACE_LG))
 
 
 def render(story: list, report: CreditReport) -> None:

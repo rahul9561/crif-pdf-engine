@@ -6,7 +6,7 @@ from pdf_engine import generate_report
 BASE_DIR = Path(__file__).resolve().parent
 
 json_file = BASE_DIR / "input" / "crifsample.json" 
-output_file = BASE_DIR / "output" / "crif_reportredytest1.pdf"
+output_file = BASE_DIR / "output" / "crif_reportredytest3.pdf"
 
 with open(json_file, "r", encoding="utf-8") as f:
     raw_json = json.load(f)
