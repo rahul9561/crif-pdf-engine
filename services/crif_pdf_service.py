@@ -55,7 +55,9 @@ def _resolve_output_directory() -> Path:
     return Path(media_root) / CRIF_REPORTS_SUBDIR
 
 
-def generate_crif_pdf(raw_json: dict[str, Any]) -> dict[str, Any]:
+def generate_crif_pdf(
+    raw_json: dict[str, Any], *, manual_gender: str | None = None
+) -> dict[str, Any]:
     """
     Generates a CRIF Highmark credit report PDF from a raw bureau
     response and saves it under ``MEDIA_ROOT/crif_reports/``.
@@ -63,6 +65,9 @@ def generate_crif_pdf(raw_json: dict[str, Any]) -> dict[str, Any]:
     Args:
         raw_json: The full decoded CRIF Highmark API response body, as
             accepted by ``pdf_engine.generate_report``.
+        manual_gender: Optional gender that overrides the (possibly
+            wrong) gender in ``raw_json``; blank or ``None`` keeps the
+            payload's value.
 
     Returns:
         A dict with:
@@ -83,7 +88,7 @@ def generate_crif_pdf(raw_json: dict[str, Any]) -> dict[str, Any]:
     output_path = output_directory / filename
 
     logger.info("Generating CRIF report PDF at %s", output_path)
-    result_path = generate_report(raw_json, output_path)
+    result_path = generate_report(raw_json, output_path, manual_gender=manual_gender)
     size = result_path.stat().st_size
 
     logger.info("CRIF report PDF generated: %s (%d bytes)", result_path, size)

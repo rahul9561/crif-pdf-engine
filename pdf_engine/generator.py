@@ -186,7 +186,12 @@ def render_pdf(story: list, output_path: str | Path, *, title: str = _DEFAULT_TI
     return resolved_path
 
 
-def generate_report(raw_json: RawMapping, output_path: str | Path, manual_dob: str | None = None,) -> Path:
+def generate_report(
+    raw_json: RawMapping,
+    output_path: str | Path,
+    manual_dob: str | None = None,
+    manual_gender: str | None = None,
+) -> Path:
     """
     End-to-end pipeline: parses a raw CRIF Highmark API response, builds
     the report story, and saves the final PDF to ``output_path``.
@@ -201,11 +206,15 @@ def generate_report(raw_json: RawMapping, output_path: str | Path, manual_dob: s
         raw_json: The full decoded CRIF Highmark API response body (see
             ``pdf_engine.parser.parse_credit_report``).
         output_path: Filesystem path the PDF should be written to.
+        manual_dob: Optional DOB overriding the CRIF DOB.
+        manual_gender: Optional gender overriding the CRIF gender. Any
+            non-blank value always wins over the payload's gender; ``None``
+            or a blank/whitespace value falls back to the payload's.
 
     Returns:
         The resolved ``Path`` the PDF was written to.
     """
-    report = parse_credit_report(raw_json, manual_dob=manual_dob)
+    report = parse_credit_report(raw_json, manual_dob=manual_dob, manual_gender=manual_gender)
     story = build_story(report)
 
     name = report.customer_identity.name

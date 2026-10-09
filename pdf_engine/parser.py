@@ -51,7 +51,7 @@ from __future__ import annotations
 
 import logging
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 from typing import Any
@@ -628,7 +628,12 @@ class CrifParser:
     is the single public entrypoint.
     """
 
-    def parse(self, raw_json: RawMapping | None,manual_dob: str | None = None,) -> CreditReport:
+    def parse(
+        self,
+        raw_json: RawMapping | None,
+        manual_dob: str | None = None,
+        manual_gender: str | None = None,
+    ) -> CreditReport:
         """
         Parses a raw CRIF Highmark API response into a normalized
         :class:`CreditReport`.
@@ -636,6 +641,12 @@ class CrifParser:
         Args:
             raw_json: The full decoded JSON response body, e.g. the object
                 produced by ``json.loads(response.text)``.
+            manual_dob: Optional caller-supplied DOB that replaces the
+                CRIF DOB when it parses.
+            manual_gender: Optional caller-supplied gender. When it is
+                non-empty after stripping whitespace, it is used verbatim
+                in place of the CRIF gender (which may be wrong); ``None``
+                or a blank value keeps the gender from the payload.
 
         Returns:
             A :class:`CreditReport` populated from whatever could be
@@ -700,6 +711,22 @@ class CrifParser:
                     manual_dob,
                     DEFAULT_DATE_FORMAT,
                 )
+
+        # ---------------------------------------------------------
+        # MANUAL GENDER OVERRIDE
+        # ---------------------------------------------------------
+        # Applied last, after every other identity adjustment, so the
+        # caller's value is what reaches the rendered PDF. Used as-is:
+        # no normalization or mapping against the CRIF value.
+        override_gender = _to_str(manual_gender)
+        if override_gender:
+            if override_gender != customer_identity.gender:
+                logger.info(
+                    "Using manually supplied gender instead of CRIF gender %r: %r",
+                    customer_identity.gender,
+                    override_gender,
+                )
+            customer_identity = replace(customer_identity, gender=override_gender)
 
         return CreditReport(
             header=self._parse_report_header(credit_report.get("header") or {}),
@@ -1972,7 +1999,11 @@ class CrifParser:
         return inquiries
 
 
-def parse_credit_report(raw_json: RawMapping | None,manual_dob: str | None = None,) -> CreditReport:
+def parse_credit_report(
+    raw_json: RawMapping | None,
+    manual_dob: str | None = None,
+    manual_gender: str | None = None,
+) -> CreditReport:
     """
     Convenience wrapper around ``CrifParser().parse(raw_json)``.
 
@@ -1982,6 +2013,8 @@ def parse_credit_report(raw_json: RawMapping | None,manual_dob: str | None = Non
 
     Args:
         raw_json: The full decoded CRIF Highmark API response body.
+        manual_dob: See :meth:`CrifParser.parse`.
+        manual_gender: See :meth:`CrifParser.parse`.
 
     Returns:
         A normalized :class:`CreditReport`.
@@ -1989,4 +2022,4 @@ def parse_credit_report(raw_json: RawMapping | None,manual_dob: str | None = Non
     Raises:
         ValueError: See :meth:`CrifParser.parse`.
     """
-    return CrifParser().parse(raw_json,manual_dob=manual_dob)
+    return CrifParser().parse(raw_json, manual_dob=manual_dob, manual_gender=manual_gender)
