@@ -156,6 +156,17 @@ def _to_decimal(value: Any) -> Decimal | None:
         return None
 
 
+def _to_amount(value: Any) -> Decimal:
+    """
+    Coerces a raw bureau amount (e.g. ``"3,42,782"``, ``"0.0"``, ``""``,
+    ``None``) into a :class:`Decimal`, treating absent or unparsable input
+    as zero. Intended for summing amounts, where a missing value should
+    contribute nothing rather than propagate ``None``.
+    """
+    decimal_value = _to_decimal(value)
+    return decimal_value if decimal_value is not None else Decimal(0)
+
+
 def _to_int(value: Any) -> int | None:
     """
     Safely coerces a raw bureau value into an ``int``.
@@ -816,7 +827,11 @@ class CrifParser:
     # knows how to read -- and performs no type coercion, validation, or
     # defaulting of its own. Every value coercion (dates, decimals, ints)
     # still happens exactly once, in the _parse_* methods above, so this
-    # adapter cannot silently diverge from their behavior.
+    # adapter cannot silently diverge from their behavior. The one
+    # exception is _fill_missing_totals, which derives primary account
+    # summary totals from TRADELINES when the bureau reports them as zero
+    # -- it needs the raw TRADELINES (HISTORY included), which only exist
+    # at this stage.
 
     #: CRIF ID-document TYPE codes are not documented consistently across
     #: payloads, but PAN and Aadhaar (UID) values have fixed, unambiguous
@@ -1051,13 +1066,91 @@ class CrifParser:
         }
 
     @staticmethod
-    def _adapt_account_summary(accounts_summary: Any) -> RawMapping:
-        """Builds a flat ``account_summary`` node from ``REPORT-DATA.ACCOUNTS-SUMMARY``."""
+    def _sanctioned_amount(tradeline: RawMapping) -> Decimal:
+        """
+        Returns one TRADELINE's sanctioned amount: the latest (first)
+        non-empty ``HIGH-CREDIT-HISTORY`` value, else ``CREDIT-LIMIT``,
+        else ``DISBURSED-AMT``.
+        """
+        history = tradeline.get("HISTORY")
+        if isinstance(history, list):
+            for entry in history:
+                if not isinstance(entry, dict):
+                    continue
+                if _to_str(entry.get("NAME")).upper() != "HIGH-CREDIT-HISTORY":
+                    continue
+                for value in _split_pipe_positional(entry.get("VALUES")):
+                    if _to_decimal(value) is not None:
+                        return _to_amount(value)
+                break
+        for key in ("CREDIT-LIMIT", "DISBURSED-AMT"):
+            if _to_decimal(tradeline.get(key)) is not None:
+                return _to_amount(tradeline.get(key))
+        return Decimal(0)
+
+    @staticmethod
+    def _active_tradeline_totals(tradelines: Any) -> dict[str, Decimal]:
+        """
+        Sums current balance, sanctioned amount and disbursed amount over
+        the ``ACCOUNT-STATUS == "Active"`` TRADELINES, keyed by
+        ``AccountsSummary`` field suffix. CRIF considers Current Balance
+        and Disbursed Amount ONLY for active accounts.
+        """
+        totals = {
+            "current_balance": Decimal(0),
+            "sanctioned_amount": Decimal(0),
+            "disbursed_amount": Decimal(0),
+        }
+        if not isinstance(tradelines, list):
+            return totals
+        for tradeline in tradelines:
+            if not isinstance(tradeline, dict):
+                continue
+            if _to_str(tradeline.get("ACCOUNT-STATUS")).lower() != "active":
+                continue
+            totals["current_balance"] += _to_amount(tradeline.get("CURRENT-BAL"))
+            totals["sanctioned_amount"] += CrifParser._sanctioned_amount(tradeline)
+            totals["disbursed_amount"] += _to_amount(tradeline.get("DISBURSED-AMT"))
+        return totals
+
+    @staticmethod
+    def _fill_missing_totals(
+        block: RawMapping, prefix: str, totals: dict[str, Decimal]
+    ) -> RawMapping:
+        """
+        Replaces each missing/empty/zero total in an adapted summary block
+        with the corresponding tradeline-derived value. Non-zero bureau
+        values are kept as reported. Digitap's CRIF payload reports these
+        totals as ``"0.0"`` even when the customer has active loans.
+        """
+        if not block:
+            return block
+        filled = dict(block)
+        for suffix, computed in totals.items():
+            key = f"{prefix}{suffix}"
+            if _to_amount(filled.get(key)) == 0:
+                filled[key] = computed
+        return filled
+
+    @staticmethod
+    def _adapt_account_summary(accounts_summary: Any, tradelines: Any = None) -> RawMapping:
+        """
+        Builds a flat ``account_summary`` node from ``REPORT-DATA.ACCOUNTS-SUMMARY``.
+
+        Primary totals the bureau reports as zero/missing are derived from
+        the active ``tradelines``. Secondary totals are left as reported:
+        TRADELINES carry no primary/secondary marker, so secondary
+        accounts can't be told apart.
+        """
         if not isinstance(accounts_summary, dict):
             return {}
         return {
-            "primary_accounts_summary": CrifParser._adapt_accounts_summary_block(
-                accounts_summary.get("PRIMARY-ACCOUNTS-SUMMARY"), "primary_"
+            "primary_accounts_summary": CrifParser._fill_missing_totals(
+                CrifParser._adapt_accounts_summary_block(
+                    accounts_summary.get("PRIMARY-ACCOUNTS-SUMMARY"), "primary_"
+                ),
+                "primary_",
+                CrifParser._active_tradeline_totals(tradelines),
             ),
             "secondary_accounts_summary": CrifParser._adapt_accounts_summary_block(
                 accounts_summary.get("SECONDARY-ACCOUNTS-SUMMARY"), "secondary_"
@@ -1404,7 +1497,7 @@ class CrifParser:
             "scores": CrifParser._adapt_score(raw_scores),
             "trends": CrifParser._adapt_trends(report_data.get("TRENDS")),
             "account_summary": CrifParser._adapt_account_summary(
-                report_data.get("ACCOUNTS-SUMMARY")
+                report_data.get("ACCOUNTS-SUMMARY"), standard_data.get("TRADELINES")
             ),
             "personal_info_variation": CrifParser._adapt_personal_info_variation(
                 standard_data.get("DEMOGS")
